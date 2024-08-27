@@ -27,7 +27,7 @@ const Layout = () => {
       try {
         const res = await getAccessTokenWithPopup({
           authorizationParams: {
-            audience: "http://localhost:3000",
+            audience: "https://gest-impact.vercel.app",
             scope: "openid profile email",
           },
         });
