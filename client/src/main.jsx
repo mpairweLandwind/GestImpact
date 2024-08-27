@@ -12,7 +12,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       domain={import.meta.env.VITE_AUTH0_DOMAIN}
       clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
       authorizationParams={{ redirect_uri: "https://gest-impact-teal.vercel.app" }}
-      audience="https://gest-impact.vercel.app"
+      audience="http://localhost:3000"
       scope="openid profile email"
     >
         <I18nextProvider i18n={i18n}>
