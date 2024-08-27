@@ -1,0 +1,178 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mongodb"
+    url      = env("DATABASE_URL")
+}
+
+model Listing {
+  id             String          @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  type           ListingType
+  property       PropertyType 
+  status         PropertyStatus  
+  description    String
+  country        String          @default("Burundi") 
+  city           String          @default("Bujumbura") 
+  address        String
+  regularPrice   Float
+  discountPrice  Float
+  facilities     Json
+  image          String[]  
+  userEmail      String  
+  user           User            @relation("Owner", fields: [userEmail], references: [ email])
+  createdAt      DateTime        @default(now())
+ 
+  approvalStatus ApprovalStatus  @default(DISAPPROVED)
+  transactions   Transaction[]
+
+  @@unique([userEmail,address]) // Ensure combination is unique
+  @@map("listings")
+}
+
+
+
+model User {
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  name      String?              
+  email         String          @unique
+  role          UserRole        @default(user)
+  password      String?
+  image        String?     
+  listings      Listing[]       @relation("Owner")
+  bookedVisits     Json[]
+  favResidenciesID String[]    @db.ObjectId      
+  chatIDs       String[]        @db.ObjectId  
+  createdAt     DateTime        @default(now())    
+  Maintenance Maintenance[] @relation("Owner")
+}
+
+
+model Maintenance {
+  id                   String          @id @default(auto()) @map("_id") @db.ObjectId
+  name                 String 
+  type                 Maintenancekind
+  property             PropertyKind
+  state               PropertyState
+  description          String
+  country              String          @default("Burundi") 
+  city                 String          
+  address              String
+  size                 Float?
+  maintenanceCharge    Float  
+  image                String[]
+  yearBuilt            Float?            // Year the property was built
+  lastRenovationDate   DateTime?       // Last renovation date
+  maintenanceHistory   Json? // List of past maintenance activities
+  materialsUsed        String          // Details about the materials used in construction
+  estimatedValue       Float?          // Estimated value of the property
+  condition            PropertyCondition // Current condition of the property
+  maintenanceSchedule  String          // Schedule for regular maintenance
+  userEmail      String  
+  user           User            @relation("Owner", fields: [userEmail], references: [ email])
+  createdAt            DateTime        @default(now())
+  transactions         Transaction[]  // Reference to transactions
+   
+}
+
+model Transaction {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId         String   
+  propertyId     String   @db.ObjectId
+  propertyType   String
+  amount         Float
+  orderId        String   // This should match the field being used in your controller
+  status         String   @default("completed")
+  transactionDate DateTime @default(now())
+  listing        Listing? @relation(fields: [propertyId], references: [id])
+  maintenance    Maintenance? @relation(fields: [propertyId], references: [id])
+
+  @@map("transactions")
+}
+
+
+
+
+
+enum ApprovalStatus {
+  APPROVED
+  DISAPPROVED
+}
+
+
+enum ListingType {
+  sale
+  buy
+  rent
+}
+
+enum PropertyType {
+  land
+  apartment
+  condo
+  house
+}
+
+enum UserRole {
+  admin
+  landlord
+  user
+}
+
+enum PropertyStatus {
+  available
+  occupied
+  under_contract
+  for_sale
+  under_renovation
+  pending_approval
+  sold
+  terminated
+  pending_availability
+  inactive
+}
+
+enum UserStatus {
+  active
+  inactive
+}
+
+
+
+
+
+
+
+enum PropertyCondition {
+  NEW
+  GOOD
+  FAIR
+  POOR
+}
+
+enum Maintenancekind {
+  Routine
+  Preventive
+  Corrective
+  Predictive
+  Emergency
+  Cosmetic
+  Seasonal
+  Deffered
+}
+enum PropertyKind {
+  RESIDENTIAL
+  COMMERCIAL
+  INDUSTRIAL
+  LAND
+}
+
+enum PropertyState {
+  UNOCCUPIED
+  RENTED
+  UNDER_MAINTENANCE
+  UNDER_SALE
+  
+}

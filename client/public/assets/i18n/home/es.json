@@ -1,0 +1,57 @@
+{
+	"home": {
+	  "hero": {
+		"discover": "Descubrir",
+		"most_suitable": "Más Adecuado",
+		"property": "Propiedad",
+		"find_variety": "Encuentra una variedad de propiedades que se adapten a ti muy fácilmente",
+		"forget_difficulties": "Olvídate de todas las dificultades para encontrar una residencia para ti",
+		"premium_product": "Producto Premium",
+		"happy_customer": "Cliente Feliz",
+		"awards_winning": "Premios Ganados",
+		"houses_alt": "casas"
+	  },
+	  "companies": {
+		"title": "Nuestros Socios",
+		"description": "Trabajamos con las mejores empresas de la industria."
+	  },
+	  "residencies": {
+		"error": "Error al obtener los datos",
+		"best_choices": "Elecciones Favoritas",
+		"popular_residencies": "Residencias Populares"
+	  },
+	  "value": {
+		"our_value": "Nuestro Valor",
+		"value_we_give": "Valor que te Damos",
+		"helping_services": "Siempre estamos listos para ayudar brindando los mejores servicios para ti.",
+		"good_place_better_life": "Creemos que un buen lugar para vivir puede mejorar tu vida.",
+		"best_interest_rates": "Mejores tasas de interés en el mercado",
+      "best_interest_rates_detail": "Aprovecha las mejores tasas de interés disponibles en el mercado, asegurando retornos óptimos para tus inversiones.",
+      "prevent_unstable_prices": "Prevenir precios inestables",
+      "prevent_unstable_prices_detail": "Protégete contra la volatilidad del mercado evitando fluctuaciones de precios impredecibles mediante estrategias sólidas.",
+      "best_price": "Mejor precio en el mercado",
+      "best_price_detail": "Obtén los precios más competitivos en el mercado, ofreciéndote el mejor valor para tus compras."
+	  },
+	  "contact": {
+		"our_contact_us": "Contáctanos",
+		"easy_to_contact_us": "Fácil de Contactarnos",
+		"ready_to_help": "Siempre estamos listos para ayudar brindándote los mejores servicios. Creemos que un buen lugar para vivir puede mejorar tu vida.",
+		"good_place_better_life": "Un buen lugar para vivir puede mejorar tu vida.",
+		"call": "Llamar",
+		"call_now": "Llama Ahora",
+		"chat": "Chat",
+		"chat_now": "Chatea Ahora",
+		"video_call": "Videollamada",
+		"video_call_now": "Videollama Ahora",
+		"message": "Mensaje",
+		"message_now": "Envía un Mensaje"
+	  },
+	  "get_started": {
+		"get_started_title": "Comienza con GestImpact",
+		"subscribe_text": "Suscríbete y encuentra cotizaciones de precios súper atractivas con nosotros.",
+		"find_residence_soon": "Encuentra tu residencia pronto.",
+		"get_started_button": "Comenzar"
+	  }
+	}
+  }
+  
