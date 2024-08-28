@@ -14,7 +14,7 @@ const Layout = () => {
   useBookings();
 
   const [isLoading, setIsLoading] = useState(true);
-  const { isAuthenticated, user, getAccessTokenWithPopup } = useAuth0();
+  const { isAuthenticated, user, getAccessTokenSilently, loginWithRedirect } = useAuth0();
   const { setUserDetails } = useContext(UserDetailContext);
 
   const { mutate } = useMutation({
@@ -23,38 +23,41 @@ const Layout = () => {
   });
 
   useEffect(() => {
-    const getTokenAndRegister = async () => {
-      try {
-        const res = await getAccessTokenWithPopup({
-          authorizationParams: {
-            audience: "http://localhost:3000",
-            scope: "openid profile email",
-          },
-        });
-        console.log("Access Token:", res);
+    const handleAuthentication = async () => {
+      if (isAuthenticated) {
+        // If user is authenticated, try to get the token silently
+        try {
+          const token = await getAccessTokenSilently({
+            authorizationParams: {
+              audience: "http://localhost:3000",
+              scope: "openid profile email",
+            },
+          });
 
-        // Set both token and email in UserDetailContext
-        setUserDetails((prev) => ({
-          ...prev,
-          token: res,
-          email: user?.email,
-        }));
-        
-        mutate(res);
-      } catch (error) {
-        console.error("Error during token retrieval:", error);
-      } finally {
-        setIsLoading(false);
+          console.log("Access Token:", token);
+
+          // Set both token and email in UserDetailContext
+          setUserDetails((prev) => ({
+            ...prev,
+            token,
+            email: user?.email,
+          }));
+
+          mutate(token);
+        } catch (error) {
+          console.error("Error during silent token retrieval:", error);
+        } finally {
+          setIsLoading(false);
+        }
+      } else {
+        // If user is not authenticated, redirect to login
+        loginWithRedirect();
       }
     };
-  
-    if (isAuthenticated) {
-      getTokenAndRegister();
-    } else {
-      setIsLoading(false);
-    }
-  }, [isAuthenticated, getAccessTokenWithPopup, mutate, setUserDetails, user?.email]);
-  
+
+    handleAuthentication();
+  }, [isAuthenticated, getAccessTokenSilently, loginWithRedirect, mutate, setUserDetails, user?.email]);
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
