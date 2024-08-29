@@ -49,19 +49,35 @@ export const bookVisit = asyncHandler(async (req, res) => {
   }
 });
 
-// funtion to get all bookings of a user
 export const getAllBookings = asyncHandler(async (req, res) => {
   const { email } = req.body;
   try {
-    const bookings = await prisma.user.findUnique({
-      where: { email },
-      select: { bookedVisits: true },
+    // Fetch transactions directly based on the email (userId)
+    const bookings = await prisma.transaction.findMany({
+      where: { userId: email },
+      select: {
+        id: true,
+        propertyId: true,
+        propertyType: true,
+        amount: true,
+        orderId: true,
+        status: true,
+        transactionDate: true,
+        listing: true,      // If you want to include related listing data
+        maintenance: true,  // If you want to include related maintenance data
+      },
     });
+
+    if (bookings.length === 0) {
+      return res.status(404).send({ message: "No bookings found" });
+    }
+
     res.status(200).send(bookings);
   } catch (err) {
     throw new Error(err.message);
   }
 });
+
 
 // function to cancel the booking
 export const cancelBooking = asyncHandler(async (req, res) => {
@@ -371,6 +387,7 @@ export const getNotificationNumber = async (req, res) => {
     res.status(500).json({ message: "Failed to get notification count!" });
   }
 };
+
 export const getUserRoleMonthlyCounts = async (req, res) => {
   try {
     const currentYear = new Date().getFullYear();

@@ -1,7 +1,7 @@
 import { Suspense, useState } from "react";
 import "./App.css";
 import Layout from "./components/Layout/Layout";
-
+import Admin from "./pages/Admin/Admin";
 import Website from "./pages/Website";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Properties from "./pages/Properties/Properties";
@@ -13,6 +13,7 @@ import Property from "./pages/Property/Property";
 import UserDetailContext from "./context/UserDetailContext";
 import Bookings from "./pages/Bookings/Bookings";
 import Favourites from "./pages/Favourites/Favourites";
+import PrivateRoute from "./components/PrivateRoute"; // Assuming you have this component to handle protected routes
 
 function App() {
   const queryClient = new QueryClient();
@@ -21,6 +22,7 @@ function App() {
     favourites: [],
     bookings: [],
     token: null,
+    email: "",
   });
 
   return (
@@ -35,9 +37,13 @@ function App() {
                   <Route index element={<Properties />} />
                   <Route path=":propertyId" element={<Property />} />
                 </Route>
-                <Route path="/bookings" element={<Bookings />} />
+                <Route path="/managedProperties" element={<Bookings />} />
                 <Route path="/favourites" element={<Favourites />} />
               </Route>
+              <Route
+                path="/admin/*"
+                element={<PrivateRoute element={<Admin />} />}
+              />
             </Routes>
           </Suspense>
         </BrowserRouter>

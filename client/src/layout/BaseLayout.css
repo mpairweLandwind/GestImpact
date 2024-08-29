@@ -1,0 +1,25 @@
+/* Ensure the header is fixed at the top */
+header {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+  }
+  
+  /* Push the main content down to make space for the fixed header */
+  .page-wrapper {
+    display: flex;
+    margin-top: 1em; /* Adjust based on your header height */
+  }
+  
+ 
+  
+  /* Content area should scroll if content overflows */
+  .content-wrapper {
+    flex: 1;
+    overflow-y: hidden;
+    padding: 10px;
+    height: calc(100vh - 60px); /* Full height minus the header */
+  }
+  

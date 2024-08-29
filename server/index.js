@@ -7,11 +7,13 @@ import path from 'path';
 import { residencyRoute } from './routes/residencyRoute.js';
 import maintenanceRoute from './routes/maintenance.route.mjs';
 //import { updateMaintenance } from './controllers/maintenanceController.mjs';
+import {  getUserRoleMonthlyCounts} from './controllers/user.controller.mjs';
 import paypalRoutes from './routes/paypalRoutes.mjs';
 import listingRouter from './routes/listing.route.mjs';
 import connectDB from './config/db.mjs';
 import bodyParser from 'body-parser';
 import {userRouter }from './routes/user.route.mjs';
+import {transactionRoutes} from './routes/transaction.route.mjs';
 
 dotenv.config()
 
@@ -39,12 +41,13 @@ app.use(bodyParser.urlencoded({ extended: true })); // Parses URL-encoded bodies
 app.use(cookieParser());
 
 
-
+app.get('/api/user/count', getUserRoleMonthlyCounts);
 app.use("/api/residency", residencyRoute)
 app.use('/api/user', userRouter);
 app.use('/api/listing', listingRouter);
 app.use('/api/paypal', paypalRoutes);
 app.use('/api/maintenance', maintenanceRoute);
+app.use('/api/transactions', transactionRoutes);
 
 
 // Serve static files from the React app

@@ -10,8 +10,12 @@ const Bookings = () => {
   const { data, isError, isLoading } = useProperties();
   const [filter, setFilter] = useState("");
   const {
-    userDetails: { bookings },
+    userDetails: { bookings = [] },
   } = useContext(UserDetailContext);
+
+  // logging properties
+  console.log(data);
+  console.log(bookings);
 
   if (isError) {
     return (
@@ -34,30 +38,28 @@ const Bookings = () => {
       </div>
     );
   }
+
+  // Filter properties that match the propertyId from bookings
+  const filteredProperties = data
+    .filter((property) =>
+      bookings.map((booking) => booking.propertyId).includes(property.id)
+    )
+    .filter(
+      (property) =>
+        property.name.toLowerCase().includes(filter.toLowerCase()) ||
+        property.city.toLowerCase().includes(filter.toLowerCase()) ||
+        property.country.toLowerCase().includes(filter.toLowerCase())
+    );
+
   return (
     <div className="wrapper">
       <div className="flexColCenter paddings innerWidth properties-container">
         <SearchBar filter={filter} setFilter={setFilter} />
 
         <div className="paddings flexCenter properties">
-          {
-            // data.map((card, i)=> (<PropertyCard card={card} key={i}/>))
-
-            data
-              .filter((property) =>
-                bookings.map((booking) => booking.id).includes(property.id)
-              )
-
-              .filter(
-                (property) =>
-                  property.title.toLowerCase().includes(filter.toLowerCase()) ||
-                  property.city.toLowerCase().includes(filter.toLowerCase()) ||
-                  property.country.toLowerCase().includes(filter.toLowerCase())
-              )
-              .map((card, i) => (
-                <PropertyCard card={card} key={i} />
-              ))
-          }
+          {filteredProperties.map((card, i) => (
+            <PropertyCard card={card} key={i} />
+          ))}
         </div>
       </div>
     </div>

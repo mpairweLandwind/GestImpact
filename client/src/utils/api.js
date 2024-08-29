@@ -3,7 +3,9 @@ import dayjs from "dayjs";
 import { toast } from "react-toastify";
 
 export const api = axios.create({
-  baseURL: "https://gest-impact.vercel.app/api",
+  baseURL: "https://gest-impact.vercel.app/api"
+  //"http://localhost:3000/api"
+  // "https://gest-impact.vercel.app/api",
 });
 
 export const getAllProperties = async () => {
@@ -156,7 +158,7 @@ export const getAllBookings = async (email, token) => {
         },
       }
     );
-    return res.data["bookedVisits"];
+    return res.data;
 
     
   } catch (error) {

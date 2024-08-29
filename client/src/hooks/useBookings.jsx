@@ -1,30 +1,37 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect } from "react";
 import UserDetailContext from "../context/UserDetailContext";
 import { useQuery } from "react-query";
 import { useAuth0 } from "@auth0/auth0-react";
-import { getAllBookings, getAllFav } from "../utils/api";
+import { getAllBookings } from "../utils/api";
 
 const useBookings = () => {
-  const { userDetails, setUserDetails } = useContext(UserDetailContext);
-  const queryRef = useRef();
+  const { userDetails, setUserDetails } = useContext(UserDetailContext); 
   const { user } = useAuth0();
 
   const { data, isLoading, isError, refetch } = useQuery({
     queryKey: "allBookings",
     queryFn: () => getAllBookings(user?.email, userDetails?.token),
-    onSuccess: (data) =>
-      setUserDetails((prev) => ({ ...prev, bookings: data })),
+    onSuccess: (data) => {
+      console.log("Fetched data:", data); 
+      setUserDetails((prev) => ({ ...prev, bookings: data }));
+    },
     enabled: user !== undefined,
     staleTime: 30000,
   });
 
-  queryRef.current = refetch;
+  useEffect(() => {
+    if (userDetails?.token) {
+      refetch();
+    }
+  }, [userDetails?.token, refetch]);
 
   useEffect(() => {
-    queryRef.current && queryRef.current();
-  }, [userDetails?.token]);
+    if (!isLoading && !isError && data) {
+      console.log("Fetched data in useEffect:", data);
+    }
+  }, [isLoading, isError, data]);
 
-  return { data, isError, isLoading, refetch };
+  return { data, isError, isLoading };
 };
 
 export default useBookings;

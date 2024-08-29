@@ -65,6 +65,27 @@ export const createMaintenance = async (req, res) => {
 };
 
 
+export const getAllMaintenance = async (req, res) => {
+  try {
+    const maintenanceRecords = await prisma.maintenance.findMany({
+      include: {       
+        user: {
+          select: {          
+            email: true,  // Include the user's email
+          },
+        },
+      },
+    });
+
+    res.status(200).json({ maintenanceRecords });
+  } catch (error) {
+    console.error('Error retrieving maintenance records:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+
+
 
 export const getMaintenance = async (req, res) => {
 
@@ -94,6 +115,9 @@ export const getMaintenance = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+
+
 
 export const updateMaintenance = async (req, res) => {
   try {
