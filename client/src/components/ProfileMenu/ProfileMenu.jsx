@@ -22,8 +22,8 @@ const ProfileMenu = ({ user, logout }) => {
         </Menu.Item>
 
         {ALLOWED_EMAILS.includes(user?.email) && (
-          <Menu.Item onClick={() => navigate("./admin", { replace: true })}>
-            AdminBoard
+          <Menu.Item onClick={() => navigate("./admin/*", { replace: true })}>
+            AdminDashBoard
           </Menu.Item>
         )}
 
