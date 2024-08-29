@@ -18,12 +18,12 @@ const ProfileMenu = ({ user, logout }) => {
         </Menu.Item>
 
         <Menu.Item onClick={() => navigate("./managedProperties", { replace: true })}>
-          Managed Properties
+          ManagedProperties
         </Menu.Item>
 
         {ALLOWED_EMAILS.includes(user?.email) && (
           <Menu.Item onClick={() => navigate("./admin", { replace: true })}>
-            DashBoard
+            AdminBoard
           </Menu.Item>
         )}
 
