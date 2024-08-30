@@ -1,5 +1,5 @@
 .hero-wrapper {
-  color: white;
+  color: #1f3e72;
   position: relative;
   z-index: 1;
   padding-bottom: 2rem;
@@ -65,7 +65,7 @@
   height: 35rem;
   overflow: hidden;
   border-radius: 15rem 15rem 0 0;
-  border: 8px solid rgba(255, 255, 255, 0.12);
+  border: 8px solid rgba(252, 250, 250, 0.12);
 }
 .image-container>img{
     width: 100%;

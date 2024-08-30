@@ -1,7 +1,10 @@
-.c-container{
+.c-container {
     justify-content: space-around;
-    gap: 1rem;
+    gap: 0.5rem;
 }
-.c-container>img{
-    width: 9rem;
+
+.c-container > img {
+    width: 18rem;
+    height: 9rem; /* Ensures all images have the same height */
+    object-fit: cover; /* Maintains the aspect ratio and fills the container */
 }

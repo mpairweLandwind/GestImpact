@@ -1,11 +1,18 @@
+import React, { useState } from "react";
 import "./Hero.css";
 import CountUp from "react-countup";
 import { motion } from "framer-motion";
 import SearchBar from "../SearchBar/SearchBar";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
+const Hero = ({ t }) => {
+  const [filter, setFilter] = useState('');
+  const navigate = useNavigate();
 
-const Hero = ({t}) => {
+  const handleSearchClick = () => {
+    navigate('/properties');
+  };
 
   return (
     <section className="hero-wrapper">
@@ -16,7 +23,7 @@ const Hero = ({t}) => {
             <div className="orange-circle" />
             <motion.h1
               initial={{ y: "2rem", opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
+              animate={{ y: 0, opacity: 3 }}
               transition={{
                 duration: 2,
                 type: "ease-in",
@@ -32,7 +39,10 @@ const Hero = ({t}) => {
             <span>{t('home.hero.forget_difficulties')}</span>
           </div>
 
-          <SearchBar />
+          {/* Wrap SearchBar in a div that triggers navigation on click */}
+          <div onClick={handleSearchClick} style={{ cursor: 'pointer' }}>
+            <SearchBar filter={filter} setFilter={setFilter} />
+          </div>
 
           <div className="flexCenter stats">
             <div className="flexColCenter stat">
@@ -69,7 +79,7 @@ const Hero = ({t}) => {
             }}
             className="image-container"
           >
-            <img src="./hero-image.png" alt={t('home.hero.houses_alt')} />
+            <img src="./bg6.png" alt={t('home.hero.houses_alt')} />
           </motion.div>
         </div>
       </div>
