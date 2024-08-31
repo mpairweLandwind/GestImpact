@@ -3,19 +3,17 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import path from 'path';
-//import { userRoute } from './routes/userRoute.js';
 import { residencyRoute } from './routes/residencyRoute.js';
 import maintenanceRoute from './routes/maintenance.route.mjs';
-//import { updateMaintenance } from './controllers/maintenanceController.mjs';
-import {  getUserRoleMonthlyCounts} from './controllers/user.controller.mjs';
+import { getUserRoleMonthlyCounts } from './controllers/user.controller.mjs';
 import paypalRoutes from './routes/paypalRoutes.mjs';
 import listingRouter from './routes/listing.route.mjs';
 import connectDB from './config/db.mjs';
 import bodyParser from 'body-parser';
-import {userRouter }from './routes/user.route.mjs';
-import {transactionRoutes} from './routes/transaction.route.mjs';
+import { userRouter } from './routes/user.route.mjs';
+import { transactionRoutes } from './routes/transaction.route.mjs';
 
-dotenv.config()
+dotenv.config();
 
 connectDB();
 
@@ -34,21 +32,24 @@ app.use((req, res, next) => {
 
 const PORT = process.env.PORT || 8000;
 
-app.use(express.json())
-app.use(cookieParser())
-app.use(cors())
-app.use(bodyParser.urlencoded({ extended: true })); // Parses URL-encoded bodies (form data)
+app.use(express.json());
 app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
 
+// Configure CORS to allow requests from your frontend
+const allowedOrigins = ['http://localhost:3000', 'https://gest-impact.vercel.app']; // Adjust as needed
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true, // Allow cookies to be sent with requests
+}));
 
 app.get('/api/user/count', getUserRoleMonthlyCounts);
-app.use("/api/residency", residencyRoute)
+app.use("/api/residency", residencyRoute);
 app.use('/api/user', userRouter);
 app.use('/api/listing', listingRouter);
 app.use('/api/paypal', paypalRoutes);
 app.use('/api/maintenance', maintenanceRoute);
 app.use('/api/transactions', transactionRoutes);
-
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '../Client/dist')));
@@ -63,7 +64,6 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../Client/dist', 'index.html'));
 });
 
-
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || 'Internal Server Error';
@@ -75,8 +75,6 @@ app.use((err, req, res, next) => {
 });
 
 // Start the server
-
-app.listen(PORT, ()=> {
-    console.log(`Server is running on port ${PORT}`);
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
-
