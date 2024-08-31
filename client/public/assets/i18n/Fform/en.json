@@ -1,0 +1,27 @@
+{
+    "titles": {
+      "facilities": "Facilities"
+    },
+    "Fform": {
+      "bedrooms": "Number of Bedrooms",
+      "bedroomsPlaceholder": "Enter number of bedrooms",
+      "parkings": "Number of Parkings",
+      "parkingsPlaceholder": "Enter number of parkings",
+      "bathrooms": "Number of Bathrooms",
+      "bathroomsPlaceholder": "Enter number of bathrooms",
+      "furnished": "Furnished",
+      "parking": "Parking",
+      "offer": "Offer 50% off"
+    },
+    "buttons": {
+      "back": "Back",
+      "submit": "Add Property",
+      "submitting": "Submitting"
+    },
+    "messages": {
+      "success": "Added Successfully",
+      "loading": "Loading...",
+      "error": "An error occurred"
+    }
+  }
+  

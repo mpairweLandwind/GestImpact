@@ -2,8 +2,11 @@ import PropTypes from 'prop-types';
 import { TextInput, Box, Textarea, Group, Button, NumberInput, Select } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { validateString } from "../../utils/common";
+import { useTranslation } from "react-i18next";
 
 const BasicDetails = ({ prevStep, nextStep, propertyDetails, setPropertyDetails }) => {
+  const { t } = useTranslation("Bform");
+
   const form = useForm({
     initialValues: {
       name: propertyDetails.name || "",
@@ -18,10 +21,10 @@ const BasicDetails = ({ prevStep, nextStep, propertyDetails, setPropertyDetails 
       name: (value) => validateString(value),
       description: (value) => validateString(value),
       regularPrice: (value) =>
-        value < 1 ? "Must be greater than 1 dollars" : null,
+        value < 1 ? t('validation.priceGreaterThanOne') : null,
       discountPrice: (value) =>
         value >= form.values.regularPrice
-          ? "Discounted price must be less than the regular price"
+          ? t('validation.discountPriceLessThanRegular')
           : null,
       type: (value) => validateString(value),
       property: (value) => validateString(value),
@@ -48,6 +51,32 @@ const BasicDetails = ({ prevStep, nextStep, propertyDetails, setPropertyDetails 
     }
   };
 
+  const typeOptions = [
+    { value: 'sale', label: t('options.sale') },
+    { value: 'buy', label: t('options.buy') },
+    { value: 'rent', label: t('options.rent') }
+  ];
+
+  const propertyOptions = [
+    { value: 'land', label: t('options.land') },
+    { value: 'apartment', label: t('options.apartment') },
+    { value: 'condo', label: t('options.condo') },
+    { value: 'house', label: t('options.house') }
+  ];
+
+  const statusOptions = [
+    { value: 'available', label: t('options.available') },
+    { value: 'occupied', label: t('options.occupied') },
+    { value: 'under_contract', label: t('options.under_contract') },
+    { value: 'for_sale', label: t('options.for_sale') },
+    { value: 'under_renovation', label: t('options.under_renovation') },
+    { value: 'pending_approval', label: t('options.pending_approval') },
+    { value: 'sold', label: t('options.sold') },
+    { value: 'terminated', label: t('options.terminated') },
+    { value: 'pending_availability', label: t('options.pending_availability') },
+    { value: 'inactive', label: t('options.inactive') }
+  ];
+
   return (
     <Box maw="50%" mx="auto" my="md">
       <form
@@ -58,58 +87,55 @@ const BasicDetails = ({ prevStep, nextStep, propertyDetails, setPropertyDetails 
       >
         <TextInput
           withAsterisk
-          label="Name"
-          placeholder="Property Name"
+          label={t('Bform.name')}
+          placeholder={t('Bform.namePlaceholder')}
           {...form.getInputProps("name")}
         />
         <Textarea
-          placeholder="Description"
-          label="Description"
+          placeholder={t('Bform.descriptionPlaceholder')}
+          label={t('Bform.description')}
           withAsterisk
           {...form.getInputProps("description")}
         />
         <NumberInput
           withAsterisk
-          label="Regular Price"
-          placeholder="50"
+          label={t('Bform.regularPrice')}
+          placeholder={t('Bform.pricePlaceholder')}
           min={0}
           {...form.getInputProps("regularPrice")}
         />
         <NumberInput
-          label="Discount Price"
-          placeholder="50"
+          label={t('Bform.discountPrice')}
+          placeholder={t('Bform.pricePlaceholder')}
           min={0}
           {...form.getInputProps("discountPrice")}
         />
         <Select
           withAsterisk
-          label="Type"
-          placeholder="Select listing type"
-          data={['sale', 'buy', 'rent']}
+          label={t('Bform.type')}
+          placeholder={t('Bform.selectType')}
+          data={typeOptions}
           {...form.getInputProps("type")}
         />
         <Select
           withAsterisk
-          label="Property"
-          placeholder="Select property type"
-          data={['land', 'apartment', 'condo', 'house']}
+          label={t('Bform.property')}
+          placeholder={t('Bform.selectProperty')}
+          data={propertyOptions}
           {...form.getInputProps("property")}
         />
         <Select
           withAsterisk
-          label="Status"
-          placeholder="Select property status"
-          data={[
-            'available', 'occupied', 'under_contract', 'for_sale', 'under_renovation',
-            'pending_approval', 'sold', 'terminated', 'pending_availability', 'inactive'
-          ]}
+          label={t('Bform.status')}
+          placeholder={t('Bform.selectStatus')}
+          data={statusOptions}
           {...form.getInputProps("status")}
         />
         <Group position="center" mt="xl">
           <Button variant="default" onClick={prevStep}>
-            Back
+            {t('buttons.back')}
           </Button>
-          <Button type="submit">Next step</Button>
+          <Button type="submit">{t('buttons.nextStep')}</Button>
         </Group>
       </form>
     </Box>

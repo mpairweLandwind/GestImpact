@@ -1,0 +1,12 @@
+{
+    "form": {
+      "country": "Country",
+      "city": "City",
+      "address": "Address",
+      "nextStep": "Next Step"
+    },
+    "validation": {
+      "required": "This field is required"
+    }
+  }
+  

@@ -1,0 +1,27 @@
+{
+    "titles": {
+      "facilities": "Instalaciones"
+    },
+    "Fform": {
+      "bedrooms": "Número de Habitaciones",
+      "bedroomsPlaceholder": "Ingrese el número de habitaciones",
+      "parkings": "Número de Estacionamientos",
+      "parkingsPlaceholder": "Ingrese el número de estacionamientos",
+      "bathrooms": "Número de Baños",
+      "bathroomsPlaceholder": "Ingrese el número de baños",
+      "furnished": "Amueblado",
+      "parking": "Estacionamiento",
+      "offer": "Oferta 50% Apagado"
+    },
+    "buttons": {
+      "back": "Atrás",
+      "submit": "Agregar Propiedad",
+      "submitting": "Enviando"
+    },
+    "messages": {
+      "success": "Agregado Exitosamente",
+      "loading": "Cargando...",
+      "error": "Ocurrió un error"
+    }
+  }
+  

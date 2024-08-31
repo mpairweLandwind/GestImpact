@@ -1,8 +1,10 @@
 import React from 'react';
 import { Avatar, Menu } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const ProfileMenu = ({ user, logout }) => {
+  const { t } = useTranslation("profileMenu");
   const navigate = useNavigate();
 
   const ALLOWED_EMAILS = ["mpairwelauben375@gmail.com", "admin123@gmail.com"];
@@ -14,16 +16,16 @@ const ProfileMenu = ({ user, logout }) => {
       </Menu.Target>
       <Menu.Dropdown>
         <Menu.Item onClick={() => navigate("./favourites", { replace: true })}>
-          Favourites
+          {t('profileMenu.favourites')}
         </Menu.Item>
 
         <Menu.Item onClick={() => navigate("./managedProperties", { replace: true })}>
-          ManagedProperties
+          {t('profileMenu.managedProperties')}
         </Menu.Item>
 
         {ALLOWED_EMAILS.includes(user?.email) && (
           <Menu.Item onClick={() => navigate("./admin/*", { replace: true })}>
-            AdminDashBoard
+            {t('profileMenu.adminDashboard')}
           </Menu.Item>
         )}
 
@@ -33,7 +35,7 @@ const ProfileMenu = ({ user, logout }) => {
             logout();
           }}
         >
-          Logout
+          {t('profileMenu.logout')}
         </Menu.Item>
       </Menu.Dropdown>
     </Menu>

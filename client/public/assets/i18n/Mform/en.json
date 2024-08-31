@@ -1,0 +1,70 @@
+{
+    "titles": {
+      "basicMaintenanceDetails": "Basic Maintenance Details"
+    },
+    "Mform": {
+      "name": "Name",
+      "namePlaceholder": "Property Name",
+      "type": "Type",
+      "selectType": "Select listing type",
+      "propertyType": "Property Type",
+      "selectPropertyType": "Select property type",
+      "state": "State",
+      "selectState": "Select property state",
+      "description": "Description",
+      "descriptionPlaceholder": "Enter description",
+      "size": "Size (sqft)",
+      "sizePlaceholder": "Enter property size",
+      "maintenanceCharge": "Maintenance Charge ($)",
+      "maintenanceChargePlaceholder": "Enter maintenance charge",
+      "estimatedValue": "Estimated Value ($)",
+      "estimatedValuePlaceholder": "Enter estimated value",
+      "yearBuilt": "Year Built",
+      "yearBuiltPlaceholder": "Enter year built",
+      "lastRenovationDate": "Last Renovation Date",
+      "selectLastRenovationDate": "Select last renovation date",
+      "materialsUsed": "Materials Used",
+      "materialsUsedPlaceholder": "Enter materials used",
+      "condition": "Condition",
+      "selectCondition": "Select property condition",
+      "maintenanceSchedule": "Maintenance Schedule",
+      "selectMaintenanceSchedule": "Select maintenance schedule"
+    },
+    "validation": {
+      "priceGreaterThanOne": "Must be greater than 1 dollar",
+      "discountPriceLessThanRegular": "Discounted price must be less than the regular price"
+    },
+    "buttons": {
+      "back": "Back",
+      "nextStep": "Next step"
+    },
+    "options": {
+      "routine": "Routine",
+      "preventive": "Preventive",
+      "corrective": "Corrective",
+      "predictive": "Predictive",
+      "emergency": "Emergency",
+      "cosmetic": "Cosmetic",
+      "seasonal": "Seasonal",
+      "deferred": "Deferred",
+      "residential": "Residential",
+      "commercial": "Commercial",
+      "industrial": "Industrial",
+      "land": "Land",
+      "unoccupied": "Unoccupied",
+      "rented": "Rented",
+      "under_maintenance": "Under Maintenance",
+      "under_sale": "Under Sale",
+      "new": "New",
+      "good": "Good",
+      "fair": "Fair",
+      "poor": "Poor",
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "monthly": "Monthly",
+      "quarterly": "Quarterly",
+      "half_yearly": "Half-Yearly",
+      "yearly": "Yearly/Annually"
+    }
+  }
+  

@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import { toast } from "react-toastify";
 
 export const api = axios.create({
-  baseURL: "https://gest-impact.vercel.app/api"
+  baseURL: "http://localhost:3000/api"
   //"http://localhost:3000/api"
   // "https://gest-impact.vercel.app/api",
 });
@@ -11,6 +11,22 @@ export const api = axios.create({
 export const getAllProperties = async () => {
   try {
     const response = await api.get("/listing/listings", {
+      timeout: 10 * 1000,
+    });
+
+    if (response.status === 400 || response.status === 500) {
+      throw response.data;
+    }
+    return response.data;
+  } catch (error) {
+    toast.error("Something went wrong");
+    throw error;
+  }
+};
+
+export const getAllMaintences = async () => {
+  try {
+    const response = await api.get("/maintenance/allmantenance", {
       timeout: 10 * 1000,
     });
 
@@ -172,7 +188,7 @@ export const createResidency = async (data, token) => {
   console.log(data)
   try{
     const res = await api.post(
-      `/residency/create`,
+      `/listing/create`,
       {
         data
       },

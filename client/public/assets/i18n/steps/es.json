@@ -1,0 +1,18 @@
+{
+    "steps": {
+      "location": {
+        "label": "Ubicación",
+        "description": "Dirección"
+      },
+      "images": {
+        "label": "Imágenes",
+        "description": "Subir"
+      },
+      "basics": {
+        "label": "Información básica",
+        "description": "Detalles"
+      },
+      "completed": "Completado, haga clic en el botón de retroceso para volver al paso anterior"
+    }
+  }
+  

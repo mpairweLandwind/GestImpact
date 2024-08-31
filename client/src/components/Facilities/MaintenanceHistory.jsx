@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Box, Button, Group, NumberInput, TextInput ,Title} from "@mantine/core";
-import { DateInput } from "@mantine/dates"; // Import DateInput
+import { Box, Button, Group, NumberInput, TextInput, Title } from "@mantine/core";
+import { DateInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 import { useContext, useEffect, useState } from "react";
 import PropTypes from 'prop-types';
@@ -9,15 +9,14 @@ import useProperties from "../../hooks/useProperties.jsx";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
 import { createMaintenance } from "../../utils/api.js";
+import { useTranslation } from 'react-i18next';
 
-const MaintenanceHistory = ({
-  prevStep,
-  propertyDetails,
-  setPropertyDetails,
-  setOpened,
-  setActiveStep,
-}) => {
+const MaintenanceHistory = ({ prevStep, propertyDetails, setPropertyDetails, setOpened, setActiveStep }) => {
+  const { t } = useTranslation("Hform");
+  const { isAuthenticated, getAccessTokenSilently, user } = useAuth0();
+  const { userDetails, setUserDetails } = useContext(UserDetailContext);
   const [isLoading, setIsLoading] = useState(true);
+
   const form = useForm({
     initialValues: {
       description: propertyDetails.maintenanceHistory?.[0]?.description || "",
@@ -25,34 +24,31 @@ const MaintenanceHistory = ({
       cost: propertyDetails.maintenanceHistory?.[0]?.cost || 0,
     },
     validate: {
-      description: (value) => (value.trim() === "" ? "Description is required" : null),
-      date: (value) => (value === null ? "Date is required" : null),
-      cost: (value) => (value < 0 ? "Cost cannot be negative" : null),
+      description: (value) => (value.trim() === "" ? t('form.descriptionRequired') : null),
+      date: (value) => (value === null ? t('form.dateRequired') : null),
+      cost: (value) => (value < 0 ? t('form.costNegative') : null),
     },
   });
 
-  const { description, date, cost } = form.values;
-
-  const { isAuthenticated, getAccessTokenSilently, user } = useAuth0();
-  const { userDetails, setUserDetails } = useContext(UserDetailContext);
-
+  // Logging and refetching if token or email is undefined
   useEffect(() => {
-    const getTokenAndSetContext = async () => {
+    const logAndFetchToken = async () => {
       try {
-        if (!userDetails.token && isAuthenticated) {
-          const res = await getAccessTokenSilently({
-            authorizationParams: {
-              audience: "http://localhost:3000", // Adjust if needed
-              scope: "openid profile email",
-            },
-          });
-          console.log("Access Token:", res);
-          localStorage.setItem("access_token", res);
-          setUserDetails((prev) => ({
-            ...prev,
-            token: res,
-            email: user.email,
-          }));
+        console.log("Current Token:", userDetails.token);
+        console.log("Current Email:", userDetails.email);
+
+        if (!userDetails.token || !userDetails.email) {
+          if (isAuthenticated) {
+            const token = await getAccessTokenSilently({
+              authorizationParams: {
+                audience: "http://localhost:3000", // Adjust if needed
+                scope: "openid profile email",
+              },
+            });
+            console.log("Fetched Token:", token);
+            setUserDetails({ ...userDetails, token, email: user.email });
+            console.log("Fetched Email:", user.email);
+          }
         }
       } catch (error) {
         console.error("Error during token retrieval:", error);
@@ -61,27 +57,38 @@ const MaintenanceHistory = ({
       }
     };
 
-    getTokenAndSetContext();
-  }, [getAccessTokenSilently, isAuthenticated, userDetails.token, setUserDetails, user]);
+    logAndFetchToken();
+  }, [isAuthenticated, getAccessTokenSilently, userDetails, setUserDetails, user]);
 
   const handleSubmit = () => {
     const { hasErrors } = form.validate();
+  
+    if (!userDetails.email && !user?.email) {
+      toast.error("You must be logged in to submit maintenance history.", { position: "bottom-right" });
+      return;
+    }
+  
     if (!hasErrors) {
+      const { description, date, cost } = form.values;
+  
       setPropertyDetails((prev) => ({
-        ...prev,        
+        ...prev,
         maintenanceHistory: [{ description, date, cost }],
         userEmail: userDetails.email || user?.email,
       }));
+      
       mutate();
     }
   };
+  
+  
 
   const { refetch: refetchProperties } = useProperties();
 
   const { mutate } = useMutation({
     mutationFn: () => createMaintenance({
       ...propertyDetails,
-      maintenanceHistory: [{ description, date, cost }],
+      maintenanceHistory: [{ description: form.values.description, date: form.values.date, cost: form.values.cost }],
     }, userDetails.token),
     onError: ({ response }) => toast.error(response.data.message, { position: "bottom-right" }),
     onSettled: () => {
@@ -119,40 +126,19 @@ const MaintenanceHistory = ({
 
   return (
     <Box maw="30%" mx="auto" my="sm">
-       <Title order={2} align="center" mb="lg">
-        Maintenance History
-      </Title>
+      <Title order={2} align="center" mb="lg">{t('titles.maintenanceHistory')}</Title>
       <form
         onSubmit={(e) => {
           e.preventDefault();
           handleSubmit();
         }}
       >
-        <TextInput
-          withAsterisk
-          label=" Maintenance Description"
-          placeholder="Maintenance description"
-          {...form.getInputProps("description")}
-        />
-        <DateInput
-          withAsterisk
-          label="Date"
-          placeholder="Select maintenance date"
-          {...form.getInputProps("date")}
-        />
-        <NumberInput
-          withAsterisk
-          label="Cost ($)"
-          min={0}
-          {...form.getInputProps("cost")}
-        />
+        <TextInput withAsterisk label={t('Hform.description')} placeholder={t('Hform.descriptionPlaceholder')} {...form.getInputProps("description")} />
+        <DateInput withAsterisk label={t('Hform.date')} placeholder={t('Hform.datePlaceholder')} {...form.getInputProps("date")} />
+        <NumberInput withAsterisk label={t('Hform.cost')} placeholder={t('Hform.costPlaceholder')} min={0} {...form.getInputProps("cost")} />
         <Group position="center" mt="xl">
-          <Button variant="default" onClick={prevStep}>
-            Back
-          </Button>
-          <Button type="submit" color="green" disabled={isLoading}>
-            {isLoading ? "Submitting" : "Add Property"}
-          </Button>
+          <Button variant="default" onClick={prevStep}>{t('buttons.back')}</Button>
+          <Button type="submit" color="green" disabled={isLoading}>{isLoading ? t('buttons.submitting') : t('buttons.submit')}</Button>
         </Group>
       </form>
     </Box>
@@ -165,7 +151,7 @@ MaintenanceHistory.propTypes = {
     maintenanceHistory: PropTypes.arrayOf(
       PropTypes.shape({
         description: PropTypes.string,
-        date: PropTypes.instanceOf(Date), // Update to Date instance
+        date: PropTypes.instanceOf(Date),
         cost: PropTypes.number,
       })
     ),

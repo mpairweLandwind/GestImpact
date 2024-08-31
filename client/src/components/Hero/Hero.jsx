@@ -79,7 +79,7 @@ const Hero = ({ t }) => {
             }}
             className="image-container"
           >
-            <img src="./bg6.png" alt={t('home.hero.houses_alt')} />
+            <img src="./bg5.png" alt={t('home.hero.houses_alt')} />
           </motion.div>
         </div>
       </div>

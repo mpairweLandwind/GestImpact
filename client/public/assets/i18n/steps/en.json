@@ -1,0 +1,18 @@
+{
+    "steps": {
+      "location": {
+        "label": "Location",
+        "description": "Address"
+      },
+      "images": {
+        "label": "Images",
+        "description": "Upload"
+      },
+      "basics": {
+        "label": "Basics",
+        "description": "Details"
+      },
+      "completed": "Completed, click back button to get to previous step"
+    }
+  }
+  

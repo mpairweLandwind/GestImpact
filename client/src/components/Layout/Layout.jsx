@@ -33,6 +33,12 @@ const Layout = () => {
         });
         console.log("Access Token:", res);
 
+        if (user?.email) {
+          console.log("User Email:", user.email);
+        } else {
+          console.log("User Email is undefined or null");
+        }
+
         // Set both token and email in UserDetailContext
         setUserDetails((prev) => ({
           ...prev,
@@ -71,3 +77,4 @@ const Layout = () => {
 };
 
 export default Layout;
+ 

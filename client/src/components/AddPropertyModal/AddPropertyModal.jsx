@@ -1,5 +1,6 @@
 import { Container, Modal, Stepper } from "@mantine/core";
-import  { useState } from "react";
+import { useState } from "react";
+import { useTranslation } from "react-i18next"; // Importing the translation hook
 import AddLocation from "../AddLocation/AddLocation";
 import { useAuth0 } from "@auth0/auth0-react";
 import UploadImage from "../UploadImage/UploadImage";
@@ -7,8 +8,8 @@ import BasicDetails from "../BasicDetails/BasicDetails";
 import Facilities from "../Facilities/Facilities";
 import PropTypes from 'prop-types';
 
-
 const AddPropertyModal = ({ opened, setOpened }) => {
+  const { t } = useTranslation("steps"); // Initializing the translation hook
   const [active, setActive] = useState(0);
   const { user } = useAuth0();
 
@@ -36,7 +37,7 @@ const AddPropertyModal = ({ opened, setOpened }) => {
   });
 
   const nextStep = () => {
-    setActive((current) => (current < 4 ? current + 1 : current));
+    setActive((current) => (current < 3 ? current + 1 : current)); // Adjusted step limit
   };
 
   const prevStep = () => {
@@ -57,14 +58,20 @@ const AddPropertyModal = ({ opened, setOpened }) => {
           breakpoint="sm"
           allowNextStepsSelect={false}
         >
-          <Stepper.Step label="Location" description="Address">
+          <Stepper.Step 
+            label={t("steps.location.label")} 
+            description={t("steps.location.description")}
+          >
             <AddLocation
               nextStep={nextStep}
               propertyDetails={propertyDetails}
               setPropertyDetails={setPropertyDetails}
             />
           </Stepper.Step>
-          <Stepper.Step label="Images" description="Upload ">
+          <Stepper.Step 
+            label={t("steps.images.label")} 
+            description={t("steps.images.description")}
+          >
             <UploadImage
               prevStep={prevStep}
               nextStep={nextStep}
@@ -72,7 +79,10 @@ const AddPropertyModal = ({ opened, setOpened }) => {
               setPropertyDetails={setPropertyDetails}
             />
           </Stepper.Step>
-          <Stepper.Step label="Basics" description="Details">
+          <Stepper.Step 
+            label={t("steps.basics.label")} 
+            description={t("steps.basics.description")}
+          >
             <BasicDetails
               prevStep={prevStep}
               nextStep={nextStep}
@@ -90,8 +100,9 @@ const AddPropertyModal = ({ opened, setOpened }) => {
               setActiveStep={setActive}
             />
           </Stepper.Step>
+          
           <Stepper.Completed>
-            Completed, click back button to get to previous step
+            {t("steps.completed")}
           </Stepper.Completed>
         </Stepper>
       </Container>

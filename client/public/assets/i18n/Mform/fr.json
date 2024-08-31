@@ -1,0 +1,70 @@
+{
+    "titles": {
+      "basicMaintenanceDetails": "Détails de Maintenance de Base"
+    },
+    "Mform": {
+      "name": "Nom",
+      "namePlaceholder": "Nom de la propriété",
+      "type": "Type",
+      "selectType": "Sélectionner le type de maintenance",
+      "propertyType": "Type de Propriété",
+      "selectPropertyType": "Sélectionner le type de propriété",
+      "state": "État",
+      "selectState": "Sélectionner l'état de la propriété",
+      "description": "Description",
+      "descriptionPlaceholder": "Entrez la description",
+      "size": "Taille (pieds carrés)",
+      "sizePlaceholder": "Entrez la taille de la propriété",
+      "maintenanceCharge": "Frais de Maintenance ($)",
+      "maintenanceChargePlaceholder": "Entrez les frais de maintenance",
+      "estimatedValue": "Valeur Estimée ($)",
+      "estimatedValuePlaceholder": "Entrez la valeur estimée",
+      "yearBuilt": "Année de Construction",
+      "yearBuiltPlaceholder": "Entrez l'année de construction",
+      "lastRenovationDate": "Date de Dernière Rénovation",
+      "selectLastRenovationDate": "Sélectionner la date de la dernière rénovation",
+      "materialsUsed": "Matériaux Utilisés",
+      "materialsUsedPlaceholder": "Entrez les matériaux utilisés",
+      "condition": "État",
+      "selectCondition": "Sélectionner l'état de la propriété",
+      "maintenanceSchedule": "Programme de Maintenance",
+      "selectMaintenanceSchedule": "Sélectionner le programme de maintenance"
+    },
+    "validation": {
+      "priceGreaterThanOne": "Doit être supérieur à 1 dollar",
+      "discountPriceLessThanRegular": "Le prix réduit doit être inférieur au prix régulier"
+    },
+    "buttons": {
+      "back": "Retour",
+      "nextStep": "Étape suivante"
+    },
+    "options": {
+      "routine": "Routine",
+      "preventive": "Préventif",
+      "corrective": "Correctif",
+      "predictive": "Prédictif",
+      "emergency": "Urgence",
+      "cosmetic": "Cosmétique",
+      "seasonal": "Saisonnier",
+      "deferred": "Reporté",
+      "residential": "Résidentiel",
+      "commercial": "Commercial",
+      "industrial": "Industriel",
+      "land": "Terrain",
+      "unoccupied": "Inoccupé",
+      "rented": "Loué",
+      "under_maintenance": "En Maintenance",
+      "under_sale": "À Vendre",
+      "new": "Neuf",
+      "good": "Bon",
+      "fair": "Moyenne",
+      "poor": "Mauvais",
+      "daily": "Quotidien",
+      "weekly": "Hebdomadaire",
+      "monthly": "Mensuel",
+      "quarterly": "Trimestriel",
+      "half_yearly": "Semestriel",
+      "yearly": "Annuel"
+    }
+  }
+  

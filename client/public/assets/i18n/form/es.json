@@ -1,0 +1,12 @@
+{
+    "form": {
+      "country": "País",
+      "city": "Ciudad",
+      "address": "Dirección",
+      "nextStep": "Siguiente Paso"
+    },
+    "validation": {
+      "required": "Este campo es obligatorio"
+    }
+  }
+  

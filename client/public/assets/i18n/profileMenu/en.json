@@ -1,0 +1,9 @@
+{
+    "profileMenu": {
+      "favourites": "Favourites",
+      "managedProperties": "Managed Properties",
+      "adminDashboard": "Admin Dashboard",
+      "logout": "Logout"
+    }
+  }
+  

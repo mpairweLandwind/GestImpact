@@ -1,0 +1,45 @@
+{
+    "Bform": {
+      "name": "Nom",
+      "namePlaceholder": "Nom de la propriété",
+      "description": "Description",
+      "descriptionPlaceholder": "Description",
+      "regularPrice": "Prix régulier",
+      "discountPrice": "Prix réduit",
+      "pricePlaceholder": "50",
+      "type": "Type",
+      "selectType": "Sélectionner le type de liste",
+      "property": "Propriété",
+      "selectProperty": "Sélectionner le type de propriété",
+      "status": "Statut",
+      "selectStatus": "Sélectionner le statut de la propriété"
+    },
+    "validation": {
+      "priceGreaterThanOne": "Doit être supérieur à 1 dollar",
+      "discountPriceLessThanRegular": "Le prix réduit doit être inférieur au prix régulier"
+    },
+    "buttons": {
+      "back": "Retour",
+      "nextStep": "Étape suivante"
+    },
+    "options": {
+      "sale": "Vente",
+      "buy": "Achat",
+      "rent": "Location",
+      "land": "Terrain",
+      "apartment": "Appartement",
+      "condo": "Condo",
+      "house": "Maison",
+      "available": "Disponible",
+      "occupied": "Occupé",
+      "under_contract": "Sous contrat",
+      "for_sale": "À vendre",
+      "under_renovation": "En rénovation",
+      "pending_approval": "En attente d'approbation",
+      "sold": "Vendu",
+      "terminated": "Terminé",
+      "pending_availability": "En attente de disponibilité",
+      "inactive": "Inactif"
+    }
+  }
+  

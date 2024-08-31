@@ -1,5 +1,6 @@
 import { Container, Modal, Stepper } from "@mantine/core";
 import { useState } from "react";
+import { useTranslation } from "react-i18next"; // Importing the translation hook
 import AddLocation from "../AddLocation/AddLocation";
 import { useAuth0 } from "@auth0/auth0-react";
 import UploadImage from "../UploadImage/UploadImage";
@@ -8,6 +9,7 @@ import MaintenanceHistory from "../Facilities/MaintenanceHistory";
 import PropTypes from 'prop-types';
 
 const AddMaintenanceModal = ({ opened, setOpened }) => {
+  const { t } = useTranslation("steps"); // Initializing the translation hook
   const [active, setActive] = useState(0);
   const { user } = useAuth0();
 
@@ -21,7 +23,7 @@ const AddMaintenanceModal = ({ opened, setOpened }) => {
     maintenanceCharge: 0,
     estimatedValue: 0,
     yearBuilt: "",
-    lastRenovationDate: null,  // Use null or new Date() for initialization
+    lastRenovationDate: null,
     materialsUsed: "",
     condition: "",
     maintenanceSchedule: "",   
@@ -31,7 +33,7 @@ const AddMaintenanceModal = ({ opened, setOpened }) => {
     image: null,
     MaintenanceHistory: {
       description: "",
-      date: "",  // Consider changing this to Date as well if needed
+      date: "",  
       cost: 0,           
     },
     userEmail: user?.email,
@@ -59,14 +61,21 @@ const AddMaintenanceModal = ({ opened, setOpened }) => {
           breakpoint="sm"
           allowNextStepsSelect={false}
         >
-          <Stepper.Step label="Location" description="Address">
+          <Stepper.Step 
+            label={t("steps.location.label")} 
+            description={t("steps.location.description")}
+          >
             <AddLocation
               nextStep={nextStep}
               propertyDetails={propertyDetails}
               setPropertyDetails={setPropertyDetails}
             />
           </Stepper.Step>
-          <Stepper.Step label="Images" description="Upload ">
+
+          <Stepper.Step 
+            label={t("steps.images.label")} 
+            description={t("steps.images.description")}
+          >
             <UploadImage
               prevStep={prevStep}
               nextStep={nextStep}
@@ -74,7 +83,11 @@ const AddMaintenanceModal = ({ opened, setOpened }) => {
               setPropertyDetails={setPropertyDetails}
             />
           </Stepper.Step>
-          <Stepper.Step label="Basics" description="Details">
+
+          <Stepper.Step 
+            label={t("steps.basics.label")} 
+            description={t("steps.basics.description")}
+          >
             <MBasicDetails
               prevStep={prevStep}
               nextStep={nextStep}
@@ -92,8 +105,9 @@ const AddMaintenanceModal = ({ opened, setOpened }) => {
               setActiveStep={setActive}
             />
           </Stepper.Step>
+          
           <Stepper.Completed>
-            Completed, click back button to get to previous step
+            {t("steps.completed")}
           </Stepper.Completed>
         </Stepper>
       </Container>

@@ -1,0 +1,30 @@
+{
+    "property": {
+      "facilities": {
+        "bathrooms": "Bathrooms",
+        "parkings": "Parking",
+        "bedrooms": "Room/s"
+      },
+      "status": {
+        "available": "Available",
+        "occupied": "Occupied",
+        "under_contract": "Under Contract",
+        "for_sale": "For Sale",
+        "under_renovation": "Under Renovation",
+        "pending_approval": "Pending Approval",
+        "sold": "Sold",
+        "terminated": "Terminated",
+        "pending_availability": "Pending Availability",
+        "inactive": "Inactive"
+      },
+      "buttons": {
+        "pay": "PAY"
+      },
+      "errors": {
+        "fetch_details": "Error while fetching the property details"
+      },
+      "location": "Location",
+      "description": "Description"
+    }
+  }
+  

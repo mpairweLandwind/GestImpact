@@ -8,6 +8,7 @@ import useProperties from "../../hooks/useProperties.jsx";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
 import { createResidency } from "../../utils/api.js";
+import { useTranslation } from 'react-i18next';
 
 const Facilities = ({
   prevStep,
@@ -17,6 +18,8 @@ const Facilities = ({
   setActiveStep,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
+  const { t } = useTranslation("Fform");
+
   const form = useForm({
     initialValues: {
       bedrooms: propertyDetails.facilities?.bedrooms || 1,
@@ -27,36 +30,39 @@ const Facilities = ({
       offer: propertyDetails.facilities?.offer || false,
     },
     validate: {
-      bedrooms: (value) => (value < 1 ? "Must have at least one room" : null),
-      bathrooms: (value) =>
-        value < 1 ? "Must have at least one bathroom" : null,
+      bedrooms: (value) => (value < 1 ? t('validation.mustHaveAtLeastOneRoom') : null),
+      bathrooms: (value) => value < 1 ? t('validation.mustHaveAtLeastOneBathroom') : null,
     },
   });
 
   const { bedrooms, parkings, bathrooms, furnished, parking, offer } = form.values;
-
-  // Access Auth0 and UserDetailContext
   const { isAuthenticated, getAccessTokenSilently, user } = useAuth0();
   const { userDetails, setUserDetails } = useContext(UserDetailContext);
 
-  // Check if token is present, if not, retrieve it
+
+  // Logging and refetching if token or email is undefined
   useEffect(() => {
-    const getTokenAndSetContext = async () => {
+    const logAndFetchToken = async () => {
       try {
-        if (!userDetails.token && isAuthenticated) {
-          const res = await getAccessTokenSilently({
-            authorizationParams: {
-              audience: "http://localhost:3000", // Adjust if needed
-              scope: "openid profile email",
-            },
-          });
-          console.log("Access Token:", res);
-          localStorage.setItem("access_token", res);
-          setUserDetails((prev) => ({
-            ...prev,
-            token: res,
-            email: user.email,
-          }));
+        console.log("Current Token:", userDetails.token);
+        console.log("Current Email:", userDetails.email);
+
+        if (!userDetails.token || !userDetails.email) {
+          if (isAuthenticated) {
+            const res = await getAccessTokenSilently({
+              authorizationParams: {
+                audience: "http://localhost:3000", // Adjust if needed
+                scope: "openid profile email",
+              },
+            });
+            console.log("Fetched Token:", res);
+            setUserDetails((prev) => ({
+              ...prev,
+              token: res,
+              email: user.email,
+            }));
+            console.log("Fetched Email:", user.email);
+          }
         }
       } catch (error) {
         console.error("Error during token retrieval:", error);
@@ -65,11 +71,15 @@ const Facilities = ({
       }
     };
 
-    getTokenAndSetContext();
-  }, [getAccessTokenSilently, isAuthenticated, userDetails.token, setUserDetails, user]);
+    logAndFetchToken();
+  }, [getAccessTokenSilently, isAuthenticated, userDetails, setUserDetails, user]);
 
   const handleSubmit = () => {
     const { hasErrors } = form.validate();
+    if (!userDetails.email && !user?.email) {
+      toast.error("You must be logged in to submit facilities.", { position: "bottom-right" });
+      return;
+    }
     if (!hasErrors) {
       setPropertyDetails((prev) => ({
         ...prev,
@@ -80,23 +90,22 @@ const Facilities = ({
     }
   };
 
-  // Refetch properties after mutation
   const { refetch: refetchProperties } = useProperties();
 
   const { mutate } = useMutation({
     mutationFn: () => createResidency({
-      ...propertyDetails, 
+      ...propertyDetails,
       facilities: { bedrooms, parkings, bathrooms, furnished, parking, offer },
     }, userDetails.token),
     onError: ({ response }) => toast.error(response.data.message, { position: "bottom-right" }),
     onSettled: () => {
-      toast.success("Added Successfully", { position: "bottom-right" });
+      toast.success(t('messages.success'), { position: "bottom-right" });
       setPropertyDetails({
         name: "",
         description: "",
         type: "",
         property: "",
-        status: "",        
+        status: "",
         country: "",
         city: "",
         address: "",
@@ -118,7 +127,7 @@ const Facilities = ({
   });
 
   if (isLoading) {
-    return <div>Loading...</div>; // Show loading while token is being set
+    return <div>{t('messages.loading')}</div>;
   }
 
   return (
@@ -131,41 +140,44 @@ const Facilities = ({
       >
         <NumberInput
           withAsterisk
-          label="No of Bedrooms"
+          label={t('Fform.bedrooms')}
+          placeholder={t('Fform.bedroomsPlaceholder')}
           min={0}
           {...form.getInputProps("bedrooms")}
         />
         <NumberInput
-          label="No of Parkings"
+          label={t('Fform.parkings')}
+          placeholder={t('Fform.parkingsPlaceholder')}
           min={0}
           {...form.getInputProps("parkings")}
         />
         <NumberInput
           withAsterisk
-          label="No of Bathrooms"
+          label={t('Fform.bathrooms')}
+          placeholder={t('Fform.bathroomsPlaceholder')}
           min={0}
           {...form.getInputProps("bathrooms")}
         />
         <Switch
-          label="Furnished"
+          label={t('Fform.furnished')}
           checked={form.values.furnished}
           {...form.getInputProps("furnished", { type: 'checkbox' })}
         />
         <Switch
-          label="Parking"
+          label={t('Fform.parking')}
           checked={form.values.parking}
           {...form.getInputProps("parking", { type: 'checkbox' })}
         />
         <Switch
-          label="Offer"
+          label={t('Fform.offer')}
           checked={form.getInputProps("offer", { type: 'checkbox' }).value}
         />
         <Group position="center" mt="xl">
           <Button variant="default" onClick={prevStep}>
-            Back
+            {t('buttons.back')}
           </Button>
           <Button type="submit" color="green" disabled={isLoading}>
-            {isLoading ? "Submitting" : "Add Property"}
+            {isLoading ? t('buttons.submitting') : t('buttons.submit')}
           </Button>
         </Group>
       </form>

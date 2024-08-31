@@ -1,0 +1,30 @@
+{
+    "property": {
+      "facilities": {
+        "bathrooms": "Baños",
+        "parkings": "Estacionamiento",
+        "bedrooms": "Habitación/es"
+      },
+      "status": {
+        "available": "Disponible",
+        "occupied": "Ocupado",
+        "under_contract": "Bajo contrato",
+        "for_sale": "En venta",
+        "under_renovation": "En renovación",
+        "pending_approval": "A la espera de aprobación",
+        "sold": "Vendido",
+        "terminated": "Terminado",
+        "pending_availability": "Disponibilidad pendiente",
+        "inactive": "Inactivo"
+      },
+      "buttons": {
+        "pay": "PAGAR"
+      },
+      "errors": {
+        "fetch_details": "Error al obtener los detalles de la propiedad"
+      },
+      "location": "Ubicación",
+      "description": "Descripción"
+    }
+  }
+  

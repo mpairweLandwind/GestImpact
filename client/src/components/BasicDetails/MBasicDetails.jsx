@@ -3,8 +3,11 @@ import { TextInput, Box, Textarea, Group, Button, NumberInput, Select, Grid, Col
 import { DateInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 import { validateString } from "../../utils/common";
+import { useTranslation } from "react-i18next";
 
 const MBasicDetails = ({ prevStep, nextStep, propertyDetails, setPropertyDetails }) => {
+  const { t } = useTranslation("Mform");
+
   const form = useForm({
     initialValues: {
       name: propertyDetails.name || "",
@@ -69,10 +72,51 @@ const MBasicDetails = ({ prevStep, nextStep, propertyDetails, setPropertyDetails
     }
   };
 
+  const typeOptions = [
+    { value: 'Routine', label: t('options.routine') },
+    { value: 'Preventive', label: t('options.preventive') },
+    { value: 'Corrective', label: t('options.corrective') },
+    { value: 'Predictive', label: t('options.predictive') },
+    { value: 'Emergency', label: t('options.emergency') },
+    { value: 'Cosmetic', label: t('options.cosmetic') },
+    { value: 'Seasonal', label: t('options.seasonal') },
+    { value: 'Deferred', label: t('options.deferred') }
+  ];
+
+  const propertyOptions = [
+    { value: 'RESIDENTIAL', label: t('options.residential') },
+    { value: 'COMMERCIAL', label: t('options.commercial') },
+    { value: 'INDUSTRIAL', label: t('options.industrial') },
+    { value: 'LAND', label: t('options.land') }
+  ];
+
+  const stateOptions = [
+    { value: 'UNOCCUPIED', label: t('options.unoccupied') },
+    { value: 'RENTED', label: t('options.rented') },
+    { value: 'UNDER_MAINTENANCE', label: t('options.under_maintenance') },
+    { value: 'UNDER_SALE', label: t('options.under_sale') }
+  ];
+
+  const conditionOptions = [
+    { value: 'NEW', label: t('options.new') },
+    { value: 'GOOD', label: t('options.good') },
+    { value: 'FAIR', label: t('options.fair') },
+    { value: 'POOR', label: t('options.poor') }
+  ];
+
+  const maintenanceScheduleOptions = [
+    { value: 'DAILY', label: t('options.daily') },
+    { value: 'WEEKLY', label: t('options.weekly') },
+    { value: 'MONTHLY', label: t('options.monthly') },
+    { value: 'QUARTERLY', label: t('options.quarterly') },
+    { value: 'HALF-YEARLY', label: t('options.half_yearly') },
+    { value: 'YEARLY', label: t('options.yearly') }
+  ];
+
   return (
     <Box maw="70%" mx="auto" my="md">
       <Title order={2} align="center" mb="lg">
-        Basic Maintenance Details
+        {t('titles.basicMaintenanceDetails')}
       </Title>
       <form
         onSubmit={(e) => {
@@ -84,122 +128,110 @@ const MBasicDetails = ({ prevStep, nextStep, propertyDetails, setPropertyDetails
           <Col span={6}>
             <TextInput
               withAsterisk
-              label="Name"
-              placeholder="Property Name"
+              label={t('Mform.name')}
+              placeholder={t('Mform.namePlaceholder')}
               {...form.getInputProps("name")}
             />
           </Col>
           <Col span={6}>
             <Select
               withAsterisk
-              label="Type"
-              placeholder="Select listing type"
-              data={['Routine', 'Preventive', 'Corrective', 'Predictive', 'Emergency', 'Cosmetic', 'Seasonal', 'Deferred']}
+              label={t('Mform.type')}
+              placeholder={t('Mform.selectType')}
+              data={typeOptions}
               {...form.getInputProps("type")}
             />
           </Col>
           <Col span={6}>
             <Select
               withAsterisk
-              label="Property Type"
-              placeholder="Select property type"
-              data={['RESIDENTIAL', 'COMMERCIAL', 'INDUSTRIAL', 'LAND']}
+              label={t('Mform.propertyType')}
+              placeholder={t('Mform.selectPropertyType')}
+              data={propertyOptions}
               {...form.getInputProps("property")}
             />
           </Col>
           <Col span={6}>
             <Select
               withAsterisk
-              label="State"
-              placeholder="Select property state"
-              data={['UNOCCUPIED', 'RENTED', 'UNDER_MAINTENANCE', 'UNDER_SALE']}
+              label={t('Mform.state')}
+              placeholder={t('Mform.selectState')}
+              data={stateOptions}
               {...form.getInputProps("state")}
             />
           </Col>
           <Col span={12}>
             <Textarea
-              placeholder="Description"
-              label="Description"
+              placeholder={t('Mform.descriptionPlaceholder')}
+              label={t('Mform.description')}
               withAsterisk
               {...form.getInputProps("description")}
             />
           </Col>
           <Col span={6}>
             <NumberInput
-              label="Size (sqft)"
-              placeholder="Enter property size"
+              label={t('Mform.size')}
+              placeholder={t('Mform.sizePlaceholder')}
               {...form.getInputProps("size")}
             />
           </Col>
           <Col span={6}>
             <NumberInput
-              label="Maintenance Charge ($)"
-              placeholder="Enter maintenance charge"
+              label={t('Mform.maintenanceCharge')}
+              placeholder={t('fMorm.maintenanceChargePlaceholder')}
               {...form.getInputProps("maintenanceCharge")}
             />
           </Col>
           <Col span={6}>
             <NumberInput
-              label="Estimated Value ($)"
-              placeholder="Enter estimated value"
+              label={t('Mform.estimatedValue')}
+              placeholder={t('Mform.estimatedValuePlaceholder')}
               {...form.getInputProps("estimatedValue")}
             />
           </Col>
           <Col span={6}>
             <NumberInput
-              label="Year Built"
-              placeholder="Enter year built"
+              label={t('Mform.yearBuilt')}
+              placeholder={t('Mform.yearBuiltPlaceholder')}
               {...form.getInputProps("yearBuilt")}
             />
           </Col>
           <Col span={6}>
             <DateInput
-              label="Last Renovation Date"
-              placeholder="Select last renovation date"
+              label={t('Mform.lastRenovationDate')}
+              placeholder={t('Mform.selectLastRenovationDate')}
               {...form.getInputProps("lastRenovationDate")}
             />
           </Col>
           <Col span={6}>
             <Textarea
-              label="Materials Used"
-              placeholder="Enter materials used"
+              label={t('Mform.materialsUsed')}
+              placeholder={t('Mform.materialsUsedPlaceholder')}
               {...form.getInputProps("materialsUsed")}
             />
           </Col>
           <Col span={6}>
             <Select
-              label="Condition"
-              placeholder="Select property condition"
-              data={[
-                { value: 'NEW', label: 'NEW' },
-                { value: 'GOOD', label: 'GOOD' },
-                { value: 'FAIR', label: 'FAIR' },
-                { value: 'POOR', label: 'POOR' }
-              ]}
+              label={t('Mform.condition')}
+              placeholder={t('Mform.selectCondition')}
+              data={conditionOptions}
               {...form.getInputProps("condition")}
             />
           </Col>
           <Col span={6}>
             <Select
-              label="Maintenance Schedule"
-              placeholder="Select maintenance schedule"
-              data={[
-                { value: 'DAILY', label: 'Daily' },
-                { value: 'WEEKLY', label: 'Weekly' },
-                { value: 'MONTHLY', label: 'Monthly' },
-                { value: 'QUARTERLY', label: 'Quarterly' },
-                { value: 'HALF-YEARLY', label: 'Half-Yearly' },
-                { value: 'YEARLY', label: 'Yearly/Annually' },
-              ]}
+              label={t('Mform.maintenanceSchedule')}
+              placeholder={t('Mform.selectMaintenanceSchedule')}
+              data={maintenanceScheduleOptions}
               {...form.getInputProps("maintenanceSchedule")}
             />
           </Col>
         </Grid>
         <Group position="center" mt="xl">
           <Button variant="default" onClick={prevStep}>
-            Back
+            {t('buttons.back')}
           </Button>
-          <Button type="submit">Next step</Button>
+          <Button type="submit">{t('buttons.nextStep')}</Button>
         </Group>
       </form>
     </Box>
