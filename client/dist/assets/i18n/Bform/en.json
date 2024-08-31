@@ -1,0 +1,45 @@
+{
+    "Bform": {
+      "name": "Name",
+      "namePlaceholder": "Property Name",
+      "description": "Description",
+      "descriptionPlaceholder": "Description",
+      "regularPrice": "Regular Price",
+      "discountPrice": "Discount Price",
+      "pricePlaceholder": "50",
+      "type": "Type",
+      "selectType": "Select listing type",
+      "property": "Property",
+      "selectProperty": "Select property type",
+      "status": "Status",
+      "selectStatus": "Select property status"
+    },
+    "validation": {
+      "priceGreaterThanOne": "Must be greater than 1 dollar",
+      "discountPriceLessThanRegular": "Discounted price must be less than the regular price"
+    },
+    "buttons": {
+      "back": "Back",
+      "nextStep": "Next step"
+    },
+    "options": {
+      "sale": "Sale",
+      "buy": "Buy",
+      "rent": "Rent",
+      "land": "Land",
+      "apartment": "Apartment",
+      "condo": "Condo",
+      "house": "House",
+      "available": "Available",
+      "occupied": "Occupied",
+      "under_contract": "Under Contract",
+      "for_sale": "For Sale",
+      "under_renovation": "Under Renovation",
+      "pending_approval": "Pending Approval",
+      "sold": "Sold",
+      "terminated": "Terminated",
+      "pending_availability": "Pending Availability",
+      "inactive": "Inactive"
+    }
+  }
+  

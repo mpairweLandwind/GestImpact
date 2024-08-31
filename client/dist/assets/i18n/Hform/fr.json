@@ -1,0 +1,24 @@
+{
+    "titles": {
+      "maintenanceHistory": "Historique de Maintenance"
+    },
+    "form": {
+      "description": "Description de la Maintenance",
+      "descriptionPlaceholder": "Entrez la description de la maintenance",
+      "date": "Date",
+      "datePlaceholder": "Sélectionnez la date de maintenance",
+      "cost": "Coût ($)",
+      "costPlaceholder": "Entrez le coût"
+    },
+    "buttons": {
+      "back": "Retour",
+      "submit": "Ajouter Propriété",
+      "submitting": "Envoi en cours"
+    },
+    "messages": {
+      "success": "Ajouté avec Succès",
+      "loading": "Chargement...",
+      "error": "Une erreur est survenue"
+    }
+  }
+  

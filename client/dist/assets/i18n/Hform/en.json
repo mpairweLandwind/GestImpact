@@ -1,0 +1,24 @@
+{
+    "titles": {
+      "maintenanceHistory": "Maintenance History"
+    },
+    "Hform": {
+      "description": "Maintenance Description",
+      "descriptionPlaceholder": "Enter maintenance description",
+      "date": "Date",
+      "datePlaceholder": "Select maintenance date",
+      "cost": "Cost ($)",
+      "costPlaceholder": "Enter cost"
+    },
+    "buttons": {
+      "back": "Back",
+      "submit": "Add Property",
+      "submitting": "Submitting"
+    },
+    "messages": {
+      "success": "Added Successfully",
+      "loading": "Loading...",
+      "error": "An error occurred"
+    }
+  }
+  

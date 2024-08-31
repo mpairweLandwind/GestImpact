@@ -1,0 +1,24 @@
+{
+    "titles": {
+      "maintenanceHistory": "Historial de Mantenimiento"
+    },
+    "Hform": {
+      "description": "Descripción del Mantenimiento",
+      "descriptionPlaceholder": "Ingrese la descripción del mantenimiento",
+      "date": "Fecha",
+      "datePlaceholder": "Seleccione la fecha de mantenimiento",
+      "cost": "Costo ($)",
+      "costPlaceholder": "Ingrese el costo"
+    },
+    "buttons": {
+      "back": "Atrás",
+      "submit": "Agregar Propiedad",
+      "submitting": "Enviando"
+    },
+    "messages": {
+      "success": "Agregado Exitosamente",
+      "loading": "Cargando...",
+      "error": "Ocurrió un error"
+    }
+  }
+  

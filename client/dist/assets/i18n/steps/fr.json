@@ -1,0 +1,18 @@
+{
+    "steps": {
+      "location": {
+        "label": "Emplacement",
+        "description": "Adresse"
+      },
+      "images": {
+        "label": "Images",
+        "description": "Télécharger"
+      },
+      "basics": {
+        "label": "Informations de base",
+        "description": "Détails"
+      },
+      "completed": "Terminé, cliquez sur le bouton retour pour revenir à l'étape précédente"
+    }
+  }
+  

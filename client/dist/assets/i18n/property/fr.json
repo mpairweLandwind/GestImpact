@@ -1,0 +1,30 @@
+{
+    "property": {
+      "facilities": {
+        "bathrooms": "Salles de bain",
+        "parkings": "Parking",
+        "bedrooms": "Chambre/s"
+      },
+      "status": {
+        "available": "Disponible",
+        "occupied": "Occupé",
+        "under_contract": "Sous contrat",
+        "for_sale": "À vendre",
+        "under_renovation": "En rénovation",
+        "pending_approval": "En attente d'approbation",
+        "sold": "Vendu",
+        "terminated": "Résilié",
+        "pending_availability": "Disponibilité en attente",
+        "inactive": "Inactif"
+      },
+      "buttons": {
+        "pay": "PAYER"
+      },
+      "errors": {
+        "fetch_details": "Erreur lors de la récupération des détails de la propriété"
+      },
+      "location": "Emplacement",
+      "description": "Description"
+    }
+  }
+  
