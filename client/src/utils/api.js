@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import { toast } from "react-toastify";
 
 export const api = axios.create({
-  baseURL: "https://gest-impact.vercel.app/api",
+  baseURL: "https://gestimpact-server.vercel.app/api",
   //"http://localhost:3000/api"
   // "https://gest-impact.vercel.app/api",
 });
