@@ -14,13 +14,13 @@ import UserDetailContext from "./context/UserDetailContext";
 import Bookings from "./pages/Bookings/Bookings";
 import Favourites from "./pages/Favourites/Favourites";
 import PrivateRoute from "./components/PrivateRoute"; // Assuming you have this component to handle protected routes
+import EditPropertyForm from "./components/EditPropertyForm/EditPropertyForm.jsx";
 
 function App() {
   const queryClient = new QueryClient();
 
   const [userDetails, setUserDetails] = useState({
-    favourites: [],
-    bookings: [],
+    favourites: [],   
     token: null,
     email: "",
   });
@@ -35,9 +35,11 @@ function App() {
                 <Route path="/" element={<Website />} />
                 <Route path="/properties">
                   <Route index element={<Properties />} />
-                  <Route path=":propertyId" element={<Property />} />
+                  <Route path=":propertyId" element={<Property />} /> 
+                  <Route path=":propertyId/edit" element={<EditPropertyForm />} />                 
                 </Route>
                 <Route path="/managedProperties" element={<Bookings />} />
+                
                 <Route path="/favourites" element={<Favourites />} />
               </Route>
               <Route

@@ -5,9 +5,9 @@ import {
   updateListing,
   getAllResidencies,
   getListing,
-  getListings,getPropertyStatusPercentages  
+  getListings,
+  getPropertyStatusPercentages  
 } from '../controllers/listing.controller.mjs';
-import { verifyToken } from '../utils/verifyUser.mjs';
 import jwtCheck from "../config/auth0Config.js";
 
 // Middleware to check if the user has the required role
@@ -23,7 +23,7 @@ const router = express.Router();
 // Routes with verifyToken middleware
 router.post('/create', jwtCheck, createListing);
 router.delete('/delete/:id', jwtCheck, deleteListing);
-router.post('/update/:id', verifyToken, updateListing);
+router.post('/update/:id', jwtCheck, updateListing);
 router.get('/property-status-percentages', getPropertyStatusPercentages);
 router.get("/listings", getAllResidencies);
 router.get('/:id', getListing);

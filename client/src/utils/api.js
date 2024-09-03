@@ -3,9 +3,9 @@ import dayjs from "dayjs";
 import { toast } from "react-toastify";
 
 export const api = axios.create({
-  baseURL: "https://gestimpact-server.vercel.app/api",
+  baseURL: "http://localhost:3000/api",
   //"http://localhost:3000/api"
-  // "https://gest-impact.vercel.app/api",
+  // "https://gestimpact-server.vercel.app/api",
 });
 
 export const getAllProperties = async () => {
@@ -55,6 +55,56 @@ export const getProperty = async (id) => {
     throw error;
   }
 };
+
+// Edit a Property
+export const editProperty = async (id, updatedData, token) => {
+  try {
+    const response = await api.put(
+      `/listing/${id}`,
+      { ...updatedData },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (response.status === 200) {
+      toast.success("Property updated successfully");
+    } else {
+      toast.error("Failed to update property");
+    }
+
+    return response.data;
+  } catch (error) {
+    toast.error("Something went wrong, Please try again");
+    throw error;
+  }
+};
+
+// Delete a Property
+export const deleteProperty = async (id, token) => {
+  try {
+    const response = await api.delete(`/listing/delete/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.status === 200) {
+      toast.success("Property deleted successfully");
+    } else {
+      toast.error("Failed to delete property");
+    }
+
+    return response.data;
+  } catch (error) {
+    toast.error("Something went wrong, Please try again");
+    throw error;
+  }
+};
+
+
 
 export const createUser = async (email, token) => {
   try {

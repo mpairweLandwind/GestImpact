@@ -9,13 +9,12 @@
     cursor: pointer;
 }
 
-
-.property-container>img{
+.property-container .mantine-Slider-root {
     align-self: center;
     max-height: 35rem;
     width: 100%;
     border-radius: 1rem;
-    object-fit: cover;
+    overflow: hidden;
 }
 
 .property-details{
@@ -28,6 +27,20 @@
     flex: 1;
     gap: 1.5rem;
 }
+.image-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+  .image-controls .mantine-Button-root:first-of-type {
+    margin-right: auto;
+  }
+  
+  .image-controls .mantine-Button-root:last-of-type {
+    margin-left: auto;
+  }
 
 .property-details .left .head{
     justify-content: space-between;
