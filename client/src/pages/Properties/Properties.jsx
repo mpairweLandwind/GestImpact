@@ -7,7 +7,7 @@ import PropertyCard from "../../components/PropertyCard/PropertyCard";
 
 const Properties = () => {
   const { data, isError, isLoading } = useProperties();
-  const [filter, setFilter] = useState("");
+  const [filter, setFilter] = useState(""); // filter state to manage search input
 
   if (isError) {
     return (
@@ -51,7 +51,8 @@ const Properties = () => {
   return (
     <div className="wrapper">
       <div className="flexColCenter paddings innerWidth properties-container">
-        <SearchBar filter={filter} setFilter={setFilter} onSearchClick={() => {/* Perform search action here */}} />
+        {/* Pass filter and setFilter to SearchBar */}
+        <SearchBar filter={filter} setFilter={setFilter} onSearchClick={() => {/* Perform search action if needed */}} />
 
         <div className="paddings flexCenter properties">
           {filteredData.map((card, i) => (
