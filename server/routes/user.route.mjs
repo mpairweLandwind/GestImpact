@@ -1,6 +1,5 @@
 import express from 'express';
-import { deleteUser, updateUser,  getUserListings, getUser, checkEmail, savePost,
-    profilePosts,getUserMaintenances
+import { deleteUser, updateUser,  getUserListings, getUser, checkEmail
    } from '../controllers/user.controller.mjs';
 import { verifyToken } from '../utils/verifyUser.mjs';
 //import { getNotificationNumber } from '../controllers/user.controller.mjs';
@@ -30,10 +29,8 @@ router.get('/check-email/:email', checkEmail);
 router.post('/update/:id', verifyToken, updateUser)
 router.delete('/delete/:id', verifyToken, deleteUser)
 router.get('/listings/', verifyToken, getUserListings)
-router.get('/maintenances/', verifyToken, getUserMaintenances)
 router.get('/:id', verifyToken, getUser)
-router.post("/save", verifyToken, savePost);
-router.get("/profilePosts", verifyToken, profilePosts);
+
 
 
 //router.get('/user-role-monthly-counts',verifyToken, getUserRoleMonthlyCounts);

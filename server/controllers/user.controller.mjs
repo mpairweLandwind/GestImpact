@@ -315,62 +315,6 @@ export const checkEmail = async (req, res) => {
   }
 };
 
-export const savePost = async (req, res) => {
-  const postId = req.body.listingId;
-  const tokenUserId = req.userRef;
-
-  try {
-    // Check if the post is already saved by the user
-    const savedPost = await prisma.savedPost.findUnique({
-      where: {
-        userRef_postId: {
-          userRef: tokenUserId,
-          postId,
-        },
-      },
-    });
-
-    if (savedPost) {
-      // If the post is already saved, notify the user
-      return res.status(400).json({ message: "This post is already saved by you" });
-    } else {
-      // If it does not exist, add it to the saved posts
-      await prisma.savedPost.create({
-        data: {
-          userRef: tokenUserId,
-          postId,
-        },
-      });
-      return res.status(200).json({ message: "Post saved successfully" });
-    }
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: "Failed to save the post!" });
-  }
-};
-
-
-
-export const profilePosts = async (req, res) => {
-  const tokenUserId = req.userRef;
-  try {
-    const userPosts = await prisma.listing.findMany({
-      where: { userRef: tokenUserId },
-    });
-    const saved = await prisma.savedPost.findMany({
-      where: { userRef: tokenUserId },
-      include: {
-        listing: true,
-      },
-    });
-
-    const savedPosts = saved.map((item) => item.post);
-    res.status(200).json({ userPosts, savedPosts });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "Failed to get profile posts!" });
-  }
-};
 
 // userController.js
 export const getNotificationNumber = async (req, res) => {

@@ -38,7 +38,7 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Configure CORS to allow requests from your frontend
-const allowedOrigins = ['http://localhost:3000','http://localhost:5173', 'https://gest-impact.vercel.app']; // Adjust as needed
+const allowedOrigins = ['http://localhost:3000','http://localhost:5173', 'https://gestimpact.vercel.app']; // Adjust as needed
 app.use(cors({
   origin: allowedOrigins,
   credentials: true, // Allow cookies to be sent with requests
