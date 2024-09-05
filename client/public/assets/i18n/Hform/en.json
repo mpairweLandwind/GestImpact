@@ -4,7 +4,7 @@
     },
     "Hform": {
       "description": "Maintenance Description",
-      "descriptionPlaceholder": "Enter maintenance description",
+      "descriptionPlaceholder": "Enter maintenance history details here ",
       "date": "Date",
       "datePlaceholder": "Select maintenance date",
       "cost": "Cost ($)",

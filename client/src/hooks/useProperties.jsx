@@ -1,4 +1,3 @@
-import React from "react";
 import { useQuery } from "react-query";
 import { getAllProperties } from "../utils/api";
 
@@ -10,7 +9,7 @@ const useProperties = () => {
   );
 
   return {
-    data,
+    data: data || {}, // Ensure data is an object
     isError,
     isLoading,
     refetch,

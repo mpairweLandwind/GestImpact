@@ -12,7 +12,7 @@
       "state": "State",
       "selectState": "Select property state",
       "description": "Description",
-      "descriptionPlaceholder": "Enter description",
+      "descriptionPlaceholder": "Enter specific details you want us to know about",
       "size": "Size (sqft)",
       "sizePlaceholder": "Enter property size",
       "maintenanceCharge": "Maintenance Charge ($)",

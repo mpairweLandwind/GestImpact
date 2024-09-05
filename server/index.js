@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import path from 'path';
 import { residencyRoute } from './routes/residencyRoute.js';
+import emailRoutes from './routes/emailRoute.mjs';
 import maintenanceRoute from './routes/maintenance.route.mjs';
 import { getUserRoleMonthlyCounts } from './controllers/user.controller.mjs';
 import paypalRoutes from './routes/paypalRoutes.mjs';
@@ -50,6 +51,7 @@ app.use('/api/listing', listingRouter);
 app.use('/api/paypal', paypalRoutes);
 app.use('/api/maintenance', maintenanceRoute);
 app.use('/api/transactions', transactionRoutes);
+app.use('/api/email', emailRoutes);
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '../Client/dist')));

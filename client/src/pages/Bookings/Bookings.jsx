@@ -13,7 +13,7 @@ const Bookings = () => {
     userDetails: { bookings = [] },
   } = useContext(UserDetailContext);
 
-  // logging properties
+  // logging properties and bookings
   console.log(data);
   console.log(bookings);
 
@@ -39,27 +39,32 @@ const Bookings = () => {
     );
   }
 
-  // Filter properties that match the propertyId from bookings
-  const filteredProperties = data
-    .filter((property) =>
-      bookings.map((booking) => booking.propertyId).includes(property.id)
-    )
-    .filter(
-      (property) =>
-        property.name.toLowerCase().includes(filter.toLowerCase()) ||
-        property.city.toLowerCase().includes(filter.toLowerCase()) ||
-        property.country.toLowerCase().includes(filter.toLowerCase())
-    );
-
+  // Filter bookings based on name, city, or country fields
+  const filteredBookings = bookings.filter((booking) =>
+    [booking.name, booking.city, booking.country]
+      .filter(Boolean) // Ensure the field is defined and not null
+      .some((field) =>
+        field.toLowerCase().includes(filter.toLowerCase())
+      )
+  );
+  
   return (
     <div className="wrapper">
       <div className="flexColCenter paddings innerWidth properties-container">
         <SearchBar filter={filter} setFilter={setFilter} />
 
         <div className="paddings flexCenter properties">
-          {filteredProperties.map((card, i) => (
-            <PropertyCard card={card} key={i} />
-          ))}
+          {bookings.length > 0 ? (
+            filteredBookings.length > 0 ? (
+              filteredBookings.map((booking, i) => (
+                <PropertyCard card={booking} key={i} />
+              ))
+            ) : (
+              <span>No properties match the filter</span>
+            )
+          ) : (
+            <span>No properties found</span>
+          )}
         </div>
       </div>
     </div>

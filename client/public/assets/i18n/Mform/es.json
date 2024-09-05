@@ -12,7 +12,7 @@
       "state": "Estado",
       "selectState": "Seleccionar estado de la propiedad",
       "description": "Descripción",
-      "descriptionPlaceholder": "Ingrese descripción",
+      "descriptionPlaceholder": "Ingrese detalles específicos que desea que sepamos",
       "size": "Tamaño (pies cuadrados)",
       "sizePlaceholder": "Ingrese tamaño de la propiedad",
       "maintenanceCharge": "Cargo de Mantenimiento ($)",

@@ -51,32 +51,47 @@ export const bookVisit = asyncHandler(async (req, res) => {
 
 export const getAllBookings = asyncHandler(async (req, res) => {
   const { email } = req.body;
+
   try {
-    // Fetch transactions directly based on the email (userId)
-    const bookings = await prisma.transaction.findMany({
+    // Attempt to find bookings in the 'transaction' table
+    const transactionBookings = await prisma.transaction.findMany({
       where: { userId: email },
-      select: {
-        id: true,
-        propertyId: true,
-        propertyType: true,
-        amount: true,
-        orderId: true,
-        status: true,
-        transactionDate: true,
-        listing: true,      // If you want to include related listing data
-        maintenance: true,  // If you want to include related maintenance data
+      include: {
+        // Include related data if needed, e.g., related listing or maintenance
+        listing: true,
+        maintenance: true,
       },
     });
 
-    if (bookings.length === 0) {
-      return res.status(404).send({ message: "No bookings found" });
-    }
+    // Attempt to find bookings in the 'listing' table using `userEmail`
+    const listingBookings = await prisma.listing.findMany({
+      where: { userEmail: email }, // Use the correct field name
+    });
 
-    res.status(200).send(bookings);
+    // Attempt to find bookings in the 'maintenance' table using `userEmail`
+    const maintenanceBookings = await prisma.maintenance.findMany({
+      where: { userEmail: email }, // Use the correct field name
+    });
+
+    // Combine all the bookings found
+    const combinedBookings = [
+      ...transactionBookings,
+      ...listingBookings,
+      ...maintenanceBookings,
+    ];
+
+    if (combinedBookings.length === 0) {
+      return res.status(404).json({ message: "No bookings found" });
+    }
+  console.log(combinedBookings);
+    res.status(200).json(combinedBookings);
   } catch (err) {
-    throw new Error(err.message);
+    res.status(500).json({ message: err.message });
   }
 });
+
+
+
 
 
 // function to cancel the booking

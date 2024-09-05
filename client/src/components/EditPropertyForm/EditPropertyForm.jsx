@@ -1,205 +1,174 @@
-import React, { useState, useEffect } from "react";
-import { useForm } from "@mantine/form";
+import React, { useState, useEffect, useContext } from 'react';
+import { useForm } from '@mantine/form';
+import UploadImage1 from '../UploadImage/UploadImage1';
 import {
   TextInput,
   NumberInput,
-  Checkbox,
   Textarea,
   Button,
   Group,
   Select,
-  Stack,
+  SimpleGrid,
+  Checkbox,
   Card,
   Title,
-  SimpleGrid,
-} from "@mantine/core";
+} from '@mantine/core';
+import { updateProperty } from '../../utils/api';
+import { useAuth0 } from "@auth0/auth0-react";
+import UserDetailContext from "../../context/UserDetailContext";
 
-const EditPropertyForm = ({ propertyData = {}, onCancel }) => {
-  const [initialPropertyDetails, setInitialPropertyDetails] = useState({
-    ...propertyData,
-    facilities: {
-      bedrooms: propertyData.facilities?.bedrooms || 0,
-      parkings: propertyData.facilities?.parkings || 0,
-      bathrooms: propertyData.facilities?.bathrooms || 0,
-      furnished: propertyData.facilities?.furnished || false,
-      parking: propertyData.facilities?.parking || false,
-      offer: propertyData.facilities?.offer || false,
+const EditPropertyForm = ({ propertyData, onCancel }) => {
+  const [loading, setLoading] = useState(false);
+  const [uploadedImages, setUploadedImages] = useState(propertyData?.images || []);
+  
+  const { userDetails, setUserDetails } = useContext(UserDetailContext);
+  const { isAuthenticated, getAccessTokenSilently, user } = useAuth0();
+
+  const form = useForm({
+    initialValues: {
+      name: propertyData?.name || '',
+      description: propertyData?.description || '',
+      regularPrice: propertyData?.regularPrice || 0,
+      discountPrice: propertyData?.discountPrice || 0,
+      maintenanceCharge: propertyData?.maintenanceCharge || 0,
+      size: propertyData?.size || 0,
+      address: propertyData?.address || '',
+      city: propertyData?.city || '',
+      country: propertyData?.country || '',
+      // Facilities fields grouped under facilities object
+      facilities: {
+        bathrooms: propertyData?.facilities?.bathrooms || 0,
+        bedrooms: propertyData?.facilities?.bedrooms || 0,
+        parkings: propertyData?.facilities?.parkings || 0,
+        furnished: propertyData?.facilities?.furnished || false,
+        parking: propertyData?.facilities?.parking || false,
+        offer: propertyData?.facilities?.offer || false,
+      },
+      status: propertyData?.status || '',
+      state: propertyData?.state || '',
+      type: propertyData?.type || 'residential',
+      images: propertyData?.images || [],
     },
   });
 
   useEffect(() => {
-    if (propertyData) {
-      setInitialPropertyDetails({
-        ...propertyData,
-        facilities: {
-          bedrooms: propertyData.facilities?.bedrooms || 0,
-          parkings: propertyData.facilities?.parkings || 0,
-          bathrooms: propertyData.facilities?.bathrooms || 0,
-          furnished: propertyData.facilities?.furnished || false,
-          parking: propertyData.facilities?.parking || false,
-          offer: propertyData.facilities?.offer || false,
-        },
-      });
-    }
-  }, [propertyData]);
+    const fetchToken = async () => {
+      if (!userDetails.token || !userDetails.email) {
+        if (isAuthenticated) {
+          try {
+            const token = await getAccessTokenSilently({
+              authorizationParams: {
+                audience: "http://localhost:3000", // Adjust if needed
+                scope: "openid profile email",
+              },
+            });
+            setUserDetails({
+              token,
+              email: user.email,
+            });
+          } catch (error) {
+            console.error("Error fetching token:", error);
+          }
+        }
+      }
+    };
 
-  const form = useForm({
-    initialValues: {
-      name: initialPropertyDetails.name,
-      type: initialPropertyDetails.type,
-      property: initialPropertyDetails.property,
-      status: initialPropertyDetails.status,
-      description: initialPropertyDetails.description,
-      country: initialPropertyDetails.country,
-      city: initialPropertyDetails.city,
-      address: initialPropertyDetails.address,
-      regularPrice: initialPropertyDetails.regularPrice,
-      discountPrice: initialPropertyDetails.discountPrice,
-      facilities: {
-        bedrooms: initialPropertyDetails.facilities.bedrooms,
-        parkings: initialPropertyDetails.facilities.parkings,
-        bathrooms: initialPropertyDetails.facilities.bathrooms,
-        furnished: initialPropertyDetails.facilities.furnished,
-        parking: initialPropertyDetails.facilities.parking,
-        offer: initialPropertyDetails.facilities.offer,
-      },
-      image: initialPropertyDetails.image ? initialPropertyDetails.image[0] : "",
-    },
-  });
+    fetchToken();
+  }, [isAuthenticated, getAccessTokenSilently, userDetails, setUserDetails, user]);
+
+  const handleSubmit = async (values) => {
+    setLoading(true);
+    try {
+      if (!userDetails.token) {
+        throw new Error('User is not authenticated.');
+      }
+
+      const dataToSubmit = {
+        ...values,
+        facilities: { ...values.facilities },  // Pass facilities as a JSON object
+        images: uploadedImages,
+      };
+
+      await updateProperty(propertyData.id, dataToSubmit, userDetails.token); // Pass token here
+      onCancel();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const isStateDefined = !!form.values.state;
+  const isStatusDefined = !!form.values.status;
 
   return (
-    <Card
-      shadow="sm"
-      padding="lg"
-      radius="md"
-      withBorder
-      style={{
-        width: '80%',
-        margin: '0 auto',
-        maxWidth: '800px',
-      }}
-    >
+    <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Title order={3} align="center" mb="md">Edit Property</Title>
-      <form
-        onSubmit={form.onSubmit((values) => {
-          onSubmit(values);
-        })}
-      >
+      <form onSubmit={form.onSubmit(handleSubmit)}>
         <SimpleGrid cols={2} spacing="md">
-          <TextInput
-            label="Property Name"
-            placeholder="Enter property name"
-            {...form.getInputProps("name")}
-          />
+          <TextInput label="Property Name" {...form.getInputProps('name')} required />
+          <Textarea label="Description" {...form.getInputProps('description')} required />
+          <TextInput label="Country" {...form.getInputProps('country')} required />
+          <TextInput label="City" {...form.getInputProps('city')} required />
+          <TextInput label="Address" {...form.getInputProps('address')} required />
+          <NumberInput label="Bathrooms" {...form.getInputProps('facilities.bathrooms')} required />
+          <NumberInput label="Bedrooms" {...form.getInputProps('facilities.bedrooms')} />
+          <NumberInput label="Parking Spaces" {...form.getInputProps('facilities.parkings')} />
 
-          <Select
-            label="Type"
-            placeholder="Pick one"
-            data={[
-              { value: "rent", label: "Rent" },
-              { value: "sale", label: "Sale" },
-            ]}
-            {...form.getInputProps("type")}
-          />
+          {isStatusDefined && (
+            <>
+              <NumberInput label="Regular Price ($)" {...form.getInputProps('regularPrice')} required />
+              <NumberInput label="Discount Price ($)" {...form.getInputProps('discountPrice')} />
+              <Select
+                label="Status"
+                data={[
+                  { value: 'available', label: 'Available' },
+                  { value: 'occupied', label: 'Occupied' },
+                  { value: 'under_contract', label: 'Under Contract' },
+                  { value: 'for_sale', label: 'For Sale' },
+                ]}
+                {...form.getInputProps('status')}
+                required
+              />
+            </>
+          )}
 
-          <Select
-            label="Property Type"
-            placeholder="Select property type"
-            data={[
-              { value: "apartment", label: "Apartment" },
-              { value: "house", label: "House" },
-              { value: "condo", label: "Condo" },
-            ]}
-            {...form.getInputProps("property")}
-          />
+          {isStateDefined && (
+            <>
+              <NumberInput label="Maintenance Charge ($)" {...form.getInputProps('maintenanceCharge')} />
+              <NumberInput label="Size (sqft)" {...form.getInputProps('size')} required />
+              <Select
+                label="Property Type"
+                data={[
+                  { value: 'residential', label: 'Residential' },
+                  { value: 'commercial', label: 'Commercial' },
+                ]}
+                {...form.getInputProps('type')}
+                required
+              />
+              <Select
+                label="State"
+                data={[
+                  { value: 'UNOCCUPIED', label: 'Unoccupied' },
+                  { value: 'RENTED', label: 'Rented' },
+                  { value: 'UNDER_MAINTENANCE', label: 'Under Maintenance' },
+                  { value: 'UNDER_SALE', label: 'Under Sale' },
+                ]}
+                {...form.getInputProps('state')}
+              />
+            </>
+          )}
 
-          <Select
-            label="Status"
-            placeholder="Select status"
-            data={[
-              { value: "available", label: "Available" },
-              { value: "occupied", label: "Occupied" },
-              { value: "under_contract", label: "Under Contract" },
-              { value: "for_sale", label: "For Sale" },
-            ]}
-            {...form.getInputProps("status")}
-          />
+          {/* Facilities checkboxes */}
+          <Checkbox label="Furnished" {...form.getInputProps('facilities.furnished', { type: 'checkbox' })} />
+          <Checkbox label="Parking Available" {...form.getInputProps('facilities.parking', { type: 'checkbox' })} />
+          <Checkbox label="Special Offer" {...form.getInputProps('facilities.offer', { type: 'checkbox' })} />
 
-          <Textarea
-            label="Description"
-            placeholder="Enter property description"
-            {...form.getInputProps("description")}
-          />
-
-          <TextInput
-            label="Country"
-            placeholder="Enter country"
-            {...form.getInputProps("country")}
-          />
-
-          <TextInput
-            label="City"
-            placeholder="Enter city"
-            {...form.getInputProps("city")}
-          />
-
-          <TextInput
-            label="Address"
-            placeholder="Enter address"
-            {...form.getInputProps("address")}
-          />
-
-          <NumberInput
-            label="Regular Price"
-            placeholder="Enter regular price"
-            {...form.getInputProps("regularPrice")}
-          />
-
-          <NumberInput
-            label="Discount Price"
-            placeholder="Enter discount price"
-            {...form.getInputProps("discountPrice")}
-          />
-
-          <NumberInput
-            label="Bedrooms"
-            placeholder="Number of bedrooms"
-            {...form.getInputProps("facilities.bedrooms")}
-          />
-          <NumberInput
-            label="Parkings"
-            placeholder="Number of parkings"
-            {...form.getInputProps("facilities.parkings")}
-          />
-          <NumberInput
-            label="Bathrooms"
-            placeholder="Number of bathrooms"
-            {...form.getInputProps("facilities.bathrooms")}
-          />
-
-          <Checkbox
-            label="Furnished"
-            {...form.getInputProps("facilities.furnished", { type: "checkbox" })}
-          />
-          <Checkbox
-            label="Parking Available"
-            {...form.getInputProps("facilities.parking", { type: "checkbox" })}
-          />
-          <Checkbox
-            label="Special Offer"
-            {...form.getInputProps("facilities.offer", { type: "checkbox" })}
-          />
-
-          <TextInput
-            label="Image URL"
-            placeholder="Enter image URL"
-            {...form.getInputProps("image")}
-          />
+          <UploadImage1 uploadedImages={uploadedImages} setUploadedImages={setUploadedImages} />
         </SimpleGrid>
-
         <Group position="center" mt="md">
-          <Button type="submit" variant="filled" color="blue">
-            Submit
+          <Button type="submit" variant="filled" color="blue" loading={loading}>
+            Save Changes
           </Button>
           <Button variant="outline" color="red" onClick={onCancel}>
             Cancel

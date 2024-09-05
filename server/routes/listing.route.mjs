@@ -3,6 +3,7 @@ import {
   createListing,
   deleteListing,
   updateListing,
+  updateProperty ,
   getAllResidencies,
   getListing,
   getListings,
@@ -23,7 +24,7 @@ const router = express.Router();
 // Routes with verifyToken middleware
 router.post('/create', jwtCheck, createListing);
 router.delete('/delete/:id', jwtCheck, deleteListing);
-router.post('/update/:id', jwtCheck, updateListing);
+router.put('/update/:id', jwtCheck, updateProperty);
 router.get('/property-status-percentages', getPropertyStatusPercentages);
 router.get("/listings", getAllResidencies);
 router.get('/:id', getListing);

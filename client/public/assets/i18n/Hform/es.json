@@ -6,7 +6,7 @@
       "description": "Descripción del Mantenimiento",
       "descriptionPlaceholder": "Ingrese la descripción del mantenimiento",
       "date": "Fecha",
-      "datePlaceholder": "Seleccione la fecha de mantenimiento",
+      "datePlaceholder": "Ingrese detalles específicos que desea que sepamos de mantenimiento",
       "cost": "Costo ($)",
       "costPlaceholder": "Ingrese el costo"
     },

@@ -1,4 +1,6 @@
 import prisma from '../lib/prisma.mjs';
+import asyncHandler from "express-async-handler";
+
 
 export const createOrder = async (req, res) => {
   try {
@@ -35,24 +37,39 @@ export const createOrder = async (req, res) => {
 };
 
 
-
-export const getAllTransactionsWithListings = async (req, res) => {
+// Function to get all transactions and maintenance records
+export const getAllTransactionsWithListings = asyncHandler(async (req, res) => {
   try {
-    // Retrieve all transactions along with their associated listing details
+    // Fetch all transactions along with their associated listing details
     const transactions = await prisma.transaction.findMany({
       include: {
         listing: true, // Include the related listing data
       },
     });
 
-    if (transactions.length === 0) {
-      return res.status(404).json({ message: 'No transactions found' });
+    // Fetch all maintenance records along with the user's email
+    const maintenanceRecords = await prisma.maintenance.findMany({
+      include: {       
+        user: {
+          select: {          
+            email: true,  // Include the user's email
+          },
+        },
+      },
+    });
+
+    // If no records found for either, respond accordingly
+    if (transactions.length === 0 && maintenanceRecords.length === 0) {
+      return res.status(404).json({ message: 'No transactions or maintenance records found' });
     }
 
-    // Respond with all transactions and their associated listing details
-    res.status(200).json({ transactions });
+    // Respond with both transactions and maintenance records
+    res.status(200).json({
+      transactions,
+      maintenanceRecords,
+    });
   } catch (error) {
-    console.error('Error retrieving transactions:', error);
-    res.status(500).json({ message: 'Error retrieving transactions', error });
+    console.error('Error retrieving transactions and maintenance records:', error);
+    res.status(500).json({ message: 'Internal Server Error', error });
   }
-};
+});

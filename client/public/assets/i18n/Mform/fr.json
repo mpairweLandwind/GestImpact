@@ -12,7 +12,7 @@
       "state": "État",
       "selectState": "Sélectionner l'état de la propriété",
       "description": "Description",
-      "descriptionPlaceholder": "Entrez la description",
+      "descriptionPlaceholder": "Entrez les détails spécifiques que vous voulez que nous sachions",
       "size": "Taille (pieds carrés)",
       "sizePlaceholder": "Entrez la taille de la propriété",
       "maintenanceCharge": "Frais de Maintenance ($)",

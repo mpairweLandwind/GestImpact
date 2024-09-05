@@ -5,7 +5,7 @@ import { getProperty, deleteProperty } from "../../utils/api";
 import { PuffLoader } from "react-spinners";
 import { Button, Slider } from "@mantine/core";
 import "./Property.css";
-import { FaShower } from "react-icons/fa";
+import { FaShower, FaExpand } from "react-icons/fa";
 import { AiTwotoneCar, AiFillCheckCircle } from "react-icons/ai";
 import { MdLocationPin, MdMeetingRoom } from "react-icons/md";
 import Map from "../../components/Map/Map";
@@ -15,31 +15,33 @@ import Heart from "../../components/Heart/Heart";
 import PaypalButton from "../../components/paypalButton";
 import { useTranslation } from 'react-i18next';
 import EditPropertyForm from "../../components/EditPropertyForm/EditPropertyForm.jsx";
+import MContact from "../../components/Contact/MContact.jsx";
 
 const Property = () => {
   const { t } = useTranslation("property");
   const { pathname } = useLocation();
   const id = pathname.split("/").slice(-1)[0];
-  const { data, isLoading, isError } = useQuery(["resd", id], () =>
-    getProperty(id)
-  );
-
+  const { data, isLoading, isError } = useQuery(["resd", id], () => getProperty(id));
+  
   const { validateLogin } = useAuthCheck();
   const { userDetails } = useContext(UserDetailContext);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
   const [currentImage, setCurrentImage] = useState(0);
-  const [isEditing, setIsEditing] = useState(false); // State for toggling edit mode
+  const [isEditing, setIsEditing] = useState(false);
+  const [initialData, setInitialData] = useState(null);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImage((prevImage) =>
-        prevImage === data?.image.length - 1 ? 0 : prevImage + 1
-      );
-    }, 5000);
+    if (data?.image && data.image.length > 0) {
+      const interval = setInterval(() => {
+        setCurrentImage((prevImage) =>
+          prevImage === data.image.length - 1 ? 0 : prevImage + 1
+        );
+      }, 5000);
 
-    return () => clearInterval(interval);
-  }, [data?.image.length]);
+      return () => clearInterval(interval);
+    }
+  }, [data?.image]);
 
   const handleNext = () => {
     setCurrentImage((prevImage) =>
@@ -53,15 +55,16 @@ const Property = () => {
     );
   };
 
-
   const handleEdit = () => {
-    navigate(`/properties/${id}/edit`); // Navigate to the edit route
+    // Set the initial data for the form and switch to the editing state
+    setInitialData(data);
+    setIsEditing(true);
   };
-
 
   const handleDelete = async () => {
     try {
       await deleteProperty(id, userDetails.token);
+      navigate("/properties"); // Redirect to properties list after deletion
     } catch (error) {
       console.error("Error deleting property:", error);
     }
@@ -87,23 +90,29 @@ const Property = () => {
     );
   }
 
-  const getStatusIcon = (status) => {
-    switch (status.toLowerCase()) {
+  const getStatusIcon = (status, state) => {
+    if (!status && !state) return null;
+    const statusOrState = status || state;
+    switch (statusOrState) {
       case 'available':
+      case 'UNOCCUPIED':
         return <AiFillCheckCircle size={20} color="#1F3E72" />;
       case 'occupied':
+      case 'RENTED':
         return <AiFillCheckCircle size={20} color="#FF0000" />;
       case 'under_contract':
-        return <AiFillCheckCircle size={20} color="#FFA500" />;
+      case 'UNDER_MAINTENANCE':
       case 'for_sale':
+      case 'UNDER_SALE':
         return <AiFillCheckCircle size={20} color="#FFA500" />;
       default:
         return <AiFillCheckCircle size={20} color="#1F3E72" />;
     }
   };
 
+  // If in editing mode, show the edit form and pass the initial data
   if (isEditing) {
-    return <EditPropertyForm propertyData={data} onCancel={() => setIsEditing(false)} />;
+    return <EditPropertyForm propertyData={initialData} onCancel={() => setIsEditing(false)} />;
   }
 
   return (
@@ -113,7 +122,7 @@ const Property = () => {
           <Heart id={id} />
         </div>
 
-        {data && data.image && (
+        {data?.image && data.image.length > 0 ? (
           <>
             <img
               src={data.image[currentImage]}
@@ -166,6 +175,8 @@ const Property = () => {
               )}
             </div>
           </>
+        ) : (
+          <span>No images available</span>
         )}
 
         <div className="flexCenter property-details">
@@ -173,7 +184,7 @@ const Property = () => {
             <div className="flexStart head">
               <span className="primaryText">{data?.name}</span>
               <span className="orangeText" style={{ fontSize: "1.5rem" }}>
-                $ {data?.regularPrice}
+                $ {data?.regularPrice || data?.maintenanceCharge}
               </span>
             </div>
 
@@ -194,13 +205,21 @@ const Property = () => {
 
             <div className="flexStart facilities">
               <div className="flexStart facility">
-              {getStatusIcon(data?.status)}
+                {getStatusIcon(data?.status, data?.state)}
                 <span className="secondaryText" style={{ textAlign: "justify" }}>
                   <span className="orangeText" style={{ fontSize: "1.5rem" }}>
-                    {t(`property.status.${data?.status.toLowerCase()}`)}
+                    {data?.status ? t(`property.status.${data.status}`) : t(`${data?.state}`)}
                   </span>
                 </span>
               </div>
+              {data?.size && (
+                <div className="flexStart facility">
+                  <FaExpand size={20} color="#1F3E72" />
+                  <span className="secondaryText" style={{ textAlign: "justify" }}>
+                    {data.size} sqft
+                  </span>
+                </div>
+              )}
             </div>
 
             <span className="secondaryText" style={{ textAlign: "justify" }}>
@@ -214,7 +233,10 @@ const Property = () => {
               </span>
             </div>
 
-            {validateLogin() ? (
+            {/* Conditionally render MContact if data.state is defined, else show PayPal/Pay buttons */}
+            {data?.state ? (
+              <MContact maintenance={data} />
+            ) : validateLogin() ? (
               <PaypalButton
                 amount={data?.regularPrice}
                 userId={userDetails.email}
@@ -228,17 +250,17 @@ const Property = () => {
                 style={{
                   width: '60%',
                   padding: '0.5rem',
-                  fontSize: '1rem',
+                  fontSize: '1.2rem',
+                  textAlign: 'center',
                 }}
-                onClick={() => console.log('Please log in to proceed')}
+                onClick={validateLogin}
               >
-                {t('property.buttons.pay')}
+                {t("property.pay")}
               </Button>
             )}
           </div>
-
-          <div className="map">
-            <Map address={data?.address} city={data?.city} country={data?.country} />
+          <div className="right">
+            <Map data={data} />
           </div>
         </div>
       </div>

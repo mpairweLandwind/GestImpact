@@ -4,7 +4,7 @@
     },
     "form": {
       "description": "Description de la Maintenance",
-      "descriptionPlaceholder": "Entrez la description de la maintenance",
+      "descriptionPlaceholder": "Entrez les détails spécifiques que vous voulez que nous sachions de la maintenance",
       "date": "Date",
       "datePlaceholder": "Sélectionnez la date de maintenance",
       "cost": "Coût ($)",

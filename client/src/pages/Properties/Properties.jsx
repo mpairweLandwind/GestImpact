@@ -5,10 +5,10 @@ import useProperties from "../../hooks/useProperties";
 import { PuffLoader } from "react-spinners";
 import PropertyCard from "../../components/PropertyCard/PropertyCard";
 
-
 const Properties = () => {
   const { data, isError, isLoading } = useProperties();
   const [filter, setFilter] = useState("");
+
   if (isError) {
     return (
       <div className="wrapper">
@@ -30,28 +30,33 @@ const Properties = () => {
       </div>
     );
   }
+
+  // Extract listings and maintenanceRecords from the data object
+  const listings = data.listings || [];
+  const maintenanceRecords = data.maintenanceRecords || [];
+
+  // Combine listings and maintenanceRecords into a single array
+  const combinedData = [...listings, ...maintenanceRecords];
+
+  // Filter the combined data based on the user's input
+  const filteredData = combinedData.filter(
+    (property) =>
+      property.name.toLowerCase().includes(filter.toLowerCase()) ||
+      property.city.toLowerCase().includes(filter.toLowerCase()) ||
+      property.type.toLowerCase().includes(filter.toLowerCase()) ||
+      property.status.toLowerCase().includes(filter.toLowerCase()) ||
+      property.country.toLowerCase().includes(filter.toLowerCase())
+  );
+
   return (
     <div className="wrapper">
       <div className="flexColCenter paddings innerWidth properties-container">
         <SearchBar filter={filter} setFilter={setFilter} />
 
         <div className="paddings flexCenter properties">
-          {
-            // data.map((card, i)=> (<PropertyCard card={card} key={i}/>))
-
-            data
-             .filter(
-              (property) =>
-                property.name.toLowerCase().includes(filter.toLowerCase()) ||
-                property.city.toLowerCase().includes(filter.toLowerCase()) ||
-                property.type.toLowerCase().includes(filter.toLowerCase()) ||
-                property.status.toLowerCase().includes(filter.toLowerCase()) ||
-                property.country.toLowerCase().includes(filter.toLowerCase())
-            )
-              .map((card, i) => (
-                <PropertyCard card={card} key={i} />
-              ))
-          }
+          {filteredData.map((card, i) => (
+            <PropertyCard card={card} key={i} />
+          ))}
         </div>
       </div>
     </div>
