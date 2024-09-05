@@ -11,6 +11,7 @@ const Hero = ({ t }) => {
   const navigate = useNavigate();
 
   const handleSearchClick = () => {
+    // Trigger navigation to properties page when search is clicked
     navigate('/properties');
   };
 
@@ -39,9 +40,9 @@ const Hero = ({ t }) => {
             <span>{t('home.hero.forget_difficulties')}</span>
           </div>
 
-          {/* Wrap SearchBar in a div that triggers navigation on click */}
-          <div onClick={handleSearchClick} style={{ cursor: 'pointer' }}>
-            <SearchBar filter={filter} setFilter={setFilter} />
+          {/* Wrap SearchBar with its own click handler */}
+          <div style={{ cursor: 'pointer' }}>
+            <SearchBar filter={filter} setFilter={setFilter} onSearchClick={handleSearchClick} />
           </div>
 
           <div className="flexCenter stats">
