@@ -9,6 +9,8 @@ const Properties = () => {
   const { data, isError, isLoading } = useProperties();
   const [filter, setFilter] = useState(""); // filter state to manage search input
 
+  console.log(data);
+
   if (isError) {
     return (
       <div className="wrapper">

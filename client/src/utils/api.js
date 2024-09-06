@@ -1,6 +1,6 @@
 import axios from "axios";
-import dayjs from "dayjs";
 import { toast } from "react-toastify";
+
 
 export const api = axios.create({
   baseURL: "https://gestimpact-server.vercel.app/api",
@@ -8,25 +8,45 @@ export const api = axios.create({
   // "https://gestimpact-server.vercel.app/api",
 });
 
+// Fetch all properties
 export const getAllProperties = async () => {
   try {
-    const response = await api.get("/listing/listings", {
-      timeout: 10 * 1000,
-    });
-    console.log(response.data);
-
+    const response = await api.get("/listing/listings", { timeout: 10 * 1000 });
     if (response.status === 400 || response.status === 500) {
       throw response.data;
     }
 
-    // Assuming response.data contains both listings and maintenance records
     return {
-      listings: response.data.listings || [], // Ensure this is an array
-      maintenanceRecords: response.data.maintenanceRecords || [], // Ensure this is an array
+      listings: response.data.listings || [],
+      maintenanceRecords: response.data.maintenanceRecords || [],
     };
   } catch (error) {
-    toast.error("Something went wrong");
+    toast.error("Failed to fetch properties. Please try again.");
     throw error;
+  }
+};
+
+// logout function
+export const logout = async () => {
+ 
+
+  try {
+    // Optional: Call the server to notify the logout
+    await api.post('/auth/signout');
+
+    // Clear local storage and reset state
+    localStorage.removeItem("token");
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userImage");
+    localStorage.clear();
+
+    // Show a success toast message
+    toast.success("Successfully logged out!"); 
+
+    console.log('User successfully logged out');
+  } catch (error) {
+    toast.error("Failed to log out. Please try again.");
+    console.error('Error during logout:', error);
   }
 };
 
@@ -35,24 +55,22 @@ export const getAllProperties = async () => {
 export const signInUser = async (formData) => {
   try {
     const response = await api.post('/auth/signin', formData, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
     });
 
     if (response.status === 200) {
+      toast.success("Signed in successfully!");
       return response.data;
     } else {
       throw new Error(response.data.message || "Authentication failed");
     }
   } catch (error) {
-    console.error("Sign-In failed:", error);
-    toast.error(error.response?.data?.message || "Failed to connect to the server");
+    toast.error(error.response?.data?.message || "Failed to sign in. Please check your credentials.");
     throw error;
   }
 };
 
-// Sign Up API
+// Sign-Up API Function
 export const signUpUser = async (formData) => {
   try {
     const response = await api.post("/auth/signup", formData, {
@@ -60,14 +78,14 @@ export const signUpUser = async (formData) => {
     });
 
     if (!response.data.success) {
-      toast.error(response.data.message);
+      toast.error(response.data.message || "Sign-up failed");
       return { success: false, message: response.data.message };
     }
 
     toast.success("Successfully signed up!");
     return { success: true };
   } catch (error) {
-    toast.error("Error signing up");
+    toast.error("Sign-up error. Please try again.");
     return { success: false, message: error.message };
   }
 };
@@ -75,30 +93,26 @@ export const signUpUser = async (formData) => {
 // Update a Property
 export const updateProperty = async (id, updatedData, token) => {
   try {
-    const response = await api.put(
-      `/listing/update/${id}`,
-      { ...updatedData },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+    const response = await api.put(`/listing/update/${id}`, { ...updatedData }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
 
     if (response.status === 200) {
-      toast.success("Property updated successfully");
+      toast.success("Property updated successfully!");
+      return response.data;
     } else {
-      toast.error("Failed to update property");
+      toast.error("Failed to update property.");
     }
-
-    return response.data;
   } catch (error) {
-    toast.error("Error updating property");
+    toast.error("Error updating property. Please try again.");
     throw error;
   }
 };
 
+// Send an Email
 export const sendEmail = async (emailData, token) => {
   try {
     const response = await api.post('/email/send', emailData, {
@@ -108,52 +122,37 @@ export const sendEmail = async (emailData, token) => {
       },
     });
 
-    // Axios automatically throws an error for non-2xx responses
-    if (response.status !== 200) {
-      throw new Error('Failed to send email');
-    }
-
-    toast.success('Email sent successfully');
+    toast.success('Email sent successfully!');
     return response.data;
   } catch (error) {
-    console.error('Failed to send email:', error);
-    toast.error('Failed to send email');
+    toast.error('Failed to send email. Please try again.');
     throw error;
   }
 };
 
-
-
-
-
-export const getAllMaintences = async () => {
+// Fetch all maintenance records
+export const getAllMaintenances = async () => {
   try {
-    const response = await api.get("/maintenance/allmantenance", {
-      timeout: 10 * 1000,
-    });
+    const response = await api.get("/maintenance/allmaintenance", { timeout: 10 * 1000 });
 
     if (response.status === 400 || response.status === 500) {
       throw response.data;
     }
+
     return response.data;
   } catch (error) {
-    toast.error("Something went wrong");
+    toast.error("Failed to fetch maintenance records. Please try again.");
     throw error;
   }
 };
 
+// Fetch a specific property
 export const getProperty = async (id) => {
   try {
-    const response = await api.get(`/listing/${id}`, {
-      timeout: 10 * 1000,
-    });
-console.log(response.data);
-    if (response.status === 400 || response.status === 500) {
-      throw response.data;
-    }
+    const response = await api.get(`/listing/${id}`, { timeout: 10 * 1000 });
     return response.data;
   } catch (error) {
-    toast.error("Something went wrong");
+    toast.error("Failed to fetch property details. Please try again.");
     throw error;
   }
 };
@@ -161,25 +160,21 @@ console.log(response.data);
 // Edit a Property
 export const editProperty = async (id, updatedData, token) => {
   try {
-    const response = await api.put(
-      `/listing/${id}`,
-      { ...updatedData },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await api.put(`/listing/${id}`, { ...updatedData }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     if (response.status === 200) {
-      toast.success("Property updated successfully");
+      toast.success("Property updated successfully!");
     } else {
-      toast.error("Failed to update property");
+      toast.error("Failed to update property.");
     }
 
     return response.data;
   } catch (error) {
-    toast.error("Something went wrong, Please try again");
+    toast.error("Error editing property. Please try again.");
     throw error;
   }
 };
@@ -194,17 +189,53 @@ export const deleteProperty = async (id, token) => {
     });
 
     if (response.status === 200) {
-      toast.success("Property deleted successfully");
+      toast.success("Property deleted successfully!");
     } else {
-      toast.error("Failed to delete property");
+      toast.error("Failed to delete property.");
     }
 
     return response.data;
   } catch (error) {
-    toast.error("Something went wrong, Please try again");
+    toast.error("Error deleting property. Please try again.");
     throw error;
   }
 };
+
+// Create a Residency
+export const createResidency = async (data, token) => {
+  try {
+    const response = await api.post("/listing/create", { data }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    toast.success("Residency created successfully!");
+    return response.data;
+  } catch (error) {
+    toast.error("Failed to create residency. Please try again.");
+    throw error;
+  }
+};
+
+// Create a Maintenance record
+export const createMaintenance = async (data, token) => {
+  try {
+    const response = await api.post("/maintenance/create", { data }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    toast.success("Maintenance record created successfully!");
+    return response.data;
+  } catch (error) {
+    toast.error("Failed to create maintenance record. Please try again.");
+    throw error;
+  }
+};
+
+// Handle favorites and bookings similarly...
 
 
 
@@ -299,45 +330,3 @@ export const getAllBookings = async (email, token) => {
 }
 
 
-export const createResidency = async (data, token) => {
-  console.log(data)
-  try{
-    const res = await api.post(
-      `/listing/create`,
-      {
-        data
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
-  }catch(error)
-  {
-    throw error
-  }
-}
-
-export const createMaintenance = async (data, token) => {
-  try {
-    console.log("Data to be sent:", data);
-    console.log("Token used:", token);
-
-    const response = await api.post(
-      `/maintenance/create`, // Ensure the route is unique
-      { data },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    return response.data;
-
-  } catch (error) {
-    console.error('Error creating maintenance:', error);
-    throw error;
-  }
-};

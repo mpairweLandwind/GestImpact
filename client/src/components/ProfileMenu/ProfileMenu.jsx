@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Avatar, Menu } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -12,7 +12,7 @@ const ProfileMenu = ({ user, logout }) => {
   return (
     <Menu>
       <Menu.Target>
-        <Avatar src={user?.picture} alt="user image" radius={"xl"} />
+        <Avatar src={user?.picture || user.image } alt="user image" radius={"xl"} />
       </Menu.Target>
       <Menu.Dropdown>
         <Menu.Item onClick={() => navigate("./favourites", { replace: true })}>

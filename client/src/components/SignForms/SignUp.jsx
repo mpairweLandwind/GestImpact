@@ -1,10 +1,10 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import OAuth from './OAuth';
-import user_icon from "../assets/person.png";
-import user_password from "../assets/password.png";
-import user_email from "../assets/email.png";
-import { signUpUser } from '../../utils/api.util';  // Import the API utility
+import user_icon from "../../assets/person.png";
+import user_password from "../../assets/password.png";
+import user_email from '../../assets/email.png';
+import { signUpUser } from '../../utils/api.js';  // Import the API utility
 import './signUp.scss';
 import {
   getDownloadURL,
@@ -14,8 +14,16 @@ import {
 } from 'firebase/storage';
 import { app } from '../firebase';
 
+// Importing react-toastify components
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 export default function SignUp() {
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    email: '', // Ensure email field is initialized
+    password: '',
+    image: '',  // Default image value
+  });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState(undefined);
@@ -38,13 +46,15 @@ export default function SignUp() {
       },
       () => {
         setFileUploadError(true);
+        toast.error('Error uploading image!');
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setFormData((prevFormData) => ({
             ...prevFormData,
-            avatar: downloadURL,
+            image: downloadURL,  // Change from 'avatar' to 'image'
           }));
+          toast.success('Image uploaded successfully!');
         });
       }
     );
@@ -57,59 +67,71 @@ export default function SignUp() {
   }, [file, handleFileUpload]);
 
   const handleChange = (e) => {
-    if (e.target.id === 'role') {
-      setFormData({
-        ...formData,
-        role: e.target.value,
-      });
-    } else {
-      setFormData({
-        ...formData,
-        [e.target.id]: e.target.value,
-      });
-    }
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value, // Update the state with the input value
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const result = await signUpUser(formData);
-    setLoading(false);
-
-    if (result.success) {
-      navigate('/sign-in');
-    } else {
-      setError(result.message);
+  
+    try {
+      // Only send email, image, and password to the API
+      const { email, image, password } = formData;
+  
+      if (!email || !password) {
+        setError('Email and password are required');
+        setLoading(false);
+        return;
+      }
+  
+      const result = await signUpUser({ email, image, password });
+  
+      if (result.success) {
+        toast.success("Sign up successful! Redirecting to sign-in...");
+           // Store in localStorage
+      localStorage.setItem('userEmail', email);
+      localStorage.setItem('userImage', image);
+        // Delay navigation by 7 seconds
+        setTimeout(() => {
+          navigate('/sign-in');
+        }, 7000); // 7000 milliseconds = 7 seconds
+      } else {
+        setError(result.message);
+      }
+    } catch (err) {
+      setError('An error occurred during registration');
+    } finally {
+      setLoading(false);
     }
   };
+  
 
   return (
     <div className='signup-container'>
+      <ToastContainer /> {/* This is where the toast will appear */}
       <div className="title">
         <h1 className='signup-title'>Sign Up</h1>
         <div className="underline"></div>
       </div>
       <form onSubmit={handleSubmit} className='signup-form'>
-        <div className="signup-input">
-          <img src={user_icon} alt="username icon" />
-          <input
-            type='text'
-            placeholder='username'
-            id='username'
-            onChange={handleChange}
-          />
-        </div>
+        
         <div className="signup-input">
           <img src={user_email} alt="email icon" />
           <input
             type='email'
-            placeholder='email'
+            placeholder='Email'
             id='email'
+            value={formData.email} // Ensure email is controlled
             onChange={handleChange}
+            required
           />
         </div>
+        
         <div className="signup-input">
-          <div className="avatar-upload-container" style={{ display: 'flex', alignItems: 'center' }}>
+          <div className="avatar-upload-container">
             <input
               type='file'
               ref={fileRef}
@@ -118,11 +140,10 @@ export default function SignUp() {
               onChange={(e) => setFile(e.target.files[0])}
             />
             <img
-              src={formData.avatar || user_icon} // Replace user_icon with a placeholder if needed
+              src={formData.image || user_icon} // Use 'image' or default icon
               alt='profile'
               onClick={() => fileRef.current.click()}
-              className='rounded-full h-12 w-12 object-cover cursor-pointer'
-              style={{ marginRight: '10px' }}
+              className='profile-image'
             />
             <span className='text-slate-700 cursor-pointer' onClick={() => fileRef.current.click()}>
               Upload Photo
@@ -134,30 +155,22 @@ export default function SignUp() {
             ) : filePerc > 0 && filePerc < 100 ? (
               <span className='text-slate-700'>{`Uploading ${filePerc}%`}</span>
             ) : filePerc === 100 ? (
-              <span className='text-green-200'>Image successfully uploaded!</span>
+              <span className='text-green-200'> image uploaded</span>
             ) : (
               ''
             )}
           </p>
-        </div>
-        <select
-          className='signup-select'
-          id='role'
-          onChange={handleChange}
-          required
-        >
-          <option value=''>Select Role</option>
-          <option value='admin'>Admin</option>
-          <option value='landlord'>Landlord</option>
-          <option value='user'>User</option>
-        </select>
+        </div>        
+        
         <div className="signup-input">
           <img src={user_password} alt="password icon" />
           <input
             type='password'
-            placeholder='password'
+            placeholder='Password'
             id='password'
+            value={formData.password} // Ensure password is controlled
             onChange={handleChange}
+            required
           />
         </div>
         

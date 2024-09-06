@@ -110,7 +110,23 @@
     }
 
     .signup-error {
-        color: #ef4444; // Tailwind red-500
+        color: #2cd80a; // Tailwind red-500
         margin-top: 1.25rem;
+    }
+
+    .avatar-upload-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        
+        .profile-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            background-color: #eaeaea;
+        }
     }
 }

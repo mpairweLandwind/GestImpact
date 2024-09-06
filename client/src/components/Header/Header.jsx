@@ -1,25 +1,34 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { BiMenuAltRight } from "react-icons/bi";
-import { getMenuStyles } from "../../utils/common";
-import useHeaderColor from "../../hooks/useHeaderColor";
+import { useNavigate, Link, NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import OutsideClickHandler from "react-outside-click-handler";
-import { Link, NavLink, useNavigate } from "react-router-dom";
 import ProfileMenu from "../ProfileMenu/ProfileMenu";
 import AddPropertyModal from "../AddPropertyModal/AddPropertyModal";
 import AddMaintenanceModal from "../AddMaintenanceModal/AddMaintenanceModal";
-import { useTranslation } from "react-i18next";
+import useHeaderColor from "../../hooks/useHeaderColor";
+import { getMenuStyles } from "../../utils/common";
+import { logout } from "../../utils/api";
 import i18next from "i18next";
 import "./Header.css";
+import UserDetailContext from "../../context/UserDetailContext"; // Import the context
+
 
 const Header = () => {
   const [menuOpened, setMenuOpened] = useState(false);
   const [propertyModalOpened, setPropertyModalOpened] = useState(false);
   const [maintenanceModalOpened, setMaintenanceModalOpened] = useState(false);
   const headerColor = useHeaderColor();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
-  const { i18n, t } = useTranslation(["common"]);
+  const { i18n, t } = useTranslation(["common"]); // Translation hook
   const navigate = useNavigate(); // Hook for navigating routes
+
+  // Access user details and authentication state from the context
+  const { userDetails, setUserDetails } = useContext(UserDetailContext);
+  const isAuthenticated = !!userDetails.token;
+  const user = {
+    email: userDetails.email,
+    image: userDetails.image,
+  };
 
   useEffect(() => {
     const savedLanguage = localStorage.getItem("i18nextLng");
@@ -27,14 +36,20 @@ const Header = () => {
       i18next.changeLanguage("en");
     }
 
-    // Check if the user is already authenticated (e.g., token exists)
-    const token = localStorage.getItem("authToken");
+    // Check if the user is already authenticated from localStorage
+    const token = localStorage.getItem("token");
+    const email = localStorage.getItem("userEmail");
+    const image = localStorage.getItem("userImage");
+
     if (token) {
-      setIsAuthenticated(true);
-      const storedUser = JSON.parse(localStorage.getItem("user"));
-      setUser(storedUser);
+      // Update the userDetails in the context
+      setUserDetails({
+        token,
+        email,
+        image,
+      });
     }
-  }, []);
+  }, [setUserDetails]);
 
   const handleLanguageChange = (e) => {
     const newLanguage = e.target.value;
@@ -58,39 +73,24 @@ const Header = () => {
     }
   };
 
-  // Custom login function
-  const login = async (credentials) => {
+  const handleLogout = async () => {
     try {
-      const response = await fetch("/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(credentials),
+      // Call the logout function from util.api.js
+      await logout();
+
+      // Clear user details in the context and localStorage
+      setUserDetails({
+        favourites: [],
+        bookings: [],
+        token: null,
+        email: "",
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        // Store token and user in localStorage
-        localStorage.setItem("authToken", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
-        setIsAuthenticated(true);
-        setUser(data.user);
-        navigate("/"); // Redirect to homepage after login
-      } else {
-        console.error("Login failed.");
-      }
+      // Navigate to the sign-in page
+      navigate("/sign-in");
     } catch (error) {
-      console.error("Error logging in:", error);
+      console.error("Logout error:", error);
     }
-  };
-
-  const logout = () => {
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("user");
-    setIsAuthenticated(false);
-    setUser(null);
-    navigate("/sign-in"); // Redirect to login page after logout
   };
 
   return (
@@ -132,7 +132,7 @@ const Header = () => {
                 {t("Login")}
               </button>
             ) : (
-              <ProfileMenu user={user} logout={logout} />
+              <ProfileMenu user={user} logout={handleLogout} /> // Pass the user to ProfileMenu
             )}
           </div>
         </OutsideClickHandler>

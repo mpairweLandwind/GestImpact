@@ -4,7 +4,7 @@ import Footer from "../Footer/Footer";
 import { Outlet } from "react-router-dom";
 import { useMutation } from "react-query";
 import { createUser } from "../../utils/api";
-import UserDetailContext from "../../context/UserDetailContext";
+import UserDetailContext from "../../context/UserDetailContext"; // Import the context, not as a function
 import useFavourites from "../../hooks/useFavourites";
 import useBookings from "../../hooks/useBookings";
 
@@ -14,8 +14,9 @@ const Layout = () => {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  // Get token and user email from the custom UserDetailContext
-  const { userEmail, token, setUserDetails } = UserDetailContext();
+  // Use useContext to get the values from UserDetailContext
+  const { userDetails, setUserDetails } = useContext(UserDetailContext);
+  const { email: userEmail, token } = userDetails; // Extract the user email and token from userDetails
 
   // Mutation to create a user
   const { mutate } = useMutation({
@@ -27,7 +28,7 @@ const Layout = () => {
     const registerUser = async () => {
       try {
         if (userEmail && token) {
-          // Setting user details in context (already done in SignIn)
+          // Set user details in context (already done in SignIn)
           setUserDetails((prev) => ({
             ...prev,
             token,

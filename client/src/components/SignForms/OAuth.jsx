@@ -1,13 +1,14 @@
 import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth';
 import { app } from '../firebase';
-import { useDispatch } from 'react-redux';
-import { signInSuccess } from '../redux/user/userSlice';
+import { useContext } from 'react';
+import UserDetailContext from '../../context/UserDetailContext';
 import { useNavigate } from 'react-router-dom';
 import './OAuth.scss';
 
 export default function OAuth() {
-  const dispatch = useDispatch();
+  const { setUserDetails } = useContext(UserDetailContext);
   const navigate = useNavigate();
+
   const handleGoogleClick = async () => {
     try {
       const provider = new GoogleAuthProvider();
@@ -26,21 +27,32 @@ export default function OAuth() {
           photo: result.user.photoURL,
         }),
       });
+
       const data = await res.json();
-      dispatch(signInSuccess(data));
+      
+      // Update user details in context
+      setUserDetails({
+        token: data.token,
+        email: result.user.email,
+        name: result.user.displayName,
+        photo: result.user.photoURL,
+        // You can add more details here as needed
+      });
+
       navigate('/');
     } catch (error) {
-      console.log('could not sign in with google', error);
+      console.log('Could not sign in with Google', error);
     }
   };
+
   return (
     <button
       onClick={handleGoogleClick}
       type='button'
       className='google-signin-btn'
     >
-      <img src="./google_logo.png" alt="" className='logo' />
-      <p className='text'>Continue with google</p>
+      <img src="./google_logo.png" alt="Google logo" className='logo' />
+      <p className='text'>Continue with Google</p>
     </button>
   );
 }

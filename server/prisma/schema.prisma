@@ -22,7 +22,7 @@ model Listing {
   facilities     Json
   image          String[]  
   userEmail      String  
-  user           User            @relation("Owner", fields: [userEmail], references: [ email])
+  user           User?            @relation("Owner", fields: [userEmail], references: [ email])
   createdAt      DateTime        @default(now())
  
   approvalStatus ApprovalStatus  @default(DISAPPROVED)
@@ -71,7 +71,7 @@ model Maintenance {
   condition            PropertyCondition // Current condition of the property
   maintenanceSchedule  String          // Schedule for regular maintenance
   userEmail      String  
-  user           User            @relation("Owner", fields: [userEmail], references: [ email])
+  user           User?            @relation("Owner", fields: [userEmail], references: [ email])
   createdAt            DateTime        @default(now())
   transactions         Transaction[]  // Reference to transactions
    

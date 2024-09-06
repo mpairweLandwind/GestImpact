@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import user_password from "../assets/password.png";
-import user_email from "../assets/email.png";
-import OAuth from '../components/OAuth';
-import { useUserDetailContext } from '../context/UserDetailContext';
-import { signInUser } from '../../utils/api';
+import user_password from "../../assets/password.png";
+import user_email from '../../assets/email.png';
+import OAuth from './OAuth';
+import UserDetailContext from '../../context/UserDetailContext.js'; // Import the context
+import { signInUser } from '../../utils/api.js';
 import './signIn.scss';
 
 export default function SignIn() {
@@ -13,7 +13,8 @@ export default function SignIn() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const { setUserEmail, setToken } = useUserDetailContext();
+  // Access UserDetailContext to set user details
+  const { setUserDetails } = useContext(UserDetailContext); 
 
   const handleChange = (e) => {
     setFormData({
@@ -28,17 +29,25 @@ export default function SignIn() {
     setError('');
 
     try {
-      // Use the signInUser function from api.util.js
+      // Call signInUser from the API
       const data = await signInUser(formData);
 
       if (data.success && data.token) {
-        setToken(data.token);
-        setUserEmail(data.user.email);
+        // Update context with user details
+        setUserDetails({
+          token: data.token,
+          email: data.user.email,
+          image: data.user.image,
+        });
 
+        // Persist token and user data in localStorage
         localStorage.setItem('token', data.token);
         localStorage.setItem('userEmail', data.user.email);
+        localStorage.setItem('userImage', data.user.image);
 
+        // Refresh the page after successful login
         navigate('/');
+        //window.location.reload(); // Force reload to update Header and other components
       } else {
         setError(data.message || 'Authentication failed');
       }
@@ -94,7 +103,7 @@ export default function SignIn() {
       </form>
       <div className='signin-footer'>
         <p>Forgot your password?</p>
-        <Link to='/sign-up'>
+        <Link to='/reset-password'>
           <span className='signup-link'>Reset Password</span>
         </Link>
       </div>
