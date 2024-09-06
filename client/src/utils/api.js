@@ -251,7 +251,7 @@ export const createUser = async (email, token) => {
       }
     );
   } catch (error) {
-    toast.error("Something went wrong, Please try again");
+    toast.error("Something went wrong while registering user, Please try again");
     throw error;
   }
 };
@@ -273,6 +273,7 @@ export const toFav = async (id, email, token) => {
       }
     );
   } catch (e) {
+    toast.error("Something went wrong while posting favs");
     throw e;
   }
 };
