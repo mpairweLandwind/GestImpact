@@ -1,9 +1,10 @@
 {
 	"home": {
 	  "hero": {
-		"discover": "Découvrir",
-		"most_suitable": "Le Plus Adapté",
-		"property": "Propriété",
+		"explore": "Découvrez des propriétés",
+		"exceptional": "exceptionnelles  et",
+		"and": "Services de maintenance ",
+		"premier": "premier Services",	
 		"find_variety": "Trouvez une variété de propriétés qui vous conviennent très facilement",
 		"forget_difficulties": "Oubliez toutes les difficultés pour trouver une résidence pour vous",
 		"premium_product": "Produit Premium",

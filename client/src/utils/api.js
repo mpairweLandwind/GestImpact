@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 
 
 export const api = axios.create({
-  baseURL: "https://gestimpact-server.vercel.app/api",
+  baseURL: "http://localhost:3000/api",
   //"http://localhost:3000/api"
   // "https://gestimpact-server.vercel.app/api",
 });

@@ -30,9 +30,10 @@ const Hero = ({ t }) => {
                 type: "ease-in",
               }}
             >
-              {t('home.hero.discover')} <br />
-              {t('home.hero.most_suitable')}
-              <br /> {t('home.hero.property')}
+ {t('home.hero.explore')}<br />
+{t('home.hero.properties')}<br /> {t('home.hero.and')} <br />
+{t('home.hero.premier')} <br />
+
             </motion.h1>
           </div>
           <div className="flexColStart secondaryText flexhero-des">
@@ -40,10 +41,15 @@ const Hero = ({ t }) => {
             <span>{t('home.hero.forget_difficulties')}</span>
           </div>
 
-          {/* Wrap SearchBar with its own click handler */}
-          <div style={{ cursor: 'pointer' }}>
-            <SearchBar filter={filter} setFilter={setFilter} onSearchClick={handleSearchClick} />
+         {/* Wrap SearchBar with click handler for navigation */}
+         <div
+            style={{ cursor: 'pointer' }}
+            className="searchbar"
+            onClick={handleSearchClick}
+          >
+            <SearchBar filter={filter} setFilter={setFilter} />
           </div>
+
 
           <div className="flexCenter stats">
             <div className="flexColCenter stat">

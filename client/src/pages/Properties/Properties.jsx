@@ -41,14 +41,20 @@ const Properties = () => {
   const combinedData = [...listings, ...maintenanceRecords];
 
   // Filter the combined data based on the user's input
-  const filteredData = combinedData.filter(
-    (property) =>
-      property.name.toLowerCase().includes(filter.toLowerCase()) ||
-      property.city.toLowerCase().includes(filter.toLowerCase()) ||
-      property.type.toLowerCase().includes(filter.toLowerCase()) ||
-      property.status.toLowerCase().includes(filter.toLowerCase()) ||
-      property.country.toLowerCase().includes(filter.toLowerCase())
-  );
+  const filteredData = combinedData.filter((property) => {
+    const lowerCaseFilter = filter.toLowerCase();
+
+    // Check if any relevant field includes the filter
+    return (
+      (property.name && property.name.toLowerCase().includes(lowerCaseFilter)) ||
+      (property.city && property.city.toLowerCase().includes(lowerCaseFilter)) ||
+      (property.type && property.type.toLowerCase().includes(lowerCaseFilter)) ||
+      (property.status && property.status.toLowerCase().includes(lowerCaseFilter)) ||
+      (property.state && property.state.toLowerCase().includes(lowerCaseFilter)) ||
+      (property.property && property.property.toLowerCase().includes(lowerCaseFilter)) ||
+      (property.country && property.country.toLowerCase().includes(lowerCaseFilter))
+    );
+  });
 
   return (
     <div className="wrapper">

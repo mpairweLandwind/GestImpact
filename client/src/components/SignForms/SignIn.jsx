@@ -99,14 +99,14 @@ export default function SignIn() {
             </button>
           </Link>
         </div>
-        <OAuth />
+        {/* <OAuth /> */}
       </form>
-      <div className='signin-footer'>
+      {/* <div className='signin-footer'>
         <p>Forgot your password?</p>
         <Link to='/reset-password'>
           <span className='signup-link'>Reset Password</span>
         </Link>
-      </div>
+      </div> */}
       {error && <p className='signin-error'>{error}</p>}
     </div>
   );
