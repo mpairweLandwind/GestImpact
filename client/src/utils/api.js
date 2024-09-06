@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 
 
 export const api = axios.create({
-  baseURL: "http://localhost:3000/api",
+  baseURL: "https://gestimpact-server.vercel.app/api",
   //"http://localhost:3000/api"
   // "https://gestimpact-server.vercel.app/api",
 });
@@ -40,12 +40,12 @@ export const logout = async () => {
     localStorage.removeItem("userImage");
     localStorage.clear();
 
-    // Show a success toast message
-    toast.success("Successfully logged out!"); 
+  
+  
 
     console.log('User successfully logged out');
   } catch (error) {
-    toast.error("Failed to log out. Please try again.");
+  
     console.error('Error during logout:', error);
   }
 };
