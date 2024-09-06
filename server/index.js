@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import path from 'path';
+import authRouter from './routes/auth.route.mjs';
 import { residencyRoute } from './routes/residencyRoute.js';
 import emailRoutes from './routes/emailRoute.mjs';
 import maintenanceRoute from './routes/maintenance.route.mjs';
@@ -51,6 +52,7 @@ app.use('/api/listing', listingRouter);
 app.use('/api/paypal', paypalRoutes);
 app.use('/api/maintenance', maintenanceRoute);
 app.use('/api/transactions', transactionRoutes);
+app.use('/api/auth', authRouter);
 app.use('/api/email', emailRoutes);
 
 // Serve static files from the React app

@@ -12,17 +12,17 @@ import {
     getAllFavorites,
     toFav,
   } from "../controllers/user.controller.mjs";
-  import jwtCheck from '../config/auth0Config.js';
+ // import jwtCheck from '../config/auth0Config.js';
 
 
 const router = express.Router();
 
-router.post("/register",jwtCheck,createUser);
-router.post("/bookVisit/:id", jwtCheck, bookVisit);
+router.post("/register",verifyToken,createUser);
+router.post("/bookVisit/:id", verifyToken, bookVisit);
 router.post("/allBookings", getAllBookings);
-router.post("/removeBooking/:id", jwtCheck, cancelBooking);
-router.post("/toFav/:rid", jwtCheck, toFav);
-router.post("/allFav/", jwtCheck, getAllFavorites);
+router.post("/removeBooking/:id", verifyToken, cancelBooking);
+router.post("/toFav/:rid", verifyToken, toFav);
+router.post("/allFav/", verifyToken, getAllFavorites);
 
 
 router.get('/check-email/:email', checkEmail);

@@ -30,6 +30,48 @@ export const getAllProperties = async () => {
   }
 };
 
+
+// Sign-In API Function
+export const signInUser = async (formData) => {
+  try {
+    const response = await api.post('/auth/signin', formData, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error(response.data.message || "Authentication failed");
+    }
+  } catch (error) {
+    console.error("Sign-In failed:", error);
+    toast.error(error.response?.data?.message || "Failed to connect to the server");
+    throw error;
+  }
+};
+
+// Sign Up API
+export const signUpUser = async (formData) => {
+  try {
+    const response = await api.post("/auth/signup", formData, {
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (!response.data.success) {
+      toast.error(response.data.message);
+      return { success: false, message: response.data.message };
+    }
+
+    toast.success("Successfully signed up!");
+    return { success: true };
+  } catch (error) {
+    toast.error("Error signing up");
+    return { success: false, message: error.message };
+  }
+};
+
 // Update a Property
 export const updateProperty = async (id, updatedData, token) => {
   try {

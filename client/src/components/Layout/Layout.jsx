@@ -2,10 +2,9 @@ import { useContext, useEffect, useState } from "react";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { Outlet } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
-import UserDetailContext from "../../context/UserDetailContext";
 import { useMutation } from "react-query";
 import { createUser } from "../../utils/api";
+import UserDetailContext from "../../context/UserDetailContext";
 import useFavourites from "../../hooks/useFavourites";
 import useBookings from "../../hooks/useBookings";
 
@@ -14,53 +13,47 @@ const Layout = () => {
   useBookings();
 
   const [isLoading, setIsLoading] = useState(true);
-  const { isAuthenticated, user, getAccessTokenWithPopup } = useAuth0();
-  const { setUserDetails } = useContext(UserDetailContext);
 
+  // Get token and user email from the custom UserDetailContext
+  const { userEmail, token, setUserDetails } = UserDetailContext();
+
+  // Mutation to create a user
   const { mutate } = useMutation({
-    mutationKey: [user?.email],
-    mutationFn: (token) => createUser(user?.email, token),
+    mutationKey: [userEmail],
+    mutationFn: (token) => createUser(userEmail, token),
   });
 
   useEffect(() => {
-    const getTokenAndRegister = async () => {
+    const registerUser = async () => {
       try {
-        const res = await getAccessTokenWithPopup({
-          authorizationParams: {
-            audience: "http://localhost:3000",
-            scope: "openid profile email",
-          },
-        });
-        console.log("Access Token:", res);
+        if (userEmail && token) {
+          // Setting user details in context (already done in SignIn)
+          setUserDetails((prev) => ({
+            ...prev,
+            token,
+            email: userEmail,
+          }));
 
-        if (user?.email) {
-          console.log("User Email:", user.email);
+          // Mutate to create the user in the backend using the token
+          mutate(token);
         } else {
-          console.log("User Email is undefined or null");
+          console.log("User email or token is missing.");
         }
-
-        // Set both token and email in UserDetailContext
-        setUserDetails((prev) => ({
-          ...prev,
-          token: res,
-          email: user?.email,
-        }));
-        
-        mutate(res);
       } catch (error) {
-        console.error("Error during token retrieval:", error);
+        console.error("Error during user registration:", error);
       } finally {
         setIsLoading(false);
       }
     };
-  
-    if (isAuthenticated) {
-      getTokenAndRegister();
+
+    // Proceed if token and email are available
+    if (userEmail && token) {
+      registerUser();
     } else {
-      setIsLoading(false);
+      setIsLoading(false);  // No user logged in, stop loading
     }
-  }, [isAuthenticated, getAccessTokenWithPopup, mutate, setUserDetails, user?.email]);
-  
+  }, [userEmail, token, mutate, setUserDetails]);
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -77,4 +70,3 @@ const Layout = () => {
 };
 
 export default Layout;
- 

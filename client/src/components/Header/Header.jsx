@@ -1,31 +1,38 @@
 import { useState, useEffect } from "react";
-import "./Header.css";
 import { BiMenuAltRight } from "react-icons/bi";
 import { getMenuStyles } from "../../utils/common";
 import useHeaderColor from "../../hooks/useHeaderColor";
 import OutsideClickHandler from "react-outside-click-handler";
-import { Link, NavLink } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import ProfileMenu from "../ProfileMenu/ProfileMenu";
 import AddPropertyModal from "../AddPropertyModal/AddPropertyModal";
 import AddMaintenanceModal from "../AddMaintenanceModal/AddMaintenanceModal";
-import useAuthCheck from "../../hooks/useAuthCheck.jsx";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
+import "./Header.css";
 
 const Header = () => {
   const [menuOpened, setMenuOpened] = useState(false);
   const [propertyModalOpened, setPropertyModalOpened] = useState(false);
   const [maintenanceModalOpened, setMaintenanceModalOpened] = useState(false);
   const headerColor = useHeaderColor();
-  const { loginWithRedirect, isAuthenticated, user, logout } = useAuth0();
-  const { validateLogin } = useAuthCheck();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
   const { i18n, t } = useTranslation(["common"]);
+  const navigate = useNavigate(); // Hook for navigating routes
 
   useEffect(() => {
     const savedLanguage = localStorage.getItem("i18nextLng");
     if (savedLanguage && savedLanguage.length > 2) {
       i18next.changeLanguage("en");
+    }
+
+    // Check if the user is already authenticated (e.g., token exists)
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      setIsAuthenticated(true);
+      const storedUser = JSON.parse(localStorage.getItem("user"));
+      setUser(storedUser);
     }
   }, []);
 
@@ -36,15 +43,54 @@ const Header = () => {
   };
 
   const handleAddPropertyClick = () => {
-    if (validateLogin()) {
+    if (isAuthenticated) {
       setPropertyModalOpened(true);
+    } else {
+      navigate("/sign-in");
     }
   };
 
   const handleAddMaintenanceClick = () => {
-    if (validateLogin()) {
+    if (isAuthenticated) {
       setMaintenanceModalOpened(true);
+    } else {
+      navigate("/sign-in");
     }
+  };
+
+  // Custom login function
+  const login = async (credentials) => {
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(credentials),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        // Store token and user in localStorage
+        localStorage.setItem("authToken", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        setIsAuthenticated(true);
+        setUser(data.user);
+        navigate("/"); // Redirect to homepage after login
+      } else {
+        console.error("Login failed.");
+      }
+    } catch (error) {
+      console.error("Error logging in:", error);
+    }
+  };
+
+  const logout = () => {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("user");
+    setIsAuthenticated(false);
+    setUser(null);
+    navigate("/sign-in"); // Redirect to login page after logout
   };
 
   return (
@@ -80,9 +126,9 @@ const Header = () => {
               <option value="es">Español</option>
             </select>
 
-            {/* Login Button */}
+            {/* Login/Logout Button */}
             {!isAuthenticated ? (
-              <button className="button" onClick={loginWithRedirect}>
+              <button className="button" onClick={() => navigate("/sign-in")}>
                 {t("Login")}
               </button>
             ) : (

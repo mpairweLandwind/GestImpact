@@ -10,6 +10,7 @@ import {
   getPropertyStatusPercentages  
 } from '../controllers/listing.controller.mjs';
 import jwtCheck from "../config/auth0Config.js";
+import { verifyToken } from '../utils/verifyUser.mjs';
 
 // Middleware to check if the user has the required role
 const requireRole = (role) => (req, res, next) => {
@@ -22,9 +23,9 @@ const requireRole = (role) => (req, res, next) => {
 const router = express.Router();
 
 // Routes with verifyToken middleware
-router.post('/create', jwtCheck, createListing);
-router.delete('/delete/:id', jwtCheck, deleteListing);
-router.put('/update/:id', jwtCheck, updateProperty);
+router.post('/create', verifyToken, createListing);
+router.delete('/delete/:id', verifyToken, deleteListing);
+router.put('/update/:id', verifyToken, updateProperty);
 router.get('/property-status-percentages', getPropertyStatusPercentages);
 router.get("/listings", getAllResidencies);
 router.get('/:id', getListing);
