@@ -1,0 +1,45 @@
+{
+    "edit_property": {
+      "title": "Edit Property",
+      "name": "Property Name",
+      "description": "Description",
+      "country": "Country",
+      "city": "City",
+      "address": "Address",
+      "bathrooms": "Bathrooms",
+      "bedrooms": "Bedrooms",
+      "parkings": "Parking Spaces",
+      "regular_price": "Regular Price ($)",
+      "discount_price": "Discount Price ($)",
+      "status": "Status",
+      "maintenance_charge": "Maintenance Charge ($)",
+      "size": "Size (sqft)",
+      "type": "Property Type",
+      "state": "State",
+      "furnished": "Furnished",
+      "parking": "Parking Available",
+      "offer": "Special Offer",
+      "save_changes": "Save Changes",
+      "cancel": "Cancel"
+    },
+    "status": {
+      "available": "Available",
+      "occupied": "Occupied",
+      "under_contract": "Under Contract",
+      "for_sale": "For Sale"
+    },
+    "property_type": {
+      "residential": "Residential",
+      "commercial": "Commercial"
+    },
+    "state": {
+      "unoccupied": "Unoccupied",
+      "rented": "Rented",
+      "under_maintenance": "Under Maintenance",
+      "under_sale": "Under Sale"
+    },
+    "error": {
+      "not_authenticated": "User is not authenticated."
+    }
+  }
+  

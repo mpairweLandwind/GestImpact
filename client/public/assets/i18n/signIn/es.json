@@ -1,0 +1,12 @@
+{
+    "signIn": {
+      "title": "Iniciar Sesión",
+      "email_placeholder": "Correo electrónico",
+      "password_placeholder": "Contraseña",
+      "button": "Iniciar Sesión",
+      "signup_link": "¿No tienes una cuenta? Regístrate",
+      "loading": "Iniciando sesión...",
+      "error": "No se puede iniciar sesión. Inténtalo de nuevo."
+    }
+  }
+  

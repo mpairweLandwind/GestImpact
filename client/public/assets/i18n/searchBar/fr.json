@@ -1,7 +1,8 @@
 {
 
-	"searchBar": {
-	  "placeholder": "Rechercher par titre/ville/région/type...",
-	  "search_button": "Rechercher"
+	"searchBar": {	
+			"search_placeholder": "Rechercher par titre/ville/région/type...",
+			"search_button": "Rechercher"
+		 
 	}
 }

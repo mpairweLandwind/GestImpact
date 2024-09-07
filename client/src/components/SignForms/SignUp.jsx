@@ -4,25 +4,20 @@ import OAuth from './OAuth';
 import user_icon from "../../assets/person.png";
 import user_password from "../../assets/password.png";
 import user_email from '../../assets/email.png';
-import { signUpUser } from '../../utils/api.js';  // Import the API utility
+import { signUpUser } from '../../utils/api.js'; 
 import './signUp.scss';
-import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable,
-} from 'firebase/storage';
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../firebase';
-
-// Importing react-toastify components
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useTranslation } from 'react-i18next'; // Import useTranslation
 
 export default function SignUp() {
+  const { t } = useTranslation('signUp'); // Initialize translation for signUp namespace
   const [formData, setFormData] = useState({
-    email: '', // Ensure email field is initialized
+    email: '', 
     password: '',
-    image: '',  // Default image value
+    image: '', 
   });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -46,19 +41,19 @@ export default function SignUp() {
       },
       () => {
         setFileUploadError(true);
-        toast.error('Error uploading image!');
+        toast.error(t('signUp.file_upload_error'));
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setFormData((prevFormData) => ({
             ...prevFormData,
-            image: downloadURL,  // Change from 'avatar' to 'image'
+            image: downloadURL,
           }));
-          toast.success('Image uploaded successfully!');
+          toast.success(t('signUp.file_upload_success'));
         });
       }
     );
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     if (file) {
@@ -69,7 +64,7 @@ export default function SignUp() {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.id]: e.target.value, // Update the state with the input value
+      [e.target.id]: e.target.value, 
     });
   };
 
@@ -78,11 +73,10 @@ export default function SignUp() {
     setLoading(true);
   
     try {
-      // Only send email, image, and password to the API
       const { email, image, password } = formData;
   
       if (!email || !password) {
-        setError('Email and password are required');
+        setError(t('signUp.error_missing_fields'));
         setLoading(false);
         return;
       }
@@ -90,30 +84,27 @@ export default function SignUp() {
       const result = await signUpUser({ email, image, password });
   
       if (result.success) {
-        toast.success("Sign up successful! Redirecting to sign-in...");
-           // Store in localStorage
-      localStorage.setItem('userEmail', email);
-      localStorage.setItem('userImage', image);
-        // Delay navigation by 7 seconds
+        toast.success(t('signUp.success'));
+        localStorage.setItem('userEmail', email);
+        localStorage.setItem('userImage', image);
         setTimeout(() => {
           navigate('/sign-in');
-        }, 7000); // 7000 milliseconds = 7 seconds
+        }, 7000); 
       } else {
         setError(result.message);
       }
     } catch (err) {
-      setError('An error occurred during registration');
+      setError(t('signUp.error'));
     } finally {
       setLoading(false);
     }
   };
-  
 
   return (
     <div className='signup-container'>
-      <ToastContainer /> {/* This is where the toast will appear */}
+      <ToastContainer />
       <div className="title">
-        <h1 className='signup-title'>Sign Up</h1>
+        <h1 className='signup-title'>{t('signUp.title')}</h1>
         <div className="underline"></div>
       </div>
       <form onSubmit={handleSubmit} className='signup-form'>
@@ -122,9 +113,9 @@ export default function SignUp() {
           <img src={user_email} alt="email icon" />
           <input
             type='email'
-            placeholder='Email'
+            placeholder={t('signUp.email_placeholder')}
             id='email'
-            value={formData.email} // Ensure email is controlled
+            value={formData.email}
             onChange={handleChange}
             required
           />
@@ -140,22 +131,22 @@ export default function SignUp() {
               onChange={(e) => setFile(e.target.files[0])}
             />
             <img
-              src={formData.image || user_icon} // Use 'image' or default icon
+              src={formData.image || user_icon}
               alt='profile'
               onClick={() => fileRef.current.click()}
               className='profile-image'
             />
-            <span className='text-slate-700 cursor-pointer' onClick={() => fileRef.current.click()}>
-              Upload Photo
+            <span onClick={() => fileRef.current.click()}>
+              {t('signUp.upload_photo')}
             </span>
           </div>
-          <p className='text-sm self-center'>
+          <p>
             {fileUploadError ? (
-              <span className='text-red-700'>Error Image upload (image must be less than 2 MB)</span>
+              <span>{t('signUp.error_file_upload')}</span>
             ) : filePerc > 0 && filePerc < 100 ? (
-              <span className='text-slate-700'>{`Uploading ${filePerc}%`}</span>
+              <span>{`${t('signUp.uploading')} ${filePerc}%`}</span>
             ) : filePerc === 100 ? (
-              <span className='text-green-200'> image uploaded</span>
+              <span>{t('signUp.file_upload_done')}</span>
             ) : (
               ''
             )}
@@ -166,9 +157,9 @@ export default function SignUp() {
           <img src={user_password} alt="password icon" />
           <input
             type='password'
-            placeholder='Password'
+            placeholder={t('signUp.password_placeholder')}
             id='password'
-            value={formData.password} // Ensure password is controlled
+            value={formData.password}
             onChange={handleChange}
             required
           />
@@ -179,15 +170,15 @@ export default function SignUp() {
             disabled={loading}
             className='signup-button'
           >
-            {loading ? 'Loading...' : 'Register'}
+            {loading ? t('signUp.loading') : t('signUp.button')}
           </button>
         </div>
         <OAuth />
       </form>
       <div className='account-info'>
-        <p>Have an account?</p>
+        <p>{t('signUp.account_info')}</p>
         <Link to={'/sign-in'}>
-          <span className='signin-link'>Sign in</span>
+          <span>{t('signUp.signin_link')}</span>
         </Link>
       </div>
       {error && <p className='signup-error'>{error}</p>}

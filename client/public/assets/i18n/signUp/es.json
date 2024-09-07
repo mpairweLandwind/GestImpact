@@ -1,0 +1,21 @@
+{   
+    "signUp": {
+      "title": "Registrarse",
+      "email_placeholder": "Correo electrónico",
+      "password_placeholder": "Contraseña",
+      "upload_photo": "Subir Foto",
+      "uploading": "Subiendo...",
+      "file_upload_done": "Subida de archivo completada",
+      "file_upload_error": "Error al subir el archivo. Inténtalo de nuevo.",
+      "file_upload_success": "¡Archivo subido con éxito!",
+      "button": "Registrarse",
+      "loading": "Registrando...",
+      "error": "No se puede registrar. Inténtalo de nuevo.",
+      "error_missing_fields": "Por favor complete todos los campos.",
+      "error_file_upload": "Falló la carga del archivo.",
+      "account_info": "¿Ya tienes una cuenta?",
+      "signin_link": "Iniciar Sesión",
+      "success": "¡Registro exitoso! Redirigiendo a iniciar sesión..."
+    }
+  }
+  

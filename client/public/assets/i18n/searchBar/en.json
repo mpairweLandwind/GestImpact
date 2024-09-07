@@ -1,7 +1,10 @@
 {
     "searchBar": {
-		"placeholder": "Search by title/city/region/type...",
-		"search_button": "Search"
+	
+			"search_placeholder": "Search by title/city/region/type...",
+			"search_button": "Search"
+		  
+		  
 	  }
 
 }

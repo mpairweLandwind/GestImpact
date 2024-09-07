@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useForm } from '@mantine/form';
+import { useTranslation } from 'react-i18next';  // Import useTranslation
 import UploadImage1 from '../UploadImage/UploadImage1';
 import {
   TextInput,
@@ -14,15 +15,14 @@ import {
   Title,
 } from '@mantine/core';
 import { updateProperty } from '../../utils/api';
-import { useAuth0 } from "@auth0/auth0-react";
 import UserDetailContext from "../../context/UserDetailContext";
 
 const EditPropertyForm = ({ propertyData, onCancel }) => {
+  const { t } = useTranslation("edit_property"); // Initialize translation hook
   const [loading, setLoading] = useState(false);
   const [uploadedImages, setUploadedImages] = useState(propertyData?.images || []);
   
-  const { userDetails, setUserDetails } = useContext(UserDetailContext);
-  const { isAuthenticated, getAccessTokenSilently, user } = useAuth0();
+  const { userDetails } = useContext(UserDetailContext);
 
   const form = useForm({
     initialValues: {
@@ -35,7 +35,6 @@ const EditPropertyForm = ({ propertyData, onCancel }) => {
       address: propertyData?.address || '',
       city: propertyData?.city || '',
       country: propertyData?.country || '',
-      // Facilities fields grouped under facilities object
       facilities: {
         bathrooms: propertyData?.facilities?.bathrooms || 0,
         bedrooms: propertyData?.facilities?.bedrooms || 0,
@@ -51,45 +50,20 @@ const EditPropertyForm = ({ propertyData, onCancel }) => {
     },
   });
 
-  useEffect(() => {
-    const fetchToken = async () => {
-      if (!userDetails.token || !userDetails.email) {
-        if (isAuthenticated) {
-          try {
-            const token = await getAccessTokenSilently({
-              authorizationParams: {
-                audience: "http://localhost:3000", // Adjust if needed
-                scope: "openid profile email",
-              },
-            });
-            setUserDetails({
-              token,
-              email: user.email,
-            });
-          } catch (error) {
-            console.error("Error fetching token:", error);
-          }
-        }
-      }
-    };
-
-    fetchToken();
-  }, [isAuthenticated, getAccessTokenSilently, userDetails, setUserDetails, user]);
-
   const handleSubmit = async (values) => {
     setLoading(true);
     try {
       if (!userDetails.token) {
-        throw new Error('User is not authenticated.');
+        throw new Error(t('error.not_authenticated')); // Translated error message
       }
 
       const dataToSubmit = {
         ...values,
-        facilities: { ...values.facilities },  // Pass facilities as a JSON object
+        facilities: { ...values.facilities },
         images: uploadedImages,
       };
 
-      await updateProperty(propertyData.id, dataToSubmit, userDetails.token); // Pass token here
+      await updateProperty(propertyData.id, dataToSubmit, userDetails.token);
       onCancel();
     } catch (error) {
       console.error(error);
@@ -103,29 +77,29 @@ const EditPropertyForm = ({ propertyData, onCancel }) => {
 
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
-      <Title order={3} align="center" mb="md">Edit Property</Title>
+      <Title order={3} align="center" mb="md">{t('edit_property.title')}</Title> {/* Translated title */}
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <SimpleGrid cols={2} spacing="md">
-          <TextInput label="Property Name" {...form.getInputProps('name')} required />
-          <Textarea label="Description" {...form.getInputProps('description')} required />
-          <TextInput label="Country" {...form.getInputProps('country')} required />
-          <TextInput label="City" {...form.getInputProps('city')} required />
-          <TextInput label="Address" {...form.getInputProps('address')} required />
-          <NumberInput label="Bathrooms" {...form.getInputProps('facilities.bathrooms')} required />
-          <NumberInput label="Bedrooms" {...form.getInputProps('facilities.bedrooms')} />
-          <NumberInput label="Parking Spaces" {...form.getInputProps('facilities.parkings')} />
+          <TextInput label={t('edit_property.name')} {...form.getInputProps('name')} required /> {/* Translated */}
+          <Textarea label={t('edit_property.description')} {...form.getInputProps('description')} required /> {/* Translated */}
+          <TextInput label={t('edit_property.country')} {...form.getInputProps('country')} required /> {/* Translated */}
+          <TextInput label={t('edit_property.city')} {...form.getInputProps('city')} required /> {/* Translated */}
+          <TextInput label={t('edit_property.address')} {...form.getInputProps('address')} required /> {/* Translated */}
+          <NumberInput label={t('edit_property.bathrooms')} {...form.getInputProps('facilities.bathrooms')} required /> {/* Translated */}
+          <NumberInput label={t('edit_property.bedrooms')} {...form.getInputProps('facilities.bedrooms')} /> {/* Translated */}
+          <NumberInput label={t('edit_property.parkings')} {...form.getInputProps('facilities.parkings')} /> {/* Translated */}
 
           {isStatusDefined && (
             <>
-              <NumberInput label="Regular Price ($)" {...form.getInputProps('regularPrice')} required />
-              <NumberInput label="Discount Price ($)" {...form.getInputProps('discountPrice')} />
+              <NumberInput label={t('edit_property.regular_price')} {...form.getInputProps('regularPrice')} required /> {/* Translated */}
+              <NumberInput label={t('edit_property.discount_price')} {...form.getInputProps('discountPrice')} /> {/* Translated */}
               <Select
-                label="Status"
+                label={t('edit_property.status')}
                 data={[
-                  { value: 'available', label: 'Available' },
-                  { value: 'occupied', label: 'Occupied' },
-                  { value: 'under_contract', label: 'Under Contract' },
-                  { value: 'for_sale', label: 'For Sale' },
+                  { value: 'available', label: t('status.available') },
+                  { value: 'occupied', label: t('status.occupied') },
+                  { value: 'under_contract', label: t('status.under_contract') },
+                  { value: 'for_sale', label: t('status.for_sale') },
                 ]}
                 {...form.getInputProps('status')}
                 required
@@ -135,24 +109,24 @@ const EditPropertyForm = ({ propertyData, onCancel }) => {
 
           {isStateDefined && (
             <>
-              <NumberInput label="Maintenance Charge ($)" {...form.getInputProps('maintenanceCharge')} />
-              <NumberInput label="Size (sqft)" {...form.getInputProps('size')} required />
+              <NumberInput label={t('edit_property.maintenance_charge')} {...form.getInputProps('maintenanceCharge')} />
+              <NumberInput label={t('edit_property.size')} {...form.getInputProps('size')} required /> {/* Translated */}
               <Select
-                label="Property Type"
+                label={t('edit_property.type')}
                 data={[
-                  { value: 'residential', label: 'Residential' },
-                  { value: 'commercial', label: 'Commercial' },
+                  { value: 'residential', label: t('property_type.residential') },
+                  { value: 'commercial', label: t('property_type.commercial') },
                 ]}
                 {...form.getInputProps('type')}
                 required
               />
               <Select
-                label="State"
+                label={t('edit_property.state')}
                 data={[
-                  { value: 'UNOCCUPIED', label: 'Unoccupied' },
-                  { value: 'RENTED', label: 'Rented' },
-                  { value: 'UNDER_MAINTENANCE', label: 'Under Maintenance' },
-                  { value: 'UNDER_SALE', label: 'Under Sale' },
+                  { value: 'UNOCCUPIED', label: t('state.unoccupied') },
+                  { value: 'RENTED', label: t('state.rented') },
+                  { value: 'UNDER_MAINTENANCE', label: t('state.under_maintenance') },
+                  { value: 'UNDER_SALE', label: t('state.under_sale') },
                 ]}
                 {...form.getInputProps('state')}
               />
@@ -160,18 +134,18 @@ const EditPropertyForm = ({ propertyData, onCancel }) => {
           )}
 
           {/* Facilities checkboxes */}
-          <Checkbox label="Furnished" {...form.getInputProps('facilities.furnished', { type: 'checkbox' })} />
-          <Checkbox label="Parking Available" {...form.getInputProps('facilities.parking', { type: 'checkbox' })} />
-          <Checkbox label="Special Offer" {...form.getInputProps('facilities.offer', { type: 'checkbox' })} />
+          <Checkbox label={t('edit_property.furnished')} {...form.getInputProps('facilities.furnished', { type: 'checkbox' })} />
+          <Checkbox label={t('edit_property.parking')} {...form.getInputProps('facilities.parking', { type: 'checkbox' })} />
+          <Checkbox label={t('edit_property.offer')} {...form.getInputProps('facilities.offer', { type: 'checkbox' })} />
 
           <UploadImage1 uploadedImages={uploadedImages} setUploadedImages={setUploadedImages} />
         </SimpleGrid>
         <Group position="center" mt="md">
           <Button type="submit" variant="filled" color="blue" loading={loading}>
-            Save Changes
+            {t('edit_property.save_changes')} {/* Translated */}
           </Button>
           <Button variant="outline" color="red" onClick={onCancel}>
-            Cancel
+            {t('edit_property.cancel')} {/* Translated */}
           </Button>
         </Group>
       </form>

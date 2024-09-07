@@ -1,0 +1,22 @@
+{
+   
+    "signUp": {
+      "title": "S'inscrire",
+      "email_placeholder": "Email",
+      "password_placeholder": "Mot de passe",
+      "upload_photo": "Télécharger une photo",
+      "uploading": "Téléchargement...",
+      "file_upload_done": "Téléchargement terminé",
+      "file_upload_error": "Erreur lors du téléchargement du fichier. Veuillez réessayer.",
+      "file_upload_success": "Fichier téléchargé avec succès!",
+      "button": "S'inscrire",
+      "loading": "Inscription en cours...",
+      "error": "Impossible de s'inscrire. Veuillez réessayer.",
+      "error_missing_fields": "Veuillez remplir tous les champs.",
+      "error_file_upload": "Échec du téléchargement du fichier.",
+      "account_info": "Vous avez déjà un compte?",
+      "signin_link": "Se Connecter",
+      "success": "Inscription réussie! Redirection vers la connexion..."
+    }
+  }
+  

@@ -1,0 +1,12 @@
+{
+    "signIn": {
+      "title": "Sign In",
+      "email_placeholder": "Email",
+      "password_placeholder": "Password",
+      "button": "Sign In",
+      "signup_link": "Don't have an account? Sign Up",
+      "loading": "Signing In...",
+      "error": "Unable to sign in. Please try again."
+    }
+  }
+  

@@ -1,0 +1,12 @@
+{
+    "signIn": {
+      "title": "Se Connecter",
+      "email_placeholder": "Email",
+      "password_placeholder": "Mot de passe",
+      "button": "Se Connecter",
+      "signup_link": "Pas de compte? Inscrivez-vous",
+      "loading": "Connexion en cours...",
+      "error": "Impossible de se connecter. Veuillez réessayer."
+    }
+  }
+  

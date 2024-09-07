@@ -70,6 +70,7 @@ const Header = () => {
       setMaintenanceModalOpened(true);
     } else {
       navigate("/sign-in");
+      //navigate("/sign-in");
     }
   };
 
@@ -87,7 +88,7 @@ const Header = () => {
       });
 
       // Navigate to the sign-in page
-      navigate("/sign-in");
+      navigate("/");
     } catch (error) {
       console.error("Logout error:", error);
     }

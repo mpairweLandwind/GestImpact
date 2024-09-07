@@ -1,0 +1,45 @@
+{
+    "edit_property": {
+      "title": "Editar Propiedad",
+      "name": "Nombre de la Propiedad",
+      "description": "Descripción",
+      "country": "País",
+      "city": "Ciudad",
+      "address": "Dirección",
+      "bathrooms": "Baños",
+      "bedrooms": "Dormitorios",
+      "parkings": "Espacios de estacionamiento",
+      "regular_price": "Precio Regular ($)",
+      "discount_price": "Precio con Descuento ($)",
+      "status": "Estado",
+      "maintenance_charge": "Costo de Mantenimiento ($)",
+      "size": "Tamaño (pies cuadrados)",
+      "type": "Tipo de Propiedad",
+      "state": "Estado",
+      "furnished": "Amueblado",
+      "parking": "Estacionamiento Disponible",
+      "offer": "Oferta Especial",
+      "save_changes": "Guardar Cambios",
+      "cancel": "Cancelar"
+    },
+    "status": {
+      "available": "Disponible",
+      "occupied": "Ocupada",
+      "under_contract": "Bajo Contrato",
+      "for_sale": "En Venta"
+    },
+    "property_type": {
+      "residential": "Residencial",
+      "commercial": "Comercial"
+    },
+    "state": {
+      "unoccupied": "Desocupado",
+      "rented": "Alquilado",
+      "under_maintenance": "En Mantenimiento",
+      "under_sale": "En Venta"
+    },
+    "error": {
+      "not_authenticated": "El usuario no está autenticado."
+    }
+  }
+  

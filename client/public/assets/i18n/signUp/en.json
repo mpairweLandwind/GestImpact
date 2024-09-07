@@ -1,0 +1,21 @@
+{
+        "signUp": {
+      "title": "Sign Up",
+      "email_placeholder": "Email",
+      "password_placeholder": "Password",
+      "upload_photo": "Upload Photo",
+      "uploading": "Uploading...",
+      "file_upload_done": "File upload complete",
+      "file_upload_error": "Error uploading file. Please try again.",
+      "file_upload_success": "File uploaded successfully!",
+      "button": "Sign Up",
+      "loading": "Signing Up...",
+      "error": "Unable to sign up. Please try again.",
+      "error_missing_fields": "Please fill all fields.",
+      "error_file_upload": "File upload failed.",
+      "account_info": "Already have an account?",
+      "signin_link": "Sign In",
+      "success": "Sign-up successful! Redirecting to sign-in..."
+    }
+  }
+  
