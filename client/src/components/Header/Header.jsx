@@ -94,6 +94,14 @@ const Header = () => {
     }
   };
 
+  // Scroll to the Contact section
+  const handleScrollToContact = () => {
+    const contactSection = document.getElementById("contact-us");
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <section className="h-wrapper" style={{ background: headerColor }}>
       <div className="flexCenter innerWidth paddings h-container">
@@ -106,7 +114,10 @@ const Header = () => {
         <OutsideClickHandler onOutsideClick={() => setMenuOpened(false)}>
           <div className="flexCenter h-menu" style={getMenuStyles(menuOpened)}>
             <NavLink to="/properties">{t("Properties")}</NavLink>
-            <a href="mailto:alienyuyen@gmail.com">{t("Contact Us")} </a>
+           {/* Link for Contact Us */}
+           <div onClick={handleScrollToContact} className="menu-link">
+              {t("Contact Us")}
+            </div>
 
             {/* Add Maintenance */}
             <div onClick={handleAddMaintenanceClick}>{t("Maintenance")}</div>

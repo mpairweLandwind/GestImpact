@@ -35,7 +35,9 @@
       "video_call": "Video Call",
       "video_call_now": "Video Call Now",
       "message": "Message",
-      "message_now": "Message Now"
+      "message_now": "Message Now",
+	   "email": "Email",
+      "email_now": "Send Email"
     },
 	  "get_started": {
 		"get_started_title": "Get started with GestImpact",

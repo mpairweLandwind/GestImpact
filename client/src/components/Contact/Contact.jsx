@@ -1,17 +1,17 @@
 import "./Contact.css";
-import { MdCall } from "react-icons/md";
+import { MdCall, MdEmail } from "react-icons/md"; // Import email icon
 import { BsFillChatDotsFill } from "react-icons/bs";
 import { HiChatBubbleBottomCenter } from 'react-icons/hi2';
 import PropTypes from "prop-types";
 
-const Contact = ({ t }) => {
+const Contact = ({ t, contactRef }) => {
 
   // WhatsApp Business API link format
   const phoneNumber = "2112314514"; // Example phone number without spaces
   const whatsappBaseUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}`;
 
   return (
-    <div id="contact-us" className="c-wrapper">
+    <div id="contact-us" className="c-wrapper " ref={contactRef}>
       <div className="paddings innerWidth flexCenter c-container">
         {/* left side */}
         <div className="flexColStart c-left">
@@ -89,6 +89,23 @@ const Contact = ({ t }) => {
               </div>
             </div>
           </div>
+
+          {/* Email Section */}
+          <div className="flexColCenter mode email-section">
+            <div className="flexStart">
+              <div className="flexCenter icon">
+                <MdEmail size={25} />
+              </div>
+              <div className="flexColStart detail">
+                <span className="primaryText">{t('home.contact.email')}</span>
+                <span className="secondaryText">alienyuyen@gmail.com</span>
+              </div>
+            </div>
+            <span className="flexCenter button">
+              {t('home.contact.email_now')}
+            </span>
+          </div>
+
         </div>
 
         {/* right side */}

@@ -34,7 +34,9 @@
 		"video_call": "Videollamada",
 		"video_call_now": "Videollama Ahora",
 		"message": "Mensaje",
-		"message_now": "Envía un Mensaje"
+		"message_now": "Envía un Mensaje",
+	 	"email": "Correo electrónico",
+        "email_now": "Enviar correo"
 	  },
 	  "get_started": {
 		"get_started_title": "Comienza con GestImpact",

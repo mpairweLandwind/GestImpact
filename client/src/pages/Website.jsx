@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react';
 import Companies from "../components/Companies/Companies";
 import Contact from "../components/Contact/Contact";
 import GetStarted from "../components/GetStarted/GetStarted";
@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 
 const Website = () => {
   const { t } = useTranslation(["home"]);
+  const contactRef = useRef(null);
   return (
     <div className="App">
     <div>
@@ -20,7 +21,7 @@ const Website = () => {
     <Companies t={t} />
     <Residencies t={t} />
     <Value t={t} />
-    <Contact t={t} />
+    <Contact t={t} contactRef={contactRef} />
     <GetStarted t={t} />
   </div>
   )
