@@ -4,9 +4,11 @@ import { BsFillChatDotsFill } from "react-icons/bs";
 import { HiChatBubbleBottomCenter } from 'react-icons/hi2';
 import PropTypes from "prop-types";
 
+const Contact = ({ t }) => {
 
-const Contact = ({t}) => {
- 
+  // WhatsApp Business API link format
+  const phoneNumber = "2112314514"; // Example phone number without spaces
+  const whatsappBaseUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}`;
 
   return (
     <div id="contact-us" className="c-wrapper">
@@ -33,7 +35,9 @@ const Contact = ({t}) => {
                     <span className="secondaryText">021 123 145 14</span>
                   </div>
                 </div>
-                <div className="flexCenter button">{t('home.contact.call_now')}</div>
+                <a href={`${whatsappBaseUrl}&text=${t('home.contact.call_now')}`} className="flexCenter button">
+                  {t('home.contact.call_now')}
+                </a>
               </div>
 
               <div className="flexColCenter mode">
@@ -46,7 +50,9 @@ const Contact = ({t}) => {
                     <span className="secondaryText">021 123 145 14</span>
                   </div>
                 </div>
-                <div className="flexCenter button">{t('home.contact.chat_now')}</div>
+                <a href={`${whatsappBaseUrl}&text=${t('home.contact.chat_now')}`} className="flexCenter button">
+                  {t('home.contact.chat_now')}
+                </a>
               </div>
             </div>
 
@@ -62,7 +68,9 @@ const Contact = ({t}) => {
                     <span className="secondaryText">021 123 145 14</span>
                   </div>
                 </div>
-                <div className="flexCenter button">{t('home.contact.video_call_now')}</div>
+                <a href={`${whatsappBaseUrl}&text=${t('home.contact.video_call_now')}`} className="flexCenter button">
+                  {t('home.contact.video_call_now')}
+                </a>
               </div>
 
               <div className="flexColCenter mode">
@@ -75,7 +83,9 @@ const Contact = ({t}) => {
                     <span className="secondaryText">021 123 145 14</span>
                   </div>
                 </div>
-                <div className="flexCenter button">{t('home.contact.message_now')}</div>
+                <a href={`${whatsappBaseUrl}&text=${t('home.contact.message_now')}`} className="flexCenter button">
+                  {t('home.contact.message_now')}
+                </a>
               </div>
             </div>
           </div>
@@ -91,6 +101,7 @@ const Contact = ({t}) => {
     </div>
   );
 };
+
 Contact.propTypes = {
   t: PropTypes.func.isRequired,
 };
