@@ -141,7 +141,7 @@ export const getAllMaintenances = async () => {
 
     return response.data;
   } catch (error) {
-    toast.error("Failed to fetch maintenance records. Please try again.");
+    //@ts-expect-errortoast.error("Failed to fetch maintenance records. Please try again.");
     throw error;
   }
 };
@@ -251,7 +251,7 @@ export const createUser = async (email, token) => {
       }
     );
   } catch (error) {
-    toast.error("Something went wrong while registering user, Please try again");
+   // toast.error("Something went wrong while registering user, Please try again");
     throw error;
   }
 };
@@ -273,7 +273,7 @@ export const toFav = async (id, email, token) => {
       }
     );
   } catch (e) {
-    toast.error("Something went wrong while posting favs");
+   // toast.error("Something went wrong while posting favs");
     throw e;
   }
 };
@@ -299,7 +299,7 @@ export const getAllFav = async (email, token) => {
 
   }catch(e)
   {
-    toast.error("Something went wrong while fetching favs");
+   // toast.error("Something went wrong while fetching favs");
     throw e
   }
 } 
@@ -325,7 +325,7 @@ export const getAllBookings = async (email, token) => {
  
     
   } catch (error) {
-    toast.error("Something went wrong while fetching bookings");
+    //toast.error("Something went wrong while fetching bookings");
     throw error
   }
 }
