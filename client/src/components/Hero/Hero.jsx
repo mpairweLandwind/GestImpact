@@ -5,10 +5,12 @@ import { motion } from "framer-motion";
 import SearchBar from "../SearchBar/SearchBar";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
-const Hero = ({ t }) => {
+const Hero = () => {
   const [filter, setFilter] = useState('');
   const navigate = useNavigate();
+  const { t } = useTranslation("hero");
 
   const handleSearchClick = () => {
     // Trigger navigation to properties page when search is clicked
@@ -30,15 +32,15 @@ const Hero = ({ t }) => {
                 type: "ease-in",
               }}
             >
- {t('home.hero.explore')}<br />
-{t('home.hero.properties')}<br /> {t('home.hero.and')} <br />
-{t('home.hero.premier')} <br />
+ {t('hero.explore')}<br />
+{t('hero.properties')}<br /> {t('hero.and')} <br />
+{t('hero.premier')} <br />
 
             </motion.h1>
           </div>
           <div className="flexColStart secondaryText flexhero-des">
-            <span>{t('home.hero.find_variety')}</span>
-            <span>{t('home.hero.forget_difficulties')}</span>
+            <span>{t('hero.find_variety')}</span>
+            <span>{t('hero.forget_difficulties')}</span>
           </div>
 
          {/* Wrap SearchBar with click handler for navigation */}
@@ -56,21 +58,21 @@ const Hero = ({ t }) => {
               <span>
                 <CountUp start={8800} end={9000} duration={4} /> <span>+</span>
               </span>
-              <span className="secondaryText">{t('home.hero.premium_product')}</span>
+              <span className="secondaryText">{t('hero.premium_product')}</span>
             </div>
 
             <div className="flexColCenter stat">
               <span>
                 <CountUp start={1950} end={2000} duration={4} /> <span>+</span>
               </span>
-              <span className="secondaryText">{t('home.hero.happy_customer')}</span>
+              <span className="secondaryText">{t('hero.happy_customer')}</span>
             </div>
 
             <div className="flexColCenter stat">
               <span>
                 <CountUp end={28} /> <span>+</span>
               </span>
-              <span className="secondaryText">{t('home.hero.awards_winning')}</span>
+              <span className="secondaryText">{t('hero.awards_winning')}</span>
             </div>
           </div>
         </div>
@@ -86,7 +88,7 @@ const Hero = ({ t }) => {
             }}
             className="image-container"
           >
-            <img src="./bg3.png" alt={t('home.hero.houses_alt')} />
+            <img src="./bg3.png" alt={t('hero.houses_alt')} />
           </motion.div>
         </div>
       </div>

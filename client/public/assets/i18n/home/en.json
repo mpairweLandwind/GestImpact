@@ -1,17 +1,5 @@
 {
-	"home": {
-	  "hero": {
-		"explore": "Explore Exceptional",
-		"properties": "Properties",
-		"and": "and Premier ",
-		"premier": "Maintenance Services",		
-		"find_variety": "Find a variety of properties that suit you very easily",
-		"forget_difficulties": "Forget all difficulties in finding a residence for you",
-		"premium_product": "Premium Product",
-		"happy_customer": "Happy Customer",
-		"awards_winning": "Awards Winning",
-		"houses_alt": "houses"
-	  },
+	"home": {	  
 	  "companies": {
 		"title": "Our Partners",
 		"description": "We work with the best companies in the industry."

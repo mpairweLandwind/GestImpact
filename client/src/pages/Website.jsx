@@ -15,7 +15,7 @@ const Website = () => {
     <div className="App">
     <div>
       <div className="white-gradient" />
-      <Hero t={t} />
+      <Hero />
     </div>
     <Companies t={t} />
     <Residencies t={t} />

@@ -1,17 +1,6 @@
 {
 	"home": {
-	  "hero": {
-		"explore": "Découvrez des propriétés",
-		"exceptional": "exceptionnelles  et",
-		"and": "Services de maintenance ",
-		"premier": "premier Services",	
-		"find_variety": "Trouvez une variété de propriétés qui vous conviennent très facilement",
-		"forget_difficulties": "Oubliez toutes les difficultés pour trouver une résidence pour vous",
-		"premium_product": "Produit Premium",
-		"happy_customer": "Client Satisfait",
-		"awards_winning": "Prix Gagnés",
-		"houses_alt": "maisons"
-	  },
+	  
 	  "companies": {
 		"title": "Nos Partenaires",
 		"description": "Nous travaillons avec les meilleures entreprises de l'industrie."
