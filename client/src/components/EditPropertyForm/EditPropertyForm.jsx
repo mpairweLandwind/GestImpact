@@ -78,7 +78,7 @@ const EditPropertyForm = ({ propertyData, onCancel }) => {
   const isStatusDefined = !!form.values.status;
 
   return (
-    <Card shadow="sm" padding="lg" radius="md" withBorder className={classes.card}>
+    <Card padding="lg" withBorder className={classes.card}>
       <Title order={3} align="center" mb="md">{t('edit_property.title')}</Title>
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <SimpleGrid cols={1} spacing="md">
