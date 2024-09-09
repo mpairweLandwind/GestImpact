@@ -177,7 +177,7 @@ export default function SignUp() {
       </form>
       <div className='account-info'>
         <p>{t('signUp.account_info')}</p>
-        <Link to={'/sign-in'}>
+        <Link to={'/sign-in'} className='signin-link'>
           <span>{t('signUp.signin_link')}</span>
         </Link>
       </div>

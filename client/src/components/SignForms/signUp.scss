@@ -2,10 +2,8 @@
     padding: 1rem;
     max-width: 40rem;
     margin: auto;
-    margin-top: 10rem;
-    background-color: #fff;
-    border-radius: 16px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 5rem;
+    margin-bottom: 5rem;
 
     .title {
         display: flex;
@@ -14,7 +12,7 @@
         width: 100%;
 
         .signup-title {
-            color: orange;
+            color: #1f3e72;
             font-size: 48px;
             font-weight: 700;
         }
@@ -22,7 +20,7 @@
         .underline {
             width: 61px;
             height: 6px;
-            background-color: orange;
+            background-color: #1f3e72;
             border-radius: 9px;
         }
     }
@@ -81,7 +79,7 @@
                 width: 29rem;
                 height: 59px;
                 color: #fff;
-                background: orange;
+                background: #1f3e72;
                 border-radius: 50px;
                 font-size: 19px;
                 font-weight: 700;

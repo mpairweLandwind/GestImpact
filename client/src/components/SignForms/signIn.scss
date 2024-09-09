@@ -4,10 +4,8 @@
     padding: 1rem;
     max-width: 40rem; // 768px
     margin: auto;
-    margin-top: 10rem;
-    background-color: #fff;
-    border-radius: 16px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 5rem;
+    margin-bottom: 5rem;
 
     .title {
         display: flex;
@@ -16,7 +14,7 @@
         width: 100%;
 
         .signin-title {
-            color: rgb(29, 29, 252);
+            color: #1f3e72;
             font-size: 48px;
             font-weight: 700;
         }
@@ -24,7 +22,7 @@
         .underline {
             width: 61px;
             height: 6px;
-            background-color: orange;
+            background-color: #1f3e72;
             border-radius: 9px;
         }
     }
@@ -71,7 +69,7 @@
                 width: 220px;
                 height: 59px;
                 color: #fff;
-                background: orange;
+                background: #1f3e72;
                 border-radius: 50px;
                 font-size: 19px;
                 font-weight: 700;
