@@ -158,20 +158,24 @@ const Facilities = ({
           min={0}
           {...form.getInputProps("bathrooms")}
         />
+        <br/>
         <Switch
           label={t('Fform.furnished')}
           checked={form.values.furnished}
           {...form.getInputProps("furnished", { type: 'checkbox' })}
         />
+        <br />
         <Switch
           label={t('Fform.parking')}
           checked={form.values.parking}
           {...form.getInputProps("parking", { type: 'checkbox' })}
         />
+        <br />
         <Switch
           label={t('Fform.offer')}
           checked={form.getInputProps("offer", { type: 'checkbox' }).value}
         />
+        <br />
         <Group position="center" mt="xl">
           <Button variant="default" onClick={prevStep}>
             {t('buttons.back')}
