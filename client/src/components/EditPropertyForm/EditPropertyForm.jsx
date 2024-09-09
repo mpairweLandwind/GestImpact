@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { useForm } from '@mantine/form';
-import { useTranslation } from 'react-i18next';  // Import useTranslation
+import { useTranslation } from 'react-i18next';
 import UploadImage1 from '../UploadImage/UploadImage1';
 import {
   TextInput,
@@ -16,9 +16,11 @@ import {
 } from '@mantine/core';
 import { updateProperty } from '../../utils/api';
 import UserDetailContext from "../../context/UserDetailContext";
+import useStyles from './EditPropertyFormStyles'; // Importing styles
 
 const EditPropertyForm = ({ propertyData, onCancel }) => {
-  const { t } = useTranslation("edit_property"); // Initialize translation hook
+  const { t } = useTranslation("edit_property");
+  const { classes } = useStyles();  // Apply styles
   const [loading, setLoading] = useState(false);
   const [uploadedImages, setUploadedImages] = useState(propertyData?.images || []);
   
@@ -54,7 +56,7 @@ const EditPropertyForm = ({ propertyData, onCancel }) => {
     setLoading(true);
     try {
       if (!userDetails.token) {
-        throw new Error(t('error.not_authenticated')); // Translated error message
+        throw new Error(t('error.not_authenticated'));
       }
 
       const dataToSubmit = {
@@ -76,23 +78,23 @@ const EditPropertyForm = ({ propertyData, onCancel }) => {
   const isStatusDefined = !!form.values.status;
 
   return (
-    <Card shadow="sm" padding="lg" radius="md" withBorder>
-      <Title order={3} align="center" mb="md">{t('edit_property.title')}</Title> {/* Translated title */}
+    <Card shadow="sm" padding="lg" radius="md" withBorder className={classes.card}>
+      <Title order={3} align="center" mb="md">{t('edit_property.title')}</Title>
       <form onSubmit={form.onSubmit(handleSubmit)}>
-        <SimpleGrid cols={2} spacing="md">
-          <TextInput label={t('edit_property.name')} {...form.getInputProps('name')} required /> {/* Translated */}
-          <Textarea label={t('edit_property.description')} {...form.getInputProps('description')} required /> {/* Translated */}
-          <TextInput label={t('edit_property.country')} {...form.getInputProps('country')} required /> {/* Translated */}
-          <TextInput label={t('edit_property.city')} {...form.getInputProps('city')} required /> {/* Translated */}
-          <TextInput label={t('edit_property.address')} {...form.getInputProps('address')} required /> {/* Translated */}
-          <NumberInput label={t('edit_property.bathrooms')} {...form.getInputProps('facilities.bathrooms')} required /> {/* Translated */}
-          <NumberInput label={t('edit_property.bedrooms')} {...form.getInputProps('facilities.bedrooms')} /> {/* Translated */}
-          <NumberInput label={t('edit_property.parkings')} {...form.getInputProps('facilities.parkings')} /> {/* Translated */}
+        <SimpleGrid cols={1} spacing="md">
+          <TextInput label={t('edit_property.name')} {...form.getInputProps('name')} required />
+          <Textarea label={t('edit_property.description')} {...form.getInputProps('description')} required />
+          <TextInput label={t('edit_property.country')} {...form.getInputProps('country')} required />
+          <TextInput label={t('edit_property.city')} {...form.getInputProps('city')} required />
+          <TextInput label={t('edit_property.address')} {...form.getInputProps('address')} required />
+          <NumberInput label={t('edit_property.bathrooms')} {...form.getInputProps('facilities.bathrooms')} required />
+          <NumberInput label={t('edit_property.bedrooms')} {...form.getInputProps('facilities.bedrooms')} />
+          <NumberInput label={t('edit_property.parkings')} {...form.getInputProps('facilities.parkings')} />
 
           {isStatusDefined && (
             <>
-              <NumberInput label={t('edit_property.regular_price')} {...form.getInputProps('regularPrice')} required /> {/* Translated */}
-              <NumberInput label={t('edit_property.discount_price')} {...form.getInputProps('discountPrice')} /> {/* Translated */}
+              <NumberInput label={t('edit_property.regular_price')} {...form.getInputProps('regularPrice')} required />
+              <NumberInput label={t('edit_property.discount_price')} {...form.getInputProps('discountPrice')} />
               <Select
                 label={t('edit_property.status')}
                 data={[
@@ -110,7 +112,7 @@ const EditPropertyForm = ({ propertyData, onCancel }) => {
           {isStateDefined && (
             <>
               <NumberInput label={t('edit_property.maintenance_charge')} {...form.getInputProps('maintenanceCharge')} />
-              <NumberInput label={t('edit_property.size')} {...form.getInputProps('size')} required /> {/* Translated */}
+              <NumberInput label={t('edit_property.size')} {...form.getInputProps('size')} required />
               <Select
                 label={t('edit_property.type')}
                 data={[
@@ -133,7 +135,6 @@ const EditPropertyForm = ({ propertyData, onCancel }) => {
             </>
           )}
 
-          {/* Facilities checkboxes */}
           <Checkbox label={t('edit_property.furnished')} {...form.getInputProps('facilities.furnished', { type: 'checkbox' })} />
           <Checkbox label={t('edit_property.parking')} {...form.getInputProps('facilities.parking', { type: 'checkbox' })} />
           <Checkbox label={t('edit_property.offer')} {...form.getInputProps('facilities.offer', { type: 'checkbox' })} />
@@ -142,10 +143,10 @@ const EditPropertyForm = ({ propertyData, onCancel }) => {
         </SimpleGrid>
         <Group position="center" mt="md">
           <Button type="submit" variant="filled" color="blue" loading={loading}>
-            {t('edit_property.save_changes')} {/* Translated */}
+            {t('edit_property.save_changes')}
           </Button>
           <Button variant="outline" color="red" onClick={onCancel}>
-            {t('edit_property.cancel')} {/* Translated */}
+            {t('edit_property.cancel')}
           </Button>
         </Group>
       </form>
