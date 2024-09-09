@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 const Contact = ({ t, contactRef }) => {
 
   // WhatsApp Business API link format
-  const phoneNumber = "2112314514"; // Example phone number without spaces
+  const phoneNumber = "+25779935796"; // Example phone number without spaces
   const whatsappBaseUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}`;
 
   return (
@@ -98,7 +98,7 @@ const Contact = ({ t, contactRef }) => {
               </div>
               <div className="flexColStart detail">
                 <span className="primaryText">{t('home.contact.email')}</span>
-                <span className="secondaryText">alienyuyen@gmail.com</span>
+                <span className="secondaryText">bgbs@hotmail.fr</span>
               </div>
             </div>
             <span className="flexCenter button">
