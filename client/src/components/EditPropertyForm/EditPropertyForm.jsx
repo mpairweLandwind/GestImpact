@@ -78,10 +78,14 @@ const EditPropertyForm = ({ propertyData, onCancel }) => {
   const isStatusDefined = !!form.values.status;
 
   return (
-    <Card padding="lg" withBorder className={classes.card}>
+    <Card shadow="sm" padding="lg" radius="md" withBorder className={classes.card}>
       <Title order={3} align="center" mb="md">{t('edit_property.title')}</Title>
       <form onSubmit={form.onSubmit(handleSubmit)}>
-        <SimpleGrid cols={1} spacing="md">
+        <SimpleGrid
+          cols={2}  // 2 columns on medium and large screens
+          spacing="md"
+          breakpoints={[{ maxWidth: 'sm', cols: 1 }]}  // 1 column on small screens
+        >
           <TextInput label={t('edit_property.name')} {...form.getInputProps('name')} required />
           <Textarea label={t('edit_property.description')} {...form.getInputProps('description')} required />
           <TextInput label={t('edit_property.country')} {...form.getInputProps('country')} required />
