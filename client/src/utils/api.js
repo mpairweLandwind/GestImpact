@@ -107,7 +107,7 @@ export const updateProperty = async (id, updatedData, token) => {
       toast.error("Failed to update property.");
     }
   } catch (error) {
-    toast.error("Error updating property. Please try again.");
+  //  toast.error("Error updating property. Please try again.");
     throw error;
   }
 };
@@ -125,7 +125,7 @@ export const sendEmail = async (emailData, token) => {
     toast.success('Email sent successfully!');
     return response.data;
   } catch (error) {
-    toast.error('Failed to send email. Please try again.');
+  //  toast.error('Failed to send email. Please try again.');
     throw error;
   }
 };
@@ -152,7 +152,7 @@ export const getProperty = async (id) => {
     const response = await api.get(`/listing/${id}`, { timeout: 10 * 1000 });
     return response.data;
   } catch (error) {
-    toast.error("Failed to fetch property details. Please try again.");
+    //toast.error("Failed to fetch property details. Please try again.");
     throw error;
   }
 };
@@ -169,12 +169,12 @@ export const editProperty = async (id, updatedData, token) => {
     if (response.status === 200) {
       toast.success("Property updated successfully!");
     } else {
-      toast.error("Failed to update property.");
+      //toast.error("Failed to update property.");
     }
 
     return response.data;
   } catch (error) {
-    toast.error("Error editing property. Please try again.");
+    //toast.error("Error editing property. Please try again.");
     throw error;
   }
 };
@@ -191,12 +191,12 @@ export const deleteProperty = async (id, token) => {
     if (response.status === 200) {
       toast.success("Property deleted successfully!");
     } else {
-      toast.error("Failed to delete property.");
+     // toast.error("Failed to delete property.");
     }
 
     return response.data;
   } catch (error) {
-    toast.error("Error deleting property. Please try again.");
+    //toast.error("Error deleting property. Please try again.");
     throw error;
   }
 };
@@ -213,7 +213,7 @@ export const createResidency = async (data, token) => {
     toast.success("Residency created successfully!");
     return response.data;
   } catch (error) {
-    toast.error("Failed to create residency. Please try again.");
+    //toast.error("Failed to create residency. Please try again.");
     throw error;
   }
 };
@@ -230,7 +230,7 @@ export const createMaintenance = async (data, token) => {
     toast.success("Maintenance record created successfully!");
     return response.data;
   } catch (error) {
-    toast.error("Failed to create maintenance record. Please try again.");
+    //toast.error("Failed to create maintenance record. Please try again.");
     throw error;
   }
 };
