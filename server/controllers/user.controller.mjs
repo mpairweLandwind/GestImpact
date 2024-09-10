@@ -52,44 +52,51 @@ export const bookVisit = asyncHandler(async (req, res) => {
 export const getAllBookings = asyncHandler(async (req, res) => {
   const { email } = req.body;
 
+  console.log(email);
+
+  if (!email) {
+    return res.status(400).json({ message: "Email is required" });
+  }
+
   try {
-    // Attempt to find bookings in the 'transaction' table
+    // Find bookings in the 'transaction' table based on user email
     const transactionBookings = await prisma.transaction.findMany({
       where: { userId: email },
       include: {
-        // Include related data if needed, e.g., related listing or maintenance
         listing: true,
         maintenance: true,
       },
     });
 
-    // Attempt to find bookings in the 'listing' table using `userEmail`
+    // Find bookings in the 'listing' table based on user email
     const listingBookings = await prisma.listing.findMany({
-      where: { userEmail: email }, // Use the correct field name
+      where: { userEmail: email },
     });
 
-    // Attempt to find bookings in the 'maintenance' table using `userEmail`
+    // Find bookings in the 'maintenance' table based on user email
     const maintenanceBookings = await prisma.maintenance.findMany({
-      where: { userEmail: email }, // Use the correct field name
+      where: { userEmail: email },
     });
 
-    // Combine all the bookings found
+    // Combine all bookings
     const combinedBookings = [
       ...transactionBookings,
       ...listingBookings,
       ...maintenanceBookings,
     ];
 
+    // If no bookings found, return a 404 status
     if (combinedBookings.length === 0) {
       return res.status(404).json({ message: "No bookings found" });
     }
-  console.log(combinedBookings);
+
+    // Return combined bookings
     res.status(200).json(combinedBookings);
   } catch (err) {
+    // Catch any errors and return a 500 status
     res.status(500).json({ message: err.message });
   }
 });
-
 
 
 
