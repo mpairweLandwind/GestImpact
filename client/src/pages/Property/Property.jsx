@@ -254,8 +254,8 @@ const Property = () => {
                   textAlign: 'center',
                 }}
                 onClick={validateLogin}
-              >
-                {t("property.pay")}
+              >               
+               {t("property.buttons.pay")}
               </Button>
             )}
           </div>
