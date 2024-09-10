@@ -10,13 +10,15 @@ const Favourites = () => {
   const { data, isError, isLoading } = useProperties();
   const [filter, setFilter] = useState("");
   const {
-    userDetails: { favourites = []},
+    userDetails: { favourites = [] },
   } = useContext(UserDetailContext);
 
-    // Log the properties and favourites data to the console
-    console.log(data);
-    console.log(favourites);
-  
+  // Log the properties and favourites data to the console
+  console.log(data);  // Logs the data object containing listings and maintenanceRecords
+  console.log(favourites); // Logs the favourite property IDs
+
+  // Combine listings and maintenanceRecords (if you want both)
+  const properties = [...(data?.listings || []), ...(data?.maintenanceRecords || [])];
 
   if (isError) {
     return (
@@ -39,31 +41,26 @@ const Favourites = () => {
       </div>
     );
   }
+
   return (
     <div className="wrapper">
       <div className="flexColCenter paddings innerWidth properties-container">
         <SearchBar filter={filter} setFilter={setFilter} />
 
         <div className="paddings flexCenter properties">
-          {
-            // data.map((card, i)=> (<PropertyCard card={card} key={i}/>))
-
-            data
-              .filter((property) => favourites.includes(property.id))
-
-              .filter(
-                (property) =>
-                  property.name.toLowerCase().includes(filter.toLowerCase()) ||
-                  property.city.toLowerCase().includes(filter.toLowerCase()) ||
-                  property.country.toLowerCase().includes(filter.toLowerCase()) ||
-                  property.address.toLowerCase().includes(filter.toLowerCase()) ||
-                  property.status.toLowerCase().includes(filter.toLowerCase())
-
-              )
-              .map((card, i) => (
-                <PropertyCard card={card} key={i} />
-              ))
-          }
+          {properties
+            .filter((property) => favourites.includes(property.id)) // Filter favourites
+            .filter(
+              (property) =>
+                property.name.toLowerCase().includes(filter.toLowerCase()) ||
+                property.city.toLowerCase().includes(filter.toLowerCase()) ||
+                property.country.toLowerCase().includes(filter.toLowerCase()) ||
+                property.address.toLowerCase().includes(filter.toLowerCase()) ||
+                property.status.toLowerCase().includes(filter.toLowerCase())
+            )
+            .map((card, i) => (
+              <PropertyCard card={card} key={i} />
+            ))}
         </div>
       </div>
     </div>

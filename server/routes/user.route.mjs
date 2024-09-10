@@ -21,7 +21,7 @@ router.post("/register",verifyToken,createUser);
 router.post("/bookVisit/:id", verifyToken, bookVisit);
 router.post("/allBookings", getAllBookings);
 router.post("/removeBooking/:id", verifyToken, cancelBooking);
-router.post("/toFav/:rid", verifyToken, toFav);
+router.post("/toFav/:rid",  toFav);
 router.post("/allFav/", verifyToken, getAllFavorites);
 
 

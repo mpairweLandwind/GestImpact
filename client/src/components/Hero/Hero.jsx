@@ -3,7 +3,6 @@ import "./Hero.css";
 import CountUp from "react-countup";
 import { motion } from "framer-motion";
 import SearchBar from "../SearchBar/SearchBar";
-import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 
@@ -96,8 +95,6 @@ const Hero = () => {
   );
 };
 
-Hero.propTypes = {
-  t: PropTypes.func.isRequired,
-};
+
 
 export default Hero;
