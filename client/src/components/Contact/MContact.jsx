@@ -11,7 +11,7 @@ function MContact({ maintenance }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  const adminEmail = "mpairwelauben22@gmail.com";
+  const adminEmail = "bgbs@hotmail.fr";
 
   const { userDetails } = useContext(UserDetailContext);
   const { validateLogin } = useAuthCheck();
