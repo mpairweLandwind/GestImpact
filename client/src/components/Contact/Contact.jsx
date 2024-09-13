@@ -32,7 +32,8 @@ const Contact = ({ t, contactRef }) => {
                   </div>
                   <div className="flexColStart detail">
                     <span className="primaryText">{t('home.contact.call')}</span>
-                    <span className="secondaryText">021 123 145 14</span>
+
+                    <span className="secondaryText"> {phoneNumber}</span>
                   </div>
                 </div>
                 <a href={`${whatsappBaseUrl}&text=${t('home.contact.call_now')}`} className="flexCenter button">
@@ -47,7 +48,7 @@ const Contact = ({ t, contactRef }) => {
                   </div>
                   <div className="flexColStart detail">
                     <span className="primaryText">{t('home.contact.chat')}</span>
-                    <span className="secondaryText">021 123 145 14</span>
+                    <span className="secondaryText">{phoneNumber}</span>
                   </div>
                 </div>
                 <a href={`${whatsappBaseUrl}&text=${t('home.contact.chat_now')}`} className="flexCenter button">
@@ -65,7 +66,7 @@ const Contact = ({ t, contactRef }) => {
                   </div>
                   <div className="flexColStart detail">
                     <span className="primaryText">{t('home.contact.video_call')}</span>
-                    <span className="secondaryText">021 123 145 14</span>
+                    <span className="secondaryText">{phoneNumber}</span>
                   </div>
                 </div>
                 <a href={`${whatsappBaseUrl}&text=${t('home.contact.video_call_now')}`} className="flexCenter button">
@@ -80,7 +81,7 @@ const Contact = ({ t, contactRef }) => {
                   </div>
                   <div className="flexColStart detail">
                     <span className="primaryText">{t('home.contact.message')}</span>
-                    <span className="secondaryText">021 123 145 14</span>
+                    <span className="secondaryText">{phoneNumber}</span>
                   </div>
                 </div>
                 <a href={`${whatsappBaseUrl}&text=${t('home.contact.message_now')}`} className="flexCenter button">

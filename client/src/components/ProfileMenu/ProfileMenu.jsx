@@ -7,7 +7,7 @@ const ProfileMenu = ({ user, logout }) => {
   const { t } = useTranslation("profileMenu");
   const navigate = useNavigate();
 
-  const ALLOWED_EMAILS = ["mpairwelauben375@gmail.com", "admin123@gmail.com"];
+  const ALLOWED_EMAILS = ["mpairwelauben375@gmail.com", "admin123@gmail.com","bgbs@hotmail.fr"];
 
   return (
     <Menu>
